@@ -1,0 +1,3 @@
+/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles/CS454_Super_Mario_Game.dir

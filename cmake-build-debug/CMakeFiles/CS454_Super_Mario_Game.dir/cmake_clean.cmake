@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.o"
+  "CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.o"
   "CMakeFiles/CS454_Super_Mario_Game.dir/main.cpp.o"
   "CS454_Super_Mario_Game"
   "CS454_Super_Mario_Game.pdb"

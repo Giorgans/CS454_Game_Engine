@@ -4,7 +4,7 @@
 # compile CXX with /Library/Developer/CommandLineTools/usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -I/usr/local/Cellar/allegro/5.2.7.0/include
 
-CXX_FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.0.sdk -std=gnu++14
+CXX_FLAGS =  -std=c++14 -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.0.sdk
 

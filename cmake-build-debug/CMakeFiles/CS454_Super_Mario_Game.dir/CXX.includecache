@@ -6,7 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/Users/george/CLionProjects/CS454-Super-Mario-Game/main.cpp
-iostream
--
+/Users/george/CLionProjects/CS454-Super-Mario-Game/app.cpp
+app.h
+/Users/george/CLionProjects/CS454-Super-Mario-Game/app.h
+
+/Users/george/CLionProjects/CS454-Super-Mario-Game/app.h
 

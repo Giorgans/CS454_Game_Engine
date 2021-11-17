@@ -129,6 +129,54 @@ CS454_Super_Mario_Game/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/build
 .PHONY : CS454_Super_Mario_Game/fast
 
+Engine/timing.o: Engine/timing.cpp.o
+.PHONY : Engine/timing.o
+
+# target to build an object file
+Engine/timing.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.o
+.PHONY : Engine/timing.cpp.o
+
+Engine/timing.i: Engine/timing.cpp.i
+.PHONY : Engine/timing.i
+
+# target to preprocess a source file
+Engine/timing.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.i
+.PHONY : Engine/timing.cpp.i
+
+Engine/timing.s: Engine/timing.cpp.s
+.PHONY : Engine/timing.s
+
+# target to generate assembly for a file
+Engine/timing.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.s
+.PHONY : Engine/timing.cpp.s
+
+app.o: app.cpp.o
+.PHONY : app.o
+
+# target to build an object file
+app.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.o
+.PHONY : app.cpp.o
+
+app.i: app.cpp.i
+.PHONY : app.i
+
+# target to preprocess a source file
+app.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.i
+.PHONY : app.cpp.i
+
+app.s: app.cpp.s
+.PHONY : app.s
+
+# target to generate assembly for a file
+app.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.s
+.PHONY : app.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -162,6 +210,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... CS454_Super_Mario_Game"
+	@echo "... Engine/timing.o"
+	@echo "... Engine/timing.i"
+	@echo "... Engine/timing.s"
+	@echo "... app.o"
+	@echo "... app.i"
+	@echo "... app.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

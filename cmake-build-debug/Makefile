@@ -129,29 +129,53 @@ CS454_Super_Mario_Game/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/build
 .PHONY : CS454_Super_Mario_Game/fast
 
-Engine/timing.o: Engine/timing.cpp.o
-.PHONY : Engine/timing.o
+Engine/Src/terrain.o: Engine/Src/terrain.cpp.o
+.PHONY : Engine/Src/terrain.o
 
 # target to build an object file
-Engine/timing.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.o
-.PHONY : Engine/timing.cpp.o
+Engine/Src/terrain.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.o
+.PHONY : Engine/Src/terrain.cpp.o
 
-Engine/timing.i: Engine/timing.cpp.i
-.PHONY : Engine/timing.i
+Engine/Src/terrain.i: Engine/Src/terrain.cpp.i
+.PHONY : Engine/Src/terrain.i
 
 # target to preprocess a source file
-Engine/timing.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.i
-.PHONY : Engine/timing.cpp.i
+Engine/Src/terrain.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.i
+.PHONY : Engine/Src/terrain.cpp.i
 
-Engine/timing.s: Engine/timing.cpp.s
-.PHONY : Engine/timing.s
+Engine/Src/terrain.s: Engine/Src/terrain.cpp.s
+.PHONY : Engine/Src/terrain.s
 
 # target to generate assembly for a file
-Engine/timing.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.s
-.PHONY : Engine/timing.cpp.s
+Engine/Src/terrain.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.s
+.PHONY : Engine/Src/terrain.cpp.s
+
+Engine/Src/timing.o: Engine/Src/timing.cpp.o
+.PHONY : Engine/Src/timing.o
+
+# target to build an object file
+Engine/Src/timing.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.o
+.PHONY : Engine/Src/timing.cpp.o
+
+Engine/Src/timing.i: Engine/Src/timing.cpp.i
+.PHONY : Engine/Src/timing.i
+
+# target to preprocess a source file
+Engine/Src/timing.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.i
+.PHONY : Engine/Src/timing.cpp.i
+
+Engine/Src/timing.s: Engine/Src/timing.cpp.s
+.PHONY : Engine/Src/timing.s
+
+# target to generate assembly for a file
+Engine/Src/timing.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.s
+.PHONY : Engine/Src/timing.cpp.s
 
 app.o: app.cpp.o
 .PHONY : app.o
@@ -177,29 +201,29 @@ app.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.s
 .PHONY : app.cpp.s
 
-main.o: main.cpp.o
-.PHONY : main.o
+game.o: game.cpp.o
+.PHONY : game.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/main.cpp.o
-.PHONY : main.cpp.o
+game.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.o
+.PHONY : game.cpp.o
 
-main.i: main.cpp.i
-.PHONY : main.i
+game.i: game.cpp.i
+.PHONY : game.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/main.cpp.i
-.PHONY : main.cpp.i
+game.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.i
+.PHONY : game.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+game.s: game.cpp.s
+.PHONY : game.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/main.cpp.s
-.PHONY : main.cpp.s
+game.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.s
+.PHONY : game.cpp.s
 
 # Help Target
 help:
@@ -210,15 +234,18 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... CS454_Super_Mario_Game"
-	@echo "... Engine/timing.o"
-	@echo "... Engine/timing.i"
-	@echo "... Engine/timing.s"
+	@echo "... Engine/Src/terrain.o"
+	@echo "... Engine/Src/terrain.i"
+	@echo "... Engine/Src/terrain.s"
+	@echo "... Engine/Src/timing.o"
+	@echo "... Engine/Src/timing.i"
+	@echo "... Engine/Src/timing.s"
 	@echo "... app.o"
 	@echo "... app.i"
 	@echo "... app.s"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... game.o"
+	@echo "... game.i"
+	@echo "... game.s"
 .PHONY : help
 
 

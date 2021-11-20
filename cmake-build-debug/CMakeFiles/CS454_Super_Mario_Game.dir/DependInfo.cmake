@@ -8,15 +8,17 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/timing.cpp" "/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.o"
+  "/Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/Src/terrain.cpp" "/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.o"
+  "/Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/Src/timing.cpp" "/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.o"
   "/Users/george/CLionProjects/CS454-Super-Mario-Game/app.cpp" "/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.o"
-  "/Users/george/CLionProjects/CS454-Super-Mario-Game/main.cpp" "/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles/CS454_Super_Mario_Game.dir/main.cpp.o"
+  "/Users/george/CLionProjects/CS454-Super-Mario-Game/game.cpp" "/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/usr/local/Cellar/allegro/5.2.7.0/include"
+  "/usr/local/Cellar/libpng/1.6.37/include"
   )
 
 # The set of dependency files which are needed:

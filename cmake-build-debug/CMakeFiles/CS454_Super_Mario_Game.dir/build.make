@@ -66,35 +66,22 @@ include CMakeFiles/CS454_Super_Mario_Game.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/CS454_Super_Mario_Game.dir/flags.make
 
-CMakeFiles/CS454_Super_Mario_Game.dir/main.cpp.o: CMakeFiles/CS454_Super_Mario_Game.dir/flags.make
-CMakeFiles/CS454_Super_Mario_Game.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/CS454_Super_Mario_Game.dir/main.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CS454_Super_Mario_Game.dir/main.cpp.o -c /Users/george/CLionProjects/CS454-Super-Mario-Game/main.cpp
+CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.o: CMakeFiles/CS454_Super_Mario_Game.dir/flags.make
+CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.o: ../Engine/Src/timing.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.o -c /Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/Src/timing.cpp
 
-CMakeFiles/CS454_Super_Mario_Game.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CS454_Super_Mario_Game.dir/main.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/george/CLionProjects/CS454-Super-Mario-Game/main.cpp > CMakeFiles/CS454_Super_Mario_Game.dir/main.cpp.i
+CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/Src/timing.cpp > CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.i
 
-CMakeFiles/CS454_Super_Mario_Game.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CS454_Super_Mario_Game.dir/main.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/george/CLionProjects/CS454-Super-Mario-Game/main.cpp -o CMakeFiles/CS454_Super_Mario_Game.dir/main.cpp.s
-
-CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.o: CMakeFiles/CS454_Super_Mario_Game.dir/flags.make
-CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.o: ../Engine/timing.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.o -c /Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/timing.cpp
-
-CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/timing.cpp > CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.i
-
-CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/timing.cpp -o CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.s
+CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/Src/timing.cpp -o CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.s
 
 CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.o: CMakeFiles/CS454_Super_Mario_Game.dir/flags.make
 CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.o: ../app.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.o -c /Users/george/CLionProjects/CS454-Super-Mario-Game/app.cpp
 
 CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.i: cmake_force
@@ -105,18 +92,46 @@ CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.s"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/george/CLionProjects/CS454-Super-Mario-Game/app.cpp -o CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.s
 
+CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.o: CMakeFiles/CS454_Super_Mario_Game.dir/flags.make
+CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.o: ../game.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.o -c /Users/george/CLionProjects/CS454-Super-Mario-Game/game.cpp
+
+CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/george/CLionProjects/CS454-Super-Mario-Game/game.cpp > CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.i
+
+CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/george/CLionProjects/CS454-Super-Mario-Game/game.cpp -o CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.s
+
+CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.o: CMakeFiles/CS454_Super_Mario_Game.dir/flags.make
+CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.o: ../Engine/Src/terrain.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.o -c /Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/Src/terrain.cpp
+
+CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/Src/terrain.cpp > CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.i
+
+CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/Src/terrain.cpp -o CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.s
+
 # Object files for target CS454_Super_Mario_Game
 CS454_Super_Mario_Game_OBJECTS = \
-"CMakeFiles/CS454_Super_Mario_Game.dir/main.cpp.o" \
-"CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.o" \
-"CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.o"
+"CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.o" \
+"CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.o" \
+"CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.o" \
+"CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.o"
 
 # External object files for target CS454_Super_Mario_Game
 CS454_Super_Mario_Game_EXTERNAL_OBJECTS =
 
-CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/main.cpp.o
-CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/Engine/timing.cpp.o
+CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.o
 CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.o
+CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.o
+CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.o
 CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/build.make
 CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro.5.2.7.dylib
 CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro.5.2.dylib
@@ -157,8 +172,11 @@ CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_ttf.dyl
 CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_video.5.2.7.dylib
 CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_video.5.2.dylib
 CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_video.dylib
+CS454_Super_Mario_Game: /usr/local/Cellar/libpng/1.6.37/lib/libpng.dylib
+CS454_Super_Mario_Game: /usr/local/Cellar/libpng/1.6.37/lib/libpng16.16.dylib
+CS454_Super_Mario_Game: /usr/local/Cellar/libpng/1.6.37/lib/libpng16.dylib
 CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable CS454_Super_Mario_Game"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable CS454_Super_Mario_Game"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/CS454_Super_Mario_Game.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

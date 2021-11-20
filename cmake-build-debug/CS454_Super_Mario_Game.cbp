@@ -45,6 +45,7 @@
 				<Option compiler="gcc"/>
 				<Compiler>
 					<Add directory="/usr/local/Cellar/allegro/5.2.7.0/include"/>
+					<Add directory="/usr/local/Cellar/libpng/1.6.37/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/13.0.0/include"/>
@@ -67,6 +68,7 @@
 				<Option compiler="gcc"/>
 				<Compiler>
 					<Add directory="/usr/local/Cellar/allegro/5.2.7.0/include"/>
+					<Add directory="/usr/local/Cellar/libpng/1.6.37/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/13.0.0/include"/>
@@ -82,10 +84,16 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/timing.cpp">
+		<Unit filename="/Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/Include/terrain.h">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
-		<Unit filename="/Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/timing.h">
+		<Unit filename="/Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/Include/timing.h">
+			<Option target="CS454_Super_Mario_Game"/>
+		</Unit>
+		<Unit filename="/Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/Src/terrain.cpp">
+			<Option target="CS454_Super_Mario_Game"/>
+		</Unit>
+		<Unit filename="/Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/Src/timing.cpp">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
 		<Unit filename="/Users/george/CLionProjects/CS454-Super-Mario-Game/app.cpp">
@@ -94,7 +102,10 @@
 		<Unit filename="/Users/george/CLionProjects/CS454-Super-Mario-Game/app.h">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
-		<Unit filename="/Users/george/CLionProjects/CS454-Super-Mario-Game/main.cpp">
+		<Unit filename="/Users/george/CLionProjects/CS454-Super-Mario-Game/game.cpp">
+			<Option target="CS454_Super_Mario_Game"/>
+		</Unit>
+		<Unit filename="/Users/george/CLionProjects/CS454-Super-Mario-Game/game.h">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
 		<Unit filename="/Users/george/CLionProjects/CS454-Super-Mario-Game/CMakeLists.txt">

@@ -6,29 +6,27 @@
 
 #IncludeRegexTransform: 
 
-/Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/Include/terrain.h
+/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/app.cpp
+app.h
+/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/app.h
 iostream
--
-fstream
--
-string
--
-vector
--
-sstream
 -
 allegro5/allegro.h
 -
 allegro5/allegro_image.h
-/Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/Include/allegro5/allegro_image.h
+-
 allegro5/allegro_primitives.h
 -
 allegro5/allegro_font.h
 -
+png.h
+-
 
-/Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/Src/terrain.cpp
-../Include/terrain.h
-/Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/Include/terrain.h
+/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/app.h
+allegro5/allegro.h
+-
+iostream
+-
 
 /usr/local/Cellar/allegro/5.2.7.0/include/allegro5/alcompat.h
 
@@ -489,4 +487,24 @@ allegro5/display.h
 /usr/local/Cellar/allegro/5.2.7.0/include/allegro5/utf8.h
 allegro5/base.h
 /usr/local/Cellar/allegro/5.2.7.0/include/allegro5/allegro5/base.h
+
+/usr/local/Cellar/libpng/1.6.37/include/png.h
+pnglibconf.h
+/usr/local/Cellar/libpng/1.6.37/include/pnglibconf.h
+pngconf.h
+/usr/local/Cellar/libpng/1.6.37/include/pngconf.h
+
+/usr/local/Cellar/libpng/1.6.37/include/pngconf.h
+limits.h
+-
+stddef.h
+-
+stdio.h
+-
+setjmp.h
+-
+time.h
+-
+
+/usr/local/Cellar/libpng/1.6.37/include/pnglibconf.h
 

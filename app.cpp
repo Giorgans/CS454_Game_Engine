@@ -5,7 +5,11 @@
 #include "app.h"
 #include <iostream>
 #include <allegro5/allegro.h>
+//#include <allegro5/allegro_osx.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_font.h>
+
 #include <png.h>
 
 using namespace app;
@@ -19,9 +23,7 @@ class UnitTest1 : public App {
             assert(al_init_font_addon());
         }
         void Load(void){  }
-        void Clear(void){
-
-        }
+        void Clear(void){  }
 };
 
 int main(int argc, char **argv)

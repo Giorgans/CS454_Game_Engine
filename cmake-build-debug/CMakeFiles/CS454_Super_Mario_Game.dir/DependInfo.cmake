@@ -8,10 +8,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/Src/terrain.cpp" "/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.o"
-  "/Users/george/CLionProjects/CS454-Super-Mario-Game/Engine/Src/timing.cpp" "/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.o"
-  "/Users/george/CLionProjects/CS454-Super-Mario-Game/app.cpp" "/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.o"
-  "/Users/george/CLionProjects/CS454-Super-Mario-Game/game.cpp" "/Users/george/CLionProjects/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.o"
+  "/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/Engine/Src/terrain.cpp" "/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.o"
+  "/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/Engine/Src/timing.cpp" "/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.o"
+  "/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/app.cpp" "/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.o"
+  "/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/game.cpp" "/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/cmake-build-debug/CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
 

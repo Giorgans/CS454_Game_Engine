@@ -84,10 +84,16 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/Engine/Include/rendering.h">
+			<Option target="CS454_Super_Mario_Game"/>
+		</Unit>
 		<Unit filename="/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/Engine/Include/terrain.h">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
 		<Unit filename="/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/Engine/Include/timing.h">
+			<Option target="CS454_Super_Mario_Game"/>
+		</Unit>
+		<Unit filename="/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/Engine/Src/rendering.cpp">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
 		<Unit filename="/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/Engine/Src/terrain.cpp">

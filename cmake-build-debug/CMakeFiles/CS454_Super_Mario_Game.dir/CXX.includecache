@@ -6,10 +6,26 @@
 
 #IncludeRegexTransform: 
 
+/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/Engine/Include/rendering.h
+allegro5/allegro.h
+-
+iostream
+-
+
+/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/Engine/Src/rendering.cpp
+../Include/rendering.h
+/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/Engine/Include/rendering.h
+
 /Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/app.cpp
 app.h
 /Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/app.h
+png.h
+-
+
+/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/app.h
 iostream
+-
+functional
 -
 allegro5/allegro.h
 -
@@ -19,14 +35,12 @@ allegro5/allegro_primitives.h
 -
 allegro5/allegro_font.h
 -
-png.h
--
+Engine/Include/rendering.h
+/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/Engine/Include/rendering.h
 
+/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/game.cpp
+app.h
 /Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/app.h
-allegro5/allegro.h
--
-iostream
--
 
 /usr/local/Cellar/allegro/5.2.7.0/include/allegro5/alcompat.h
 

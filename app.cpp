@@ -3,17 +3,18 @@
 //
 
 #include "app.h"
-#include <iostream>
-#include <allegro5/allegro.h>
-//#include <allegro5/allegro_osx.h>
-#include <allegro5/allegro_image.h>
-#include <allegro5/allegro_primitives.h>
-#include <allegro5/allegro_font.h>
 
 #include <png.h>
 
+#define DISPLAY_W 640
+#define DISPLAY_H 480
+
 using namespace app;
 class UnitTest1 : public App {
+    private:
+        ALLEGRO_DISPLAY *window;
+        static const bool NotDone() { return false;}
+        static const bool Done() { return false; }
     public:
         void Initialise(void){
             assert(al_init());
@@ -21,6 +22,9 @@ class UnitTest1 : public App {
             assert(al_install_keyboard());
             assert(al_init_image_addon());
             assert(al_init_font_addon());
+            GetGame().SetDone(NotDone);
+            this->window = al_create_display(DISPLAY_W,DISPLAY_H);
+            assert(window);
         }
         void Load(void){  }
         void Clear(void){  }

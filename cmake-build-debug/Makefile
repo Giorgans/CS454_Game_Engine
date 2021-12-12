@@ -129,6 +129,30 @@ CS454_Super_Mario_Game/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/build
 .PHONY : CS454_Super_Mario_Game/fast
 
+Engine/Src/rendering.o: Engine/Src/rendering.cpp.o
+.PHONY : Engine/Src/rendering.o
+
+# target to build an object file
+Engine/Src/rendering.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/rendering.cpp.o
+.PHONY : Engine/Src/rendering.cpp.o
+
+Engine/Src/rendering.i: Engine/Src/rendering.cpp.i
+.PHONY : Engine/Src/rendering.i
+
+# target to preprocess a source file
+Engine/Src/rendering.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/rendering.cpp.i
+.PHONY : Engine/Src/rendering.cpp.i
+
+Engine/Src/rendering.s: Engine/Src/rendering.cpp.s
+.PHONY : Engine/Src/rendering.s
+
+# target to generate assembly for a file
+Engine/Src/rendering.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/rendering.cpp.s
+.PHONY : Engine/Src/rendering.cpp.s
+
 Engine/Src/terrain.o: Engine/Src/terrain.cpp.o
 .PHONY : Engine/Src/terrain.o
 
@@ -234,6 +258,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... CS454_Super_Mario_Game"
+	@echo "... Engine/Src/rendering.o"
+	@echo "... Engine/Src/rendering.i"
+	@echo "... Engine/Src/rendering.s"
 	@echo "... Engine/Src/terrain.o"
 	@echo "... Engine/Src/terrain.i"
 	@echo "... Engine/Src/terrain.s"

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="2" height="2" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="1">
+ <tileset firstgid="1" source="../../../../mariofulltileset.tsx"/>
+ <layer id="1" name="super_mario" width="2" height="2" visible="0">
+  <data encoding="csv">
+26,31,
+42,47
+</data>
+ </layer>
+ <layer id="2" name="super_luigi" width="2" height="2" visible="0">
+  <data encoding="csv">
+74,79,
+90,95
+</data>
+ </layer>
+ <layer id="3" name="fire_mario_luigi" width="2" height="2">
+  <data encoding="csv">
+106,111,
+122,127
+</data>
+ </layer>
+</map>

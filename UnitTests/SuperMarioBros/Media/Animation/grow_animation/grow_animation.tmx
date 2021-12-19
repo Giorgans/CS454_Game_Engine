@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="3" height="2" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="1">
+ <tileset firstgid="1" source="../SuperMario.tsx"/>
+ <layer id="4" name="fire_luigi" width="3" height="2" visible="0">
+  <data encoding="csv">
+0,143,106,
+58,159,122
+</data>
+ </layer>
+ <layer id="6" name="green_koopa_troopa" width="3" height="2" visible="0">
+  <data encoding="csv">
+0,0,210,
+209,225,226
+</data>
+ </layer>
+ <layer id="7" name="red_koopa_troopa" width="3" height="2">
+  <data encoding="csv">
+0,0,213,
+212,228,229
+</data>
+ </layer>
+ <layer id="5" name="fire_mario" width="3" height="2" visible="0">
+  <data encoding="csv">
+0,143,106,
+10,159,122
+</data>
+ </layer>
+ <layer id="1" name="mario" width="3" height="2" visible="0" opacity="0.99">
+  <data encoding="csv">
+0,142,26,
+10,158,42
+</data>
+ </layer>
+ <layer id="2" name="luigi" width="3" height="2" visible="0">
+  <data encoding="csv">
+0,144,74,
+58,160,90
+</data>
+ </layer>
+</map>

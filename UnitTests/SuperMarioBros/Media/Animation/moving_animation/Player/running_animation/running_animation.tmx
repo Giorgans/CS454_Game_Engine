@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="5" height="2" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="1">
+ <editorsettings>
+  <export target="../jump_animation/running_animation.csv" format="csv"/>
+ </editorsettings>
+ <tileset firstgid="1" source="../../../../mariofulltileset.tsx"/>
+ <layer id="1" name="fire_mario_luigi" width="5" height="2">
+  <data encoding="csv">
+106,107,108,109,110,
+122,123,124,125,126
+</data>
+ </layer>
+ <layer id="2" name="super_luigi" width="5" height="2">
+  <data encoding="csv">
+74,75,76,77,78,
+90,91,92,93,94
+</data>
+ </layer>
+ <layer id="3" name="super_mario" width="5" height="2">
+  <data encoding="csv">
+26,27,28,29,30,
+42,43,44,45,46
+</data>
+ </layer>
+</map>

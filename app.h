@@ -13,9 +13,8 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 #include "Engine/Include/rendering.h"
-
+#include "Engine/Include/input.h"
 namespace app {
-
     class Game { // app::Game namespace, the mother application//
     public:
         using Action = std::function<void(void)>;

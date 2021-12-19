@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/input.cpp.o"
   "CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/rendering.cpp.o"
   "CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.o"
   "CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.o"

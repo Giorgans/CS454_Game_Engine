@@ -5,14 +5,11 @@
 #include "app.h"
 
 #include <png.h>
-
-#define DISPLAY_W 640
-#define DISPLAY_H 480
-
 using namespace app;
+ALLEGRO_DISPLAY *window;
+
 class UnitTest1 : public App {
     private:
-        ALLEGRO_DISPLAY *window;
         static const bool NotDone() { return false;}
         static const bool Done() { return false; }
     public:
@@ -22,9 +19,13 @@ class UnitTest1 : public App {
             assert(al_install_keyboard());
             assert(al_init_image_addon());
             assert(al_init_font_addon());
+            window = al_create_display(DISPLAY_W,DISPLAY_H);
+            ALLEGRO_BITMAP *icon = al_load_bitmap(ICON_FILE_PATH);
+            al_set_display_icon(window, icon);
             GetGame().SetDone(NotDone);
-            this->window = al_create_display(DISPLAY_W,DISPLAY_H);
-            assert(window);
+            GetGame().SetRender(Rendering);
+            GetGame().SetInput(input);
+
         }
         void Load(void){  }
         void Clear(void){  }

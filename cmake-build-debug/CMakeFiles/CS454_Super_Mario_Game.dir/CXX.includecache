@@ -6,11 +6,27 @@
 
 #IncludeRegexTransform: 
 
+/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/Engine/Include/input.h
+../Include/rendering.h
+/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/Engine/Include/rendering.h
+
 /Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/Engine/Include/rendering.h
 allegro5/allegro.h
 -
 iostream
 -
+string
+-
+fstream
+-
+vector
+-
+sstream
+-
+
+/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/Engine/Src/input.cpp
+../Include/input.h
+/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/Engine/Include/input.h
 
 /Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/Engine/Src/rendering.cpp
 ../Include/rendering.h
@@ -37,6 +53,8 @@ allegro5/allegro_font.h
 -
 Engine/Include/rendering.h
 /Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/Engine/Include/rendering.h
+Engine/Include/input.h
+/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/Engine/Include/input.h
 
 /Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/game.cpp
 app.h

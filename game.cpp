@@ -5,7 +5,6 @@
 void app::Game::MainLoop (void) {
 
 
-    SetRender(&Rendering);
     while (!IsFinished())
         MainLoopIteration();
 }

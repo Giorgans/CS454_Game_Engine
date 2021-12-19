@@ -129,6 +129,30 @@ CS454_Super_Mario_Game/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/build
 .PHONY : CS454_Super_Mario_Game/fast
 
+Engine/Src/input.o: Engine/Src/input.cpp.o
+.PHONY : Engine/Src/input.o
+
+# target to build an object file
+Engine/Src/input.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/input.cpp.o
+.PHONY : Engine/Src/input.cpp.o
+
+Engine/Src/input.i: Engine/Src/input.cpp.i
+.PHONY : Engine/Src/input.i
+
+# target to preprocess a source file
+Engine/Src/input.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/input.cpp.i
+.PHONY : Engine/Src/input.cpp.i
+
+Engine/Src/input.s: Engine/Src/input.cpp.s
+.PHONY : Engine/Src/input.s
+
+# target to generate assembly for a file
+Engine/Src/input.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/input.cpp.s
+.PHONY : Engine/Src/input.cpp.s
+
 Engine/Src/rendering.o: Engine/Src/rendering.cpp.o
 .PHONY : Engine/Src/rendering.o
 
@@ -258,6 +282,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... CS454_Super_Mario_Game"
+	@echo "... Engine/Src/input.o"
+	@echo "... Engine/Src/input.i"
+	@echo "... Engine/Src/input.s"
 	@echo "... Engine/Src/rendering.o"
 	@echo "... Engine/Src/rendering.i"
 	@echo "... Engine/Src/rendering.s"

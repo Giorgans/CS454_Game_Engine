@@ -5,9 +5,7 @@
 extern ALLEGRO_DISPLAY *window;
 Rect viewWin{0,0,DISPLAY_W,DISPLAY_H };
 Rect DisplayArea {0,0,DISPLAY_W*2,DISPLAY_H*2};
-ALLEGRO_BITMAP *dpyBuffer = nullptr;
-Point viewPosCached { -1, -1 };
-Dim dpyX = 0, dpyY = 0;
+
 
 /** Main render function,
  * subsystem for Game::MainLoopIteration()  */
@@ -15,15 +13,16 @@ Dim dpyX = 0, dpyY = 0;
 void Rendering(void){
     TileMap background,terrain;
     ALLEGRO_BITMAP *terrain_bitmap = al_create_bitmap(MAX_WIDTH*TILE_WIDTH,MAX_HEIGHT*TILE_HEIGHT);
-    /*ALLEGRO_BITMAP *background_bitmap = al_create_bitmap(MAX_WIDTH*TILE_WIDTH,MAX_HEIGHT*TILE_HEIGHT);
+    ALLEGRO_BITMAP *background_bitmap = al_create_bitmap(MAX_WIDTH*TILE_WIDTH,MAX_HEIGHT*TILE_HEIGHT);
     if(ReadTextMap(&background, BACKGROUND_CSV_FILE_PATH))
-        TileTerrainDisplay(&background, background_bitmap, viewWin, DisplayArea);  */
+        TileBackgroundDisplay(&background, background_bitmap, viewWin, DisplayArea);
     if(ReadTextMap(&terrain, TERRAIN_CSV_FILE_PATH))
         TileTerrainDisplay(&terrain, terrain_bitmap, viewWin, DisplayArea);
     //al_lock_bitmap(al_get_backbuffer(window), ALLEGRO_PIXEL_FORMAT_ANY, 0);
     al_set_target_bitmap(al_get_backbuffer(window));
     al_clear_to_color(KEY_COLOR);
     //al_draw_scaled_bitmap(background_bitmap,viewWin.x,viewWin.y,viewWin.w,viewWin.h,DisplayArea.x,DisplayArea.y,DisplayArea.w,DisplayArea.h,0);
+    al_draw_scaled_bitmap(background_bitmap,viewWin.x,viewWin.y,viewWin.w,viewWin.h,DisplayArea.x,DisplayArea.y,DisplayArea.w,DisplayArea.h,0);
     al_draw_scaled_bitmap(terrain_bitmap,viewWin.x,viewWin.y,viewWin.w,viewWin.h,DisplayArea.x,DisplayArea.y,DisplayArea.w,DisplayArea.h,0);
     al_unlock_bitmap(al_get_backbuffer(window));
     al_flip_display();
@@ -74,8 +73,32 @@ bool ReadTextMap (TileMap *m, std::string path)
     return true;
 }
 
+ALLEGRO_BITMAP *BackdpyBuffer = nullptr;
+Dim bdpyX = 0, bdpyY = 0;
+Point BackviewPosCached { -1, -1 };
+void TileBackgroundDisplay (TileMap *map, ALLEGRO_BITMAP *dest, const Rect& viewWin, const Rect& displayArea) {
+    if(BackdpyBuffer == nullptr) BackdpyBuffer = al_create_bitmap(MUL_TILE_WIDTH(MAX_WIDTH), MUL_TILE_HEIGHT(MAX_HEIGHT));
+    ALLEGRO_BITMAP *tileset = al_load_bitmap(TILESET_FILE_PATH);
+    if (BackviewPosCached.x != viewWin.x || BackviewPosCached.y != viewWin.y) {
+        auto startCol = DIV_TILE_WIDTH(viewWin.x);
+        auto startRow = DIV_TILE_HEIGHT(viewWin.y);
+        auto endCol = DIV_TILE_WIDTH(viewWin.x + viewWin.w - 1);
+        auto endRow = DIV_TILE_HEIGHT(viewWin.y + viewWin.h - 1);
+        bdpyX = MOD_TILE_WIDTH(viewWin.x);
+        bdpyY = MOD_TILE_WIDTH(viewWin.y);
+        BackviewPosCached.x = viewWin.x, BackviewPosCached.y = viewWin.y;
+        for (Dim row = startRow; row <= endRow; ++row)
+            for (Dim col = startCol; col <= endCol; ++col)
+                PutTile(BackdpyBuffer, MUL_TILE_WIDTH(col - startCol), MUL_TILE_HEIGHT(row - startRow), tileset,GetTile(map, row, col));
+    }
+    BitmapBlit(BackdpyBuffer,{ bdpyX, bdpyY , viewWin.w, viewWin.h },dest,{ displayArea.x, displayArea.y });
+}
+
+ALLEGRO_BITMAP *dpyBuffer = nullptr;
+Dim dpyX = 0, dpyY = 0;
+Point viewPosCached { -1, -1 };
 void TileTerrainDisplay (TileMap *map, ALLEGRO_BITMAP *dest, const Rect& viewWin, const Rect& displayArea) {
-    dpyBuffer = al_create_bitmap(MUL_TILE_WIDTH(MAX_WIDTH), MUL_TILE_HEIGHT(MAX_HEIGHT));
+    if(dpyBuffer == nullptr) dpyBuffer = al_create_bitmap(MUL_TILE_WIDTH(MAX_WIDTH), MUL_TILE_HEIGHT(MAX_HEIGHT));
     ALLEGRO_BITMAP *tileset = al_load_bitmap(TILESET_FILE_PATH);
     if (viewPosCached.x != viewWin.x || viewPosCached.y != viewWin.y) {
         auto startCol = DIV_TILE_WIDTH(viewWin.x);
@@ -90,7 +113,6 @@ void TileTerrainDisplay (TileMap *map, ALLEGRO_BITMAP *dest, const Rect& viewWin
                 PutTile(dpyBuffer, MUL_TILE_WIDTH(col - startCol), MUL_TILE_HEIGHT(row - startRow), tileset,GetTile(map, row, col));
     }
     BitmapBlit(dpyBuffer,{ dpyX, dpyY , viewWin.w, viewWin.h },dest,{ displayArea.x, displayArea.y });
-    al_destroy_bitmap(dpyBuffer);
 }
 
 void BitmapBlit(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point){

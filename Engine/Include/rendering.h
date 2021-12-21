@@ -77,6 +77,7 @@ int GetMapPixelHeight (void);
 void BitmapBlit(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point);
 
 bool ReadTextMap (TileMap *m, std::string path);
+void TileBackgroundDisplay (TileMap *map, ALLEGRO_BITMAP *dest, const Rect& viewWin, const Rect& displayArea);
 void TileTerrainDisplay (TileMap* map, ALLEGRO_BITMAP *dest, const Rect& viewWin, const Rect& displayArea);
 
 void Rendering(void);

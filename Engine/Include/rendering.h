@@ -6,8 +6,8 @@
 #define CS454_SUPER_MARIO_GAME_RENDERING_H
 #include <allegro5/allegro.h>
 #include <iostream>
-#include <string>
 #include <fstream>
+#include <string>
 #include <vector>
 #include <sstream>
 #define KEY_COLOR al_map_rgb(148,148,255)
@@ -18,14 +18,17 @@
 #define TILESET_HEIGHT 16
 #define TILE_WIDTH 16
 #define TILE_HEIGHT 16
+#define EMPTY_TILE 40
+//Max storage of tile map
+#define MAX_WIDTH 211
+#define MAX_HEIGHT 30
+//Moving tiles for 16x16 tileset bitmap
 #define ROW_MASK 0x0F
 #define COL_MASK 0xF0
 #define COL_SHIFT 4
 #define TILEX_SHIFT 8
 #define TILEX_MASK 0xFF00
 #define TILEY_MASK 0x00FF
-#define MAX_WIDTH 256
-#define MAX_HEIGHT 256
 // Moving tiles
 #define MUL_TILE_WIDTH(i) ((i)<<4)
 #define MUL_TILE_HEIGHT(i)((i)<<4)
@@ -35,9 +38,10 @@
 #define MOD_TILE_HEIGHT(i)((i)&15)
 // PATHS
 #define TILESET_FILE_PATH "/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/UnitTests/SuperMarioBros/Media/mariofulltileset.png"
-#define BACKGROUND_CSV_FILE_PATH "/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/UnitTests/SuperMarioBros/Media/Levels/1-1/BACKGROUND.csv"
-#define TERRAIN_CSV_FILE_PATH "/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/UnitTests/SuperMarioBros/Media/Levels/1-1/TERRAIN.csv"
+#define BACKGROUND_CSV_FILE_PATH "/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/UnitTests/SuperMarioBros/Media/Levels/1-1/1-1_Background.csv"
+#define TERRAIN_CSV_FILE_PATH "/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/UnitTests/SuperMarioBros/Media/Levels/1-1/1-1_Terrain.csv"
 #define ICON_FILE_PATH "/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/UnitTests/SuperMarioBros/Media/icon.png"
+//
 typedef unsigned short Dim;
 struct Rect { int x, y, w, h; };
 struct Point { int x, y; };
@@ -72,7 +76,9 @@ int GetMapPixelWidth (void);
 int GetMapPixelHeight (void);
 void BitmapBlit(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point);
 
-bool ReadTextMap (TileMap* m, FILE* fp);
+bool ReadTextMap (TileMap *m, std::string path);
+void TileTerrainDisplay (TileMap* map, ALLEGRO_BITMAP *dest, const Rect& viewWin, const Rect& displayArea);
+
 void Rendering(void);
 
 #endif //CS454_SUPER_MARIO_GAME_RENDERING_H

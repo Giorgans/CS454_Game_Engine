@@ -43,7 +43,7 @@ Dim TileY3 (Index index) { return index & TILEY_MASK; }
 void SetTile (TileMap* m, Dim col, Dim row, Index index) { (*m)[row][col] = index; }
 void PutTile (ALLEGRO_BITMAP *dest, Dim x, Dim y, ALLEGRO_BITMAP *tiles, Index tile) {
     if(tile != EMPTY_TILE)
-        BitmapBlit(tiles,  { TileX3(tile), TileY3(tile), TILE_WIDTH, TILE_HEIGHT }, dest,{ x, y });
+        BitmapBlit(tiles,  { (tile%TILESET_WIDTH)*TILE_WIDTH, (tile/TILESET_HEIGHT)*TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT }, dest,{ x, y });
 }
 Index GetTile (const TileMap* m, Dim col, Dim row) { return (*m)[row][col]; }
 //void WriteBinMap (const TileMap* m, FILE* fp)   { fwrite(m, sizeof(TileMap), 1, fp); }

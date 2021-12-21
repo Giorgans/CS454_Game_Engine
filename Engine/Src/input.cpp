@@ -3,9 +3,8 @@
 //
 
 #include "../Include/input.h"
-
+#include "../Include/rendering.h"
 void input(void){
-  //  ALLEGRO_EVENT
 
 
 

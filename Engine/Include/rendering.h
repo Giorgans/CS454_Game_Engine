@@ -52,81 +52,51 @@ typedef Index TileMap[MAX_WIDTH][MAX_HEIGHT];
 static TileMap map; // example of a global static map
 void PutTile (ALLEGRO_BITMAP *dest, Dim x, Dim y, ALLEGRO_BITMAP *tiles, Index tile);
 void BitmapBlit(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point);
-
+void BitmapBlitScaled(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point);
 class TileLayer {
-private:
-    Index map[MAX_WIDTH][MAX_HEIGHT] ;
-    //GridLayer* grid = nullptr;
-    Dim totalRows = 0, totalColumns = 0;
-    ALLEGRO_BITMAP *tileSet = nullptr;
-    Rect viewWin{0,0,DISPLAY_W,DISPLAY_H};
-    ALLEGRO_BITMAP *dpyBuffer = nullptr;
-    bool dpyChanged = true;
-    Dim dpyX = 0, dpyY = 0;
-    Point viewPosCached { -1, -1 };
-    void Allocate(void) {
-        dpyBuffer = al_create_bitmap((MAX_WIDTH + 2) * TILE_WIDTH, (MAX_HEIGHT + 2) * TILE_HEIGHT);
-    }
-
-public:
-    void SetTile (Dim col, Dim row, Index index) { this->map[row][col] = index; }
-    Index GetTile (Dim col, Dim row) { return map[row][col]; }
-    const Point Pick (Dim x, Dim y) const {
-        return { DIV_TILE_WIDTH(x + viewWin.x),
+    private:
+        Index map[MAX_HEIGHT][MAX_WIDTH] ;
+        //GridLayer* grid = nullptr;
+        Dim totalRows = 0, totalColumns = 0;
+        ALLEGRO_BITMAP *tileSet = nullptr;
+        Rect viewWin{0,0,DISPLAY_W,DISPLAY_H};
+        ALLEGRO_BITMAP *dpyBuffer = nullptr;
+        bool dpyChanged = true;
+        Dim dpyX = 0, dpyY = 0;
+        void Allocate(void) {
+            this->dpyBuffer = al_create_bitmap((MAX_WIDTH + 2) * TILE_WIDTH, (MAX_HEIGHT + 2) * TILE_HEIGHT);
+        }
+    public:
+        void SetTile (Dim row,Dim col, Index index) { this->map[row][col] = index; }
+        Index GetTile (Dim row,Dim col) { return this->map[row][col]; }
+        const Point Pick (Dim x, Dim y) const {
+            return { DIV_TILE_WIDTH(x + viewWin.x),
                  DIV_TILE_HEIGHT(y + viewWin.y) };
-    }
-    const Rect& GetViewWindow (void) const { return viewWin; }
-    void SetViewWindow (const Rect& r) { viewWin = r; dpyChanged = true; }
-    void Display (ALLEGRO_BITMAP *dest, const Rect& displayArea);
-    ALLEGRO_BITMAP *GetBitmap (void) const { return dpyBuffer; }
-    int GetPixelWidth (void) const { return viewWin.w; }
-    int GetPixelHeight (void) const { return viewWin.h; }
-    unsigned GetTileWidth (void) const { return DIV_TILE_WIDTH(viewWin.w); }
-    unsigned GetTileHeight (void) const { return DIV_TILE_HEIGHT(viewWin.h); }
-    void Scroll (float dx, float dy);
-    bool CanScrollHoriz (float dx) const;
-    bool CanScrollVert (float dy) const;
-    auto ToString (void) const -> const std::string;
-    bool FromString (const std::string&);
-    void Save (const std::string& path) ;
-    bool Load (const std::string& path);
-    FILE* WriteText (FILE* fp) const    { fprintf(fp, "%s", ToString().c_str()); return fp; }
-    bool ReadText (std::string path);
-    TileLayer (Dim rows, Dim cols, ALLEGRO_BITMAP *tileSet,std::string path);
-    ~TileLayer ();
+        }
+        const Rect& GetViewWindow (void) const { return viewWin; }
+        void SetViewWindow (const Rect& r) { viewWin = r; dpyChanged = true; }
+        void Display (ALLEGRO_BITMAP *dest, const Rect& displayArea);
+        ALLEGRO_BITMAP *GetBitmap (void) const { return dpyBuffer; }
+        int GetPixelWidth (void) const { return viewWin.w; }
+        int GetPixelHeight (void) const { return viewWin.h; }
+        unsigned GetTileWidth (void) const { return DIV_TILE_WIDTH(viewWin.w); }
+        unsigned GetTileHeight (void) const { return DIV_TILE_HEIGHT(viewWin.h); }
+        void Scroll (float dx, float dy);
+        bool CanScrollHoriz (float dx) const;
+        bool CanScrollVert (float dy) const;
+        auto ToString (void) const -> const std::string;
+        bool FromString (const std::string&);
+        void Save (const std::string& path) ;
+        bool Load (const std::string& path);
+        FILE* WriteText (FILE* fp) const    { fprintf(fp, "%s", ToString().c_str()); return fp; }
+        bool ReadText (std::string path);
+        TileLayer (Dim rows, Dim cols, ALLEGRO_BITMAP *tileSet,std::string path);
+        ~TileLayer ();
 };
-bool Open (Dim rw, Dim rh, BitDepth depth);
-void Close (void);
-Dim GetResWidth (void);
-Dim GetResHeight (void);
-BitDepth GetDepth (void);
-byte MakeIndex (byte row, byte col );
-Index MakeIndex2 (byte row, byte col);
-byte GetCol (byte index);
-byte GetRow (byte index);
+
 Dim TileX (byte index);
 Dim TileY (byte index);
-Dim TileX2 (byte index);
-Dim TileY2 (byte index);
-Dim TileX3 (Index index);
-Dim TileY3 (Index index);
-void SetTile (TileMap* m, Dim col, Dim row, Index index);
-Index GetTile (const TileMap* m, Dim col, Dim row) ;
-void WriteBinMap (const TileMap* m, FILE* fp);
-bool ReadBinMap (TileMap* m, FILE* fp);
-void WriteTextMap (const TileMap*, FILE* fp);
-
-int GetMapPixelWidth (void);
-int GetMapPixelHeight (void);
-
-bool ReadTextMap (TileMap *m, std::string path);
-void TileBackgroundDisplay (TileMap *map, ALLEGRO_BITMAP *dest, const Rect& viewWin, const Rect& displayArea);
-void TileTerrainDisplay (TileMap* map, ALLEGRO_BITMAP *dest, const Rect& viewWin, const Rect& displayArea);
-
 void Rendering(void);
 
-void Scroll (Rect* DisplayArea, int dx, int dy);
-bool CanScrollHoriz (const Rect& DisplayArea, int dx);
-bool CanScrollVert (const Rect& DisplayArea, int dy);
 
 #endif //CS454_SUPER_MARIO_GAME_RENDERING_H

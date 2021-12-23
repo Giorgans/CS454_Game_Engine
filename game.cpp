@@ -3,8 +3,6 @@
 //
 #include "app.h"
 void app::Game::MainLoop (void) {
-
-
     while (!IsFinished())
         MainLoopIteration();
 }

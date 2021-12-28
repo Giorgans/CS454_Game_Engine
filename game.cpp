@@ -2,6 +2,7 @@
 // Created by Georgios Zervos on 6/12/21.
 //
 #include "app.h"
+
 void app::Game::MainLoop (void) {
     while (!IsFinished())
         MainLoopIteration();

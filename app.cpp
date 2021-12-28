@@ -4,7 +4,6 @@
 
 #include "app.h"
 
-#include <png.h>
 using namespace app;
 ALLEGRO_DISPLAY *window;
 

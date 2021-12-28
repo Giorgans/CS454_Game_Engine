@@ -10,6 +10,8 @@
 #include <string>
 #include <vector>
 #include <sstream>
+
+/** Definitions for tiles */
 #define KEY_COLOR al_map_rgb(148,148,255)
 #define FPS 60
 #define DISPLAY_W 640
@@ -45,18 +47,22 @@
 typedef unsigned short Dim;
 struct Rect { int x, y, w, h; };
 struct Point { int x, y; };
-enum BitDepth { bits8 = 1, bits16 = 2, bits24 = 3, bits32 = 4 };
 typedef unsigned char byte;
-typedef unsigned short Index; // [MSB X][LSB Y]
-typedef Index TileMap[MAX_WIDTH][MAX_HEIGHT];
-static TileMap map; // example of a global static map
+typedef unsigned short Index;
 void PutTile (ALLEGRO_BITMAP *dest, Dim x, Dim y, ALLEGRO_BITMAP *tiles, Index tile);
 void BitmapBlit(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point);
 void BitmapBlitScaled(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point);
+Dim TileX (byte index);
+Dim TileY (byte index);
+void Rendering(void);
+class TileLayer;
+class GridLayer;
+
+
 class TileLayer {
     private:
         Index map[MAX_HEIGHT][MAX_WIDTH] ;
-        //GridLayer* grid = nullptr;
+        GridLayer* grid = nullptr;
         Dim totalRows = 0, totalColumns = 0;
         ALLEGRO_BITMAP *tileSet = nullptr;
         Rect viewWin{0,0,DISPLAY_W,DISPLAY_H};
@@ -94,9 +100,67 @@ class TileLayer {
         ~TileLayer ();
 };
 
-Dim TileX (byte index);
-Dim TileY (byte index);
-void Rendering(void);
+
+/** Definitions for Grid */
+#define GRID_ELEMENT_WIDTH 4
+#define GRID_ELEMENT_HEIGHT 4
+#if TILE_WIDTH % GRID_ELEMENT_WIDTH != 0
+#error "TILE_WIDTH % GRID_ELEMENT_WIDTH must be zero!"
+#endif
+#if TILE_HEIGHT % GRID_ELEMENT_HEIGHT != 0
+#error "TILE_HEIGHT % GRID_ELEMENT_HEIGHT must be zero!"
+#endif
+#define GRID_BLOCK_COLUMNS (TILE_WIDTH / GRID_ELEMENT_WIDTH)
+#define GRID_BLOCK_ROWS (TILE_HEIGHT / GRID_ELEMENT_HEIGHT)
+#define GRID_ELEMENTS_PER_TILE (GRID_BLOCK_ROWS * GRID_BLOCK_COLUMNS)
+#define GRID_MAX_HEIGHT (MAX_HEIGHT * GRID_BLOCK_ROWS)
+#define GRID_MAX_WIDTH (MAX_WIDTH * GRID_BLOCK_COLUMNS)
+using GridIndex = byte;
+typedef GridIndex GridMap[GRID_MAX_WIDTH][GRID_MAX_HEIGHT];
+
+#define GRID_THIN_AIR_MASK 0x0000 // element is ignored
+#define  GRID_LEFT_SOLID_MASK 0x0001 // bit 0
+#define  GRID_RIGHT_SOLID_MASK 0x0002 // bit 1
+#define GRID_TOP_SOLID_MASK  0x0004 // bit 2
+#define GRID_BOTTOM_SOLID_MASK 0x0008 // bit 3
+#define GRID_GROUND_MASK 0x0010 // bit 4, keep objects top / bottom (gravity)
+#define GRID_FLOATING_MASK 0x0020  // bit 5, keep objects anywhere inside (gravity)
+#define GRID_EMPTY_TILE GRID_THIN_AIR_MASK
+#define GRID_SOLID_TILE (GRID_LEFT_SOLID_MASK | GRID_RIGHT_SOLID_MASK | GRID_TOP_SOLID_MASK | GRID_BOTTOM_SOLID_MASK)
+#define MAX_PIXEL_WIDTH MUL_TILE_WIDTH(MAX_WIDTH)
+#define MAX_PIXEL_HEIGHT MUL_TILE_HEIGHT(MAX_HEIGHT)
+#define DIV_GRID_ELEMENT_WIDTH(i) ((i)>>2)
+#define DIV_GRID_ELEMENT_HEIGHT(i) ((i)>>2)
+#define MUL_GRID_ELEMENT_WIDTH(i) ((i)<<2)
+#define MUL_GRID_ELEMENT_HEIGHT(i) ((i)<<2)
+
+using GridIndex = byte;
+class GridLayer {
+    private:
+        GridIndex *grid = nullptr;
+        unsigned total = 0;
+        Dim totalRows = 0, totalColumns = 0;
+    void Allocate (void) {
+        grid = new GridIndex [total = totalRows * totalColumns];
+        memset(grid, GRID_EMPTY_TILE, total);
+    }
+    // TODO: adapt as needed and insert all rest motion control functions
+    // inside the private section
+    void     FilterGridMotionDown (const Rect& r, int* dy) const;
+public:
+    void FilterGridMotion (const Rect& r, int* dx, int* dy) const;
+    bool IsOnSolidGround (const Rect& r) const { // will need later for gravity
+        int dy = 1; // down 1 pixel
+        FilterGridMotionDown(r, &dy);
+        return dy == 0; // if true IS attached to solid ground
+    }
+    GridIndex*& GetBuffer(void) { return grid; }
+    //const GridIndex*& GetBuffer(void) const { return grid; }
+    GridLayer (unsigned rows, unsigned cols);
+
+
+
+};
 
 
 #endif //CS454_SUPER_MARIO_GAME_RENDERING_H

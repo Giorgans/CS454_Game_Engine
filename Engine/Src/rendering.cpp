@@ -22,7 +22,7 @@ void Rendering(void){
     al_flip_display();
 }
 
-// Draws the tiles in dpybuffer
+// Draws the tiles in dpybuffer and blits it in the backbuffer
 void TileLayer::Display(ALLEGRO_BITMAP *dest, const Rect &displayArea){
     Allocate();
     if (dpyChanged) {
@@ -83,13 +83,14 @@ void TileLayer::Scroll (float dx, float dy){
 
 }
 
-
 //Gets {x,y} Position of wanted tile in the tile set
 Dim TileX (byte index)  { return (index % TILESET_WIDTH)*TILE_WIDTH; }
 Dim TileY (byte index)  { return (index / TILESET_HEIGHT)*TILE_HEIGHT; }
+
 // Draws tile to specific area of a bitmap
 void PutTile (ALLEGRO_BITMAP *dest, Dim x, Dim y, ALLEGRO_BITMAP *tiles, Index tile) {
-        if(tile!=EMPTY_TILE)BitmapBlit(tiles,  { TileX(tile), TileY(tile) , TILE_WIDTH, TILE_HEIGHT }, dest,{ x, y });
+        if(tile!=EMPTY_TILE)
+            BitmapBlit(tiles,  { TileX(tile), TileY(tile) , TILE_WIDTH, TILE_HEIGHT }, dest,{ x, y });
 }
 
 // Draws a part of bitmap to an area of another bitmap
@@ -98,6 +99,8 @@ void BitmapBlit(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point des
     al_draw_bitmap_region(src,src_rect.x,src_rect.y,src_rect.w,src_rect.h,dest_point.x,dest_point.y,0);
     al_unlock_bitmap(dest);
 }
+
+// Draws a scaled part of bitmap to an area of another bitmap
 void BitmapBlitScaled(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point){
     al_set_target_bitmap(dest);
     al_draw_scaled_bitmap(src,src_rect.x,src_rect.y,src_rect.w,src_rect.h,dest_point.x,dest_point.y,DisplayArea.w,DisplayArea.h,0);

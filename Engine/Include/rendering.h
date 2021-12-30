@@ -137,29 +137,37 @@ typedef GridIndex GridMap[GRID_MAX_WIDTH][GRID_MAX_HEIGHT];
 using GridIndex = byte;
 class GridLayer {
     private:
-        GridIndex *grid = nullptr;
+        GridIndex * grid = nullptr;
         unsigned total = 0;
         Dim totalRows = 0, totalColumns = 0;
-    void Allocate (void) {
-        grid = new GridIndex [total = totalRows * totalColumns];
-        memset(grid, GRID_EMPTY_TILE, total);
-    }
-    // TODO: adapt as needed and insert all rest motion control functions
-    // inside the private section
-    void     FilterGridMotionDown (const Rect& r, int* dy) const;
-public:
-    void FilterGridMotion (const Rect& r, int* dx, int* dy) const;
-    bool IsOnSolidGround (const Rect& r) const { // will need later for gravity
-        int dy = 1; // down 1 pixel
-        FilterGridMotionDown(r, &dy);
-        return dy == 0; // if true IS attached to solid ground
-    }
-    GridIndex*& GetBuffer(void) { return grid; }
-    //const GridIndex*& GetBuffer(void) const { return grid; }
-    GridLayer (unsigned rows, unsigned cols);
+        void Allocate (void) {
+            grid = new GridIndex [total = totalRows * totalColumns];
+            std::memset(grid, GRID_EMPTY_TILE, total);
+        }
+        void SetGridTile ( Dim col, Dim row, GridIndex index) { *(grid + (row * totalColumns) + col) = index; }
+        GridIndex GetGridTile (Dim col, Dim row) { return *(grid + (row * totalColumns) + col); }
+        void SetSolidGridTile (Dim col, Dim row) { SetGridTile( col, row, GRID_SOLID_TILE); }
+        void SetEmptyGridTile ( Dim col, Dim row) { SetGridTile( col, row, GRID_EMPTY_TILE); }
+        void SetGridTileFlags (Dim col, Dim row, GridIndex flags) { SetGridTile( col, row, flags); }
+        void SetGridTileTopSolidOnly (Dim col, Dim row) { SetGridTileFlags( row, col, GRID_TOP_SOLID_MASK); }
+        bool CanPassGridTile (Dim col, Dim row, Index flags) { return GetGridTile(row, col) & (flags != 0); }
+        // TODO: adapt as needed and insert all rest motion control functions
+        // inside the private section
+        void     FilterGridMotionDown (const Rect& r, int* dy) ;
+        void     FilterGridMotionUp (const Rect& r, int* dy) ;
+        void     FilterGridMotionRight (const Rect& r, int* dx) ;
+        void     FilterGridMotionLeft (const Rect& r, int* dx) ;
 
-
-
+    public:
+        void FilterGridMotion (const Rect& r, int* dx, int* dy) ;
+        bool IsOnSolidGround (const Rect& r)  { // will need later for gravity
+            int dy = 1; // down 1 pixel
+            FilterGridMotionDown(r, &dy);
+            return dy == 0; // if true IS attached to solid ground
+        }
+        GridIndex*& GetBuffer(void) { return grid; }
+        //const GridIndex*& GetBuffer(void) const { return  grid ; }
+        GridLayer (unsigned rows, unsigned cols);
 };
 
 

@@ -106,3 +106,78 @@ void BitmapBlitScaled(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Poi
     al_draw_scaled_bitmap(src,src_rect.x,src_rect.y,src_rect.w,src_rect.h,dest_point.x,dest_point.y,DisplayArea.w,DisplayArea.h,0);
     al_unlock_bitmap(dest);
 }
+
+
+
+
+/** Grid implemetation  */
+
+void GridLayer::FilterGridMotion (const Rect& r, int* dx, int* dy)  {
+    assert( abs(*dx) <= GRID_ELEMENT_WIDTH && abs(*dy) <= GRID_ELEMENT_HEIGHT );
+    // try horizontal move
+    if (*dx < 0) FilterGridMotionLeft(r, dx);
+    else if (*dx > 0)
+        FilterGridMotionRight(r, dx);
+    // try vertical move
+    if (*dy < 0) FilterGridMotionUp(r, dy);
+    else if (*dy > 0)
+        FilterGridMotionDown(r, dy);
+}
+
+
+void GridLayer::FilterGridMotionLeft(const Rect &r, int *dx)   {
+    auto x1_next = r.x + *dx;
+    if (x1_next < 0)
+        *dx = -r.x;
+    else {
+        auto newCol = DIV_GRID_ELEMENT_WIDTH(x1_next);
+        auto currCol = DIV_GRID_ELEMENT_WIDTH(r.x);
+
+        if (newCol != currCol) {
+            assert(newCol + 1 == currCol); // we really move left
+            auto startRow = DIV_GRID_ELEMENT_HEIGHT(r.y);
+            auto endRow = DIV_GRID_ELEMENT_HEIGHT(r.y + r.h - 1);
+
+            for (auto row = startRow; row <= endRow; ++row){
+                if (!CanPassGridTile(newCol, row, GRID_RIGHT_SOLID_MASK)) {
+                    *dx = MUL_GRID_ELEMENT_WIDTH(currCol) - r.x;
+                    break;
+                }
+
+            }
+        }
+    }
+
+}
+
+void GridLayer::FilterGridMotionRight(const Rect &r, int *dx)   {
+    auto x2 = r.x + r.w - 1;
+    auto x2_next = x2 + *dx;
+    if (x2_next >= MAX_PIXEL_WIDTH)
+        *dx = (MAX_PIXEL_WIDTH - 1) - x2;
+    else {
+        auto newCol = DIV_GRID_ELEMENT_WIDTH(x2_next);
+        auto currCol = DIV_GRID_ELEMENT_WIDTH(x2);
+
+        if (newCol != currCol) {
+            assert(newCol - 1 == currCol); // we really move right
+            auto startRow = DIV_GRID_ELEMENT_HEIGHT(r.y);
+            auto endRow = DIV_GRID_ELEMENT_HEIGHT(r.y + r.h - 1);
+            for (auto row = startRow; row <= endRow; ++row){
+                if (!CanPassGridTile(newCol, row, GRID_LEFT_SOLID_MASK)) {
+                    *dx = (MUL_GRID_ELEMENT_WIDTH(newCol) - 1) - x2;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+void    GridLayer::FilterGridMotionDown (const Rect& r, int* dy) {
+
+}
+
+void    GridLayer::FilterGridMotionUp (const Rect& r, int* dy) {
+
+}
+

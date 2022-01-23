@@ -2,11 +2,12 @@
 // Created by Georgios Zervos on 6/12/21.
 //
 #include "app.h"
-
+extern bool isDone;
 void app::Game::MainLoop (void) {
     while (!IsFinished())
         MainLoopIteration();
 }
+// allagi
 
 void app::Game::MainLoopIteration (void) {
     Render();
@@ -16,4 +17,5 @@ void app::Game::MainLoopIteration (void) {
     Physics();
     CollisionChecking();
     UserCode();  // hook for custom code at end CommitDestructions();
+    if (isDone) { SetDone(Done); }
 }

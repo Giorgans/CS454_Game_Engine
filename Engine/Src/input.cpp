@@ -7,6 +7,7 @@
 extern ALLEGRO_DISPLAY *window;
 ALLEGRO_EVENT_QUEUE *event_queue;
 ALLEGRO_EVENT event;
+bool isDone = false;
 
 void input(){
     event_queue = al_create_event_queue();
@@ -18,8 +19,8 @@ void input(){
         if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
             /*TODO
              * replace assert(0) with a smoother quit without errors*/
-            //done=true;
-           assert(0);
+           isDone = true;
+           break;
 
         }
        else if (event.type == ALLEGRO_EVENT_KEY_CHAR) {
@@ -48,13 +49,19 @@ void input(){
             else if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                 /*TODO
                     * replace assert(0) with a smoother quit without errors*/
-                //done=true;
-                assert(0);
+                isDone = true;
+                break;
+            }
+            if(event.keyboard.keycode == ALLEGRO_KEY_COMMAND){
+                if(event.keyboard.keycode == ALLEGRO_KEY_Q ) {
+                    isDone = true;
+                    break;
+                }
+
             }
             else if (event.keyboard.keycode == ALLEGRO_KEY_ENTER){
                 /*TODO
                     * implement start function*/
-                //done=true;
 
             }
 

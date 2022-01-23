@@ -174,6 +174,27 @@ void GridLayer::FilterGridMotionRight(const Rect &r, int *dx)   {
 }
 
 void    GridLayer::FilterGridMotionDown (const Rect& r, int* dy) {
+    auto y1_next = r.x + *dy;
+    if (y1_next < 0)
+        *dy = -r.y;
+    else {
+        auto newRow = DIV_GRID_ELEMENT_WIDTH(y1_next);
+        auto currRow = DIV_GRID_ELEMENT_WIDTH(r.y);
+
+        if (newRow != currRow) {
+            assert(newRow + 1 == currRow); // we really move left
+            auto startCol = DIV_GRID_ELEMENT_HEIGHT(r.y);
+            auto endCol = DIV_GRID_ELEMENT_HEIGHT(r.y + r.h - 1);
+
+            for (auto col = startCol; col <= endCol; ++col){
+                if (!CanPassGridTile(newRow, col, GRID_RIGHT_SOLID_MASK)) {
+                    *dy = MUL_GRID_ELEMENT_WIDTH(currRow) - r.y;
+                    break;
+                }
+
+            }
+        }
+    }
 
 }
 

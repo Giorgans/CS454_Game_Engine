@@ -8,11 +8,11 @@ using namespace app;
 ALLEGRO_DISPLAY *window;
 
 class UnitTest1 : public App {
-    private:
-        static const bool NotDone() { return false;}
-        static const bool Done() { return false; }
     public:
-        void Initialise(void){
+    static const bool NotDone() { return  false;}
+    static const bool Done(){return true;}
+
+    void Initialise(void){
             assert(al_init());
             assert(al_init_primitives_addon());
             assert(al_install_keyboard());

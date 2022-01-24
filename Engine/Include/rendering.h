@@ -158,7 +158,7 @@ void SetGridTileBlock (Dim colTile, Dim rowTile, Dim tileCols, GridIndex* grid, 
             GetGridTileBlock(colTile, rowTile, tileCols, grid), flags,
             GRID_BLOCK_SIZEOF
     );
-
+}
 
 class GridLayer {
     private:

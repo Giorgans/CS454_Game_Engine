@@ -139,8 +139,27 @@ static Index tilesFlags[239] = {};
 const Index solidTiles[35] =  {0,1,2,3,7,8,16,23,24,32,64,65,66,67,68,69,71,72,87,88,101,102,103,117,118,119,160,161,162,163,164,176,177,178,179};
 void initialiseTileFlags();
 
+#define GRID_BLOCK_SIZEOF \
+(GRID_ELEMENTS_PER_TILE * sizeof(GridIndex))
 
-using GridIndex = byte;
+#define SetGridTileBlockEmpty(col, row, cols, grid) \
+SetGridTileBlock(col, row, cols, grid, GRID_EMPTY_TILE)
+
+#define SetGridTileBlockSolid(col, row, cols, grid) \
+SetGridTileBlock(col, row, cols, grid, GRID_SOLID_TILE)
+
+GridIndex* GetGridTileBlock (Dim colTile, Dim rowTile, Dim tileCols, GridIndex* grid) { return grid + (rowTile * tileCols + colTile) * GRID_BLOCK_SIZEOF;
+}
+
+
+
+void SetGridTileBlock (Dim colTile, Dim rowTile, Dim tileCols, GridIndex* grid, GridIndex flags) {
+    memset(
+            GetGridTileBlock(colTile, rowTile, tileCols, grid), flags,
+            GRID_BLOCK_SIZEOF
+    );
+
+
 class GridLayer {
     private:
         GridIndex * grid = nullptr;

@@ -39,11 +39,13 @@
 #define MOD_TILE_WIDTH(i) ((i)&15)
 #define MOD_TILE_HEIGHT(i)((i)&15)
 // PATHS
-#define TILESET_FILE_PATH "/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/UnitTests/SuperMarioBros/Media/mariofulltileset.png"
-#define BACKGROUND_CSV_FILE_PATH "/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/UnitTests/SuperMarioBros/Media/Levels/1-1/1-1_Background.csv"
-#define TERRAIN_CSV_FILE_PATH "/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/UnitTests/SuperMarioBros/Media/Levels/1-1/1-1_Terrain.csv"
-#define ICON_FILE_PATH "/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/UnitTests/SuperMarioBros/Media/icon.png"
+#define TILESET_FILE_PATH "/Users/iasonasntagiannes/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/mariofulltileset.png"
+#define BACKGROUND_CSV_FILE_PATH "/Users/iasonasntagiannes/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/Levels/1-1/1-1_Background.csv"
+#define TERRAIN_CSV_FILE_PATH "/Users/iasonasntagiannes/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/Levels/1-1/1-1_Terrain.csv"
+#define ICON_FILE_PATH "/Users/iasonasntagiannes/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/icon.png"
 //
+
+
 typedef unsigned short Dim;
 struct Rect { int x, y, w, h; };
 struct Point { int x, y; };
@@ -133,6 +135,10 @@ typedef GridIndex GridMap[GRID_MAX_WIDTH][GRID_MAX_HEIGHT];
 #define DIV_GRID_ELEMENT_HEIGHT(i) ((i)>>2)
 #define MUL_GRID_ELEMENT_WIDTH(i) ((i)<<2)
 #define MUL_GRID_ELEMENT_HEIGHT(i) ((i)<<2)
+static Index tilesFlags[239] = {};
+const Index solidTiles[35] =  {0,1,2,3,7,8,16,23,24,32,64,65,66,67,68,69,71,72,87,88,101,102,103,117,118,119,160,161,162,163,164,176,177,178,179};
+void initialiseTileFlags();
+
 
 using GridIndex = byte;
 class GridLayer {
@@ -169,6 +175,9 @@ class GridLayer {
         //const GridIndex*& GetBuffer(void) const { return  grid ; }
         GridLayer (unsigned rows, unsigned cols);
 };
+
+bool isTileIndexAssumedSolid(Index index);
+
 
 
 #endif //CS454_SUPER_MARIO_GAME_RENDERING_H

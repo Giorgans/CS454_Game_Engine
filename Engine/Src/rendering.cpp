@@ -6,6 +6,16 @@ extern ALLEGRO_DISPLAY *window;
 Rect DisplayArea {0,0,DISPLAY_W*2,DISPLAY_H*2};
 TileLayer *background= nullptr,*terrain=nullptr;
 
+void initialiseTileFlags(){
+    for (unsigned short solidTile : solidTiles) {
+       tilesFlags[solidTile] = 1;
+    }
+}
+
+bool isTileIndexAssumedSolid(Index index){
+    std::cout<< "Tile"<< index << "is Solid: " << tilesFlags[index]<<std::endl;
+    return tilesFlags[index];
+}
 /** Main render function,
  * subsystem for Game::MainLoopIteration()  */
 void Rendering(void){

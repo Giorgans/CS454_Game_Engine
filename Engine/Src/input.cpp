@@ -3,6 +3,7 @@
 //
 
 #include "../Include/input.h"
+#include "../Include/terrain.h"
 
 extern ALLEGRO_DISPLAY *window;
 ALLEGRO_EVENT_QUEUE *event_queue;

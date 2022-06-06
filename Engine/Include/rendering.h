@@ -39,10 +39,10 @@
 #define MOD_TILE_WIDTH(i) ((i)&15)
 #define MOD_TILE_HEIGHT(i)((i)&15)
 // PATHS
-#define TILESET_FILE_PATH "/Users/iasonasntagiannes/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/mariofulltileset.png"
-#define BACKGROUND_CSV_FILE_PATH "/Users/iasonasntagiannes/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/Levels/1-1/1-1_Background.csv"
-#define TERRAIN_CSV_FILE_PATH "/Users/iasonasntagiannes/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/Levels/1-1/1-1_Terrain.csv"
-#define ICON_FILE_PATH "/Users/iasonasntagiannes/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/icon.png"
+#define TILESET_FILE_PATH "/Users/george/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/mariofulltileset.png"
+#define BACKGROUND_CSV_FILE_PATH "/Users/george/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/Levels/1-1/1-1_Background.csv"
+#define TERRAIN_CSV_FILE_PATH "/Users/george/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/Levels/1-1/1-1_Terrain.csv"
+#define ICON_FILE_PATH "/Users/george/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/icon.png"
 //
 
 
@@ -148,7 +148,7 @@ SetGridTileBlock(col, row, cols, grid, GRID_EMPTY_TILE)
 #define SetGridTileBlockSolid(col, row, cols, grid) \
 SetGridTileBlock(col, row, cols, grid, GRID_SOLID_TILE)
 
-GridIndex* GetGridTileBlock (Dim colTile, Dim rowTile, Dim tileCols, GridIndex* grid) { return grid + (rowTile * tileCols + colTile) * GRID_BLOCK_SIZEOF;
+/*GridIndex* GetGridTileBlock (Dim colTile, Dim rowTile, Dim tileCols, GridIndex* grid) { return grid + (rowTile * tileCols + colTile) * GRID_BLOCK_SIZEOF;
 }
 
 
@@ -159,7 +159,7 @@ void SetGridTileBlock (Dim colTile, Dim rowTile, Dim tileCols, GridIndex* grid, 
             GRID_BLOCK_SIZEOF
     );
 }
-
+*/
 class GridLayer {
     private:
         GridIndex * grid = nullptr;

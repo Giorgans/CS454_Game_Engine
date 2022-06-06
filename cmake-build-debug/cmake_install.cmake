@@ -1,4 +1,4 @@
-# Install script for directory: /Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game
+# Install script for directory: /Users/george/CLionProjects/CS454_Super_Mario_Game
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/george/Desktop/Μαθήματα/HY-454 Video Game/Project2021/CS454-Super-Mario-Game/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/george/CLionProjects/CS454_Super_Mario_Game/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

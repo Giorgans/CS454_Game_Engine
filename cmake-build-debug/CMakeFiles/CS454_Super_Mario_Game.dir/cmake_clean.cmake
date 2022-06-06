@@ -11,7 +11,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.o.d"
   "CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.o"
   "CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.o.d"
-  "CS454_Super_Mario_Game"
+  "CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game"
   "CS454_Super_Mario_Game.pdb"
 )
 

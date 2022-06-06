@@ -165,61 +165,61 @@ CS454_Super_Mario_Game_OBJECTS = \
 # External object files for target CS454_Super_Mario_Game
 CS454_Super_Mario_Game_EXTERNAL_OBJECTS =
 
-CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.o
-CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.o
-CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.o
-CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.o
-CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/rendering.cpp.o
-CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/input.cpp.o
-CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/build.make
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro.5.2.7.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro.5.2.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_acodec.5.2.7.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_acodec.5.2.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_acodec.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_audio.5.2.7.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_audio.5.2.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_audio.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_color.5.2.7.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_color.5.2.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_color.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_dialog.5.2.7.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_dialog.5.2.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_dialog.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_font.5.2.7.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_font.5.2.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_font.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_image.5.2.7.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_image.5.2.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_image.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_main.5.2.7.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_main.5.2.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_main.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_memfile.5.2.7.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_memfile.5.2.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_memfile.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_physfs.5.2.7.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_physfs.5.2.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_physfs.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_primitives.5.2.7.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_primitives.5.2.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_primitives.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_ttf.5.2.7.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_ttf.5.2.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_ttf.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_video.5.2.7.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_video.5.2.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_video.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/libpng/1.6.37/lib/libpng.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/libpng/1.6.37/lib/libpng16.16.dylib
-CS454_Super_Mario_Game: /usr/local/Cellar/libpng/1.6.37/lib/libpng16.dylib
-CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/george/CLionProjects/CS454_Super_Mario_Game/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable CS454_Super_Mario_Game"
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/timing.cpp.o
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.o
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/terrain.cpp.o
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/game.cpp.o
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/rendering.cpp.o
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/input.cpp.o
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/build.make
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro.5.2.7.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro.5.2.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_acodec.5.2.7.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_acodec.5.2.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_acodec.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_audio.5.2.7.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_audio.5.2.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_audio.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_color.5.2.7.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_color.5.2.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_color.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_dialog.5.2.7.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_dialog.5.2.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_dialog.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_font.5.2.7.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_font.5.2.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_font.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_image.5.2.7.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_image.5.2.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_image.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_main.5.2.7.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_main.5.2.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_main.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_memfile.5.2.7.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_memfile.5.2.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_memfile.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_physfs.5.2.7.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_physfs.5.2.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_physfs.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_primitives.5.2.7.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_primitives.5.2.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_primitives.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_ttf.5.2.7.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_ttf.5.2.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_ttf.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_video.5.2.7.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_video.5.2.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/allegro/5.2.7.0/lib/liballegro_video.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/libpng/1.6.37/lib/libpng.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/libpng/1.6.37/lib/libpng16.16.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: /usr/local/Cellar/libpng/1.6.37/lib/libpng16.dylib
+CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game: CMakeFiles/CS454_Super_Mario_Game.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/george/CLionProjects/CS454_Super_Mario_Game/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/CS454_Super_Mario_Game.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-CMakeFiles/CS454_Super_Mario_Game.dir/build: CS454_Super_Mario_Game
+CMakeFiles/CS454_Super_Mario_Game.dir/build: CS454_Super_Mario_Game.app/Contents/MacOS/CS454_Super_Mario_Game
 .PHONY : CMakeFiles/CS454_Super_Mario_Game.dir/build
 
 CMakeFiles/CS454_Super_Mario_Game.dir/clean:

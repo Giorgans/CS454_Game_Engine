@@ -42,7 +42,7 @@
 #define TILESET_FILE_PATH "/Users/george/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/mariofulltileset.png"
 #define BACKGROUND_CSV_FILE_PATH "/Users/george/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/Levels/1-1/1-1_Background.csv"
 #define TERRAIN_CSV_FILE_PATH "/Users/george/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/Levels/1-1/1-1_Terrain.csv"
-#define ICON_FILE_PATH "/Users/george/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/icon.png"
+#define ICON_FILE_PATH "/Users/george/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/unnamed.png"
 //
 
 

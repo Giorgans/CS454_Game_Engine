@@ -135,9 +135,6 @@ typedef GridIndex GridMap[GRID_MAX_WIDTH][GRID_MAX_HEIGHT];
 #define DIV_GRID_ELEMENT_HEIGHT(i) ((i)>>2)
 #define MUL_GRID_ELEMENT_WIDTH(i) ((i)<<2)
 #define MUL_GRID_ELEMENT_HEIGHT(i) ((i)<<2)
-static Index tilesFlags[239] = {};
-const Index solidTiles[35] =  {0,1,2,3,7,8,16,23,24,32,64,65,66,67,68,69,71,72,87,88,101,102,103,117,118,119,160,161,162,163,164,176,177,178,179};
-void initialiseTileFlags();
 
 #define GRID_BLOCK_SIZEOF \
 (GRID_ELEMENTS_PER_TILE * sizeof(GridIndex))
@@ -148,34 +145,34 @@ SetGridTileBlock(col, row, cols, grid, GRID_EMPTY_TILE)
 #define SetGridTileBlockSolid(col, row, cols, grid) \
 SetGridTileBlock(col, row, cols, grid, GRID_SOLID_TILE)
 
-/*GridIndex* GetGridTileBlock (Dim colTile, Dim rowTile, Dim tileCols, GridIndex* grid) { return grid + (rowTile * tileCols + colTile) * GRID_BLOCK_SIZEOF;
-}
+class GridTile{
+private:
+    bool Tile[GRID_ELEMENT_WIDTH][GRID_ELEMENT_HEIGHT] = {};
+    bool empty = true;
+public:
+    void setTileElement(int x,int y,bool solid){this->Tile[x][y]=solid;}
+    bool getTileElement(int x,int y){return this->Tile[x][y];}
+    void setNotEmpty(){ this->empty = false; }
+    bool isTileAssumedEmpty(){ return  empty; }
+};
 
 
+void initialiseTilesetGrid();
 
-void SetGridTileBlock (Dim colTile, Dim rowTile, Dim tileCols, GridIndex* grid, GridIndex flags) {
-    memset(
-            GetGridTileBlock(colTile, rowTile, tileCols, grid), flags,
-            GRID_BLOCK_SIZEOF
-    );
-}
-*/
 class GridLayer {
     private:
-        GridIndex * grid = nullptr;
+        GridTile  grid ;
         unsigned total = 0;
         Dim totalRows = 0, totalColumns = 0;
         void Allocate (void) {
-            grid = new GridIndex [total = totalRows * totalColumns];
-            std::memset(grid, GRID_EMPTY_TILE, total);
         }
-        void SetGridTile ( Dim col, Dim row, GridIndex index) { *(grid + (row * totalColumns) + col) = index; }
-        GridIndex GetGridTile (Dim col, Dim row) { return *(grid + (row * totalColumns) + col); }
+        void SetGridTile ( Dim col, Dim row, GridIndex index) {  }
+        GridTile *GetGridTile (Dim col, Dim row) { return NULL; }
         void SetSolidGridTile (Dim col, Dim row) { SetGridTile( col, row, GRID_SOLID_TILE); }
         void SetEmptyGridTile ( Dim col, Dim row) { SetGridTile( col, row, GRID_EMPTY_TILE); }
         void SetGridTileFlags (Dim col, Dim row, GridIndex flags) { SetGridTile( col, row, flags); }
         void SetGridTileTopSolidOnly (Dim col, Dim row) { SetGridTileFlags( row, col, GRID_TOP_SOLID_MASK); }
-        bool CanPassGridTile (Dim col, Dim row, Index flags) { return GetGridTile(row, col) & (flags != 0); }
+        bool CanPassGridTile (Dim col, Dim row, Index flags) { return false;}
         // TODO: adapt as needed and insert all rest motion control functions
         // inside the private section
         void     FilterGridMotionDown (const Rect& r, int* dy) ;
@@ -190,13 +187,9 @@ class GridLayer {
             FilterGridMotionDown(r, &dy);
             return dy == 0; // if true IS attached to solid ground
         }
-        GridIndex*& GetBuffer(void) { return grid; }
         //const GridIndex*& GetBuffer(void) const { return  grid ; }
         GridLayer (unsigned rows, unsigned cols);
 };
-
-bool isTileIndexAssumedSolid(Index index);
-
 
 
 #endif //CS454_SUPER_MARIO_GAME_RENDERING_H

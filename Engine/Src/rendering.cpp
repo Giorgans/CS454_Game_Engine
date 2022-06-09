@@ -6,16 +6,6 @@ extern ALLEGRO_DISPLAY *window;
 Rect DisplayArea {0,0,DISPLAY_W*2,DISPLAY_H*2};
 TileLayer *background= nullptr,*terrain=nullptr;
 
-void initialiseTileFlags(){
-    for (unsigned short solidTile : solidTiles) {
-       tilesFlags[solidTile] = 1;
-    }
-}
-
-bool isTileIndexAssumedSolid(Index index){
-    std::cout<< "Tile"<< index << "is Solid: " << tilesFlags[index]<<std::endl;
-    return tilesFlags[index];
-}
 /** Main render function,
  * subsystem for Game::MainLoopIteration()  */
 void Rendering(void){
@@ -120,7 +110,51 @@ void BitmapBlitScaled(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Poi
 
 
 
-/** Grid implemetation  */
+/*************************** Grid implemetation  ********************************/
+
+GridTile GridTileMap[TILESET_WIDTH][TILESET_HEIGHT];
+
+/** Initialises a grid map for every tile of the tileset and storing the data to GridTileMap**/
+void initialiseTilesetGrid(){
+    ALLEGRO_BITMAP *tileset = al_load_bitmap(TILESET_FILE_PATH);
+    int  solidPixel = 0 ;
+    ALLEGRO_COLOR keyPixel = KEY_COLOR;
+    for( int tileX = 0 ; tileX < TILESET_WIDTH ; tileX++ ) {
+        for (int tileY = 0; tileY < TILESET_HEIGHT; tileY++) {
+            auto x = tileX * TILE_WIDTH;
+            auto y = tileY * TILE_HEIGHT;
+            for(int ElementX = 0; ElementX < GRID_ELEMENT_WIDTH ; ElementX++){
+                for(int ElementY = 0; ElementY < GRID_ELEMENT_HEIGHT ; ElementY++ ) {
+                    for( int n = 0 ;  n < GRID_ELEMENT_WIDTH  ; n++ ){
+                        ALLEGRO_COLOR pixel = al_get_pixel(tileset,x+(n),y+(n));
+                        if(pixel.r!=keyPixel.r && pixel.g!=keyPixel.g && pixel.b!=keyPixel.b )
+                            solidPixel++;
+                    }
+
+                    if(solidPixel>=GRID_ELEMENT_WIDTH/2) {
+                        GridTileMap[tileX][tileY].setTileElement(ElementX, ElementY, true);
+                        GridTileMap[tileX][tileY].setNotEmpty();
+                    }
+                    else
+                        GridTileMap[tileX][tileY].setTileElement(ElementX,ElementY,false);
+
+                    solidPixel = 0;
+                    y += GRID_ELEMENT_HEIGHT;
+                }
+                x += GRID_ELEMENT_WIDTH;
+                y  = tileY * TILE_HEIGHT;
+            }
+        }
+    }
+
+
+}
+
+GridLayer::GridLayer (unsigned rows, unsigned cols){
+
+}
+
+
 
 void GridLayer::FilterGridMotion (const Rect& r, int* dx, int* dy)  {
     assert( abs(*dx) <= GRID_ELEMENT_WIDTH && abs(*dy) <= GRID_ELEMENT_HEIGHT );

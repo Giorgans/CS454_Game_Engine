@@ -9,6 +9,7 @@ extern ALLEGRO_DISPLAY *window;
 ALLEGRO_EVENT_QUEUE *event_queue;
 ALLEGRO_EVENT event;
 bool isDone = false;
+extern bool displayGrid;
 
 void input(){
     event_queue = al_create_event_queue();
@@ -24,11 +25,10 @@ void input(){
            break;
 
         }
-       else if (event.type == ALLEGRO_EVENT_KEY_CHAR) {
-
+        else if (event.type == ALLEGRO_EVENT_KEY_CHAR) {
             if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
-                background->Scroll(16, 0);
-                terrain->Scroll(16, 0);
+                background->Scroll(4, 0);
+                terrain->Scroll(4, 0);
                 break;
             }
             else if (event.keyboard.keycode == ALLEGRO_KEY_LEFT) {
@@ -41,8 +41,13 @@ void input(){
                 terrain->Scroll(0, 8);
                 break;
             }
-
-           else if (event.keyboard.keycode == ALLEGRO_KEY_DOWN) {
+            else if(event.keyboard.keycode == ALLEGRO_KEY_G){
+                // std::cout<<"GRID DISPLAY"<<std::endl;
+                if(!displayGrid)displayGrid=true;
+                else displayGrid=false;
+                break;
+            }
+            else if (event.keyboard.keycode == ALLEGRO_KEY_DOWN) {
                 background->Scroll(0, -8);
                 terrain->Scroll(0, -8);
                 break;

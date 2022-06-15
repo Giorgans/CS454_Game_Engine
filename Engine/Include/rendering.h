@@ -5,6 +5,7 @@
 #ifndef CS454_SUPER_MARIO_GAME_RENDERING_H
 #define CS454_SUPER_MARIO_GAME_RENDERING_H
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -64,7 +65,7 @@ class GridLayer;
 class TileLayer {
     private:
         Index map[MAX_HEIGHT][MAX_WIDTH] ;
-        GridLayer* grid = nullptr;
+        GridLayer *grid;
         Dim totalRows = 0, totalColumns = 0;
         ALLEGRO_BITMAP *tileSet = nullptr;
         Rect viewWin{0,0,DISPLAY_W,DISPLAY_H};
@@ -75,6 +76,7 @@ class TileLayer {
             this->dpyBuffer = al_create_bitmap((MAX_WIDTH + 2) * TILE_WIDTH, (MAX_HEIGHT + 2) * TILE_HEIGHT);
         }
     public:
+        GridLayer *GetGrid(){return this->grid;}
         void SetTile (Dim row,Dim col, Index index) { this->map[row][col] = index; }
         Index GetTile (Dim row,Dim col) { return this->map[row][col]; }
         const Point Pick (Dim x, Dim y) const {
@@ -147,13 +149,15 @@ SetGridTileBlock(col, row, cols, grid, GRID_SOLID_TILE)
 
 class GridTile{
 private:
-    bool Tile[GRID_ELEMENT_WIDTH][GRID_ELEMENT_HEIGHT] = {};
-    bool empty = true;
+    bool Tile[GRID_ELEMENT_WIDTH][GRID_ELEMENT_HEIGHT];  // Element: true if solid false otherwise
+    bool empty;  // true if empty false otherwise
 public:
     void setTileElement(int x,int y,bool solid){this->Tile[x][y]=solid;}
     bool getTileElement(int x,int y){return this->Tile[x][y];}
-    void setNotEmpty(){ this->empty = false; }
+    void setNotEmpty();
+    void setEmpty();
     bool isTileAssumedEmpty(){ return  empty; }
+    GridTile(bool empty);
 };
 
 
@@ -161,18 +165,16 @@ void initialiseTilesetGrid();
 
 class GridLayer {
     private:
-        GridTile  grid ;
-        unsigned total = 0;
+        GridTile *GridMap[MAX_HEIGHT][MAX_WIDTH] ;
         Dim totalRows = 0, totalColumns = 0;
-        void Allocate (void) {
+        ALLEGRO_BITMAP *dpyBuffer = nullptr;
+        Rect viewWin{0,0,DISPLAY_W,DISPLAY_H};
+        bool dpyChanged = true;
+        Dim dpyX = 0, dpyY = 0;
+        void Allocate(void) {
+            this->dpyBuffer = al_create_bitmap((MAX_WIDTH + 2) * TILE_WIDTH, (MAX_HEIGHT + 2) * TILE_HEIGHT);
         }
-        void SetGridTile ( Dim col, Dim row, GridIndex index) {  }
-        GridTile *GetGridTile (Dim col, Dim row) { return NULL; }
-        void SetSolidGridTile (Dim col, Dim row) { SetGridTile( col, row, GRID_SOLID_TILE); }
-        void SetEmptyGridTile ( Dim col, Dim row) { SetGridTile( col, row, GRID_EMPTY_TILE); }
-        void SetGridTileFlags (Dim col, Dim row, GridIndex flags) { SetGridTile( col, row, flags); }
-        void SetGridTileTopSolidOnly (Dim col, Dim row) { SetGridTileFlags( row, col, GRID_TOP_SOLID_MASK); }
-        bool CanPassGridTile (Dim col, Dim row, Index flags) { return false;}
+
         // TODO: adapt as needed and insert all rest motion control functions
         // inside the private section
         void     FilterGridMotionDown (const Rect& r, int* dy) ;
@@ -181,14 +183,15 @@ class GridLayer {
         void     FilterGridMotionLeft (const Rect& r, int* dx) ;
 
     public:
-        void FilterGridMotion (const Rect& r, int* dx, int* dy) ;
-        bool IsOnSolidGround (const Rect& r)  { // will need later for gravity
-            int dy = 1; // down 1 pixel
-            FilterGridMotionDown(r, &dy);
-            return dy == 0; // if true IS attached to solid ground
-        }
-        //const GridIndex*& GetBuffer(void) const { return  grid ; }
+        void SetGridTile (Dim row, Dim col, GridTile *tile){this->GridMap[row][col] = tile;}
+        GridTile *GetGridTile (Dim row, Dim col) { return this->GridMap[row][col]; }
+        void Display(ALLEGRO_BITMAP *dest, const Rect& displayArea);
+        void SetViewWindow (const Rect& r) { viewWin = r; dpyChanged = true; }
+        Dim getRows(){return this->totalRows;}
+        Dim getColumns(){return this->totalColumns;}
+
         GridLayer (unsigned rows, unsigned cols);
+
 };
 
 

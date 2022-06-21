@@ -69,13 +69,14 @@ class TileLayer {
         Dim totalRows = 0, totalColumns = 0;
         ALLEGRO_BITMAP *tileSet = nullptr;
         Rect viewWin{0,0,DISPLAY_W,DISPLAY_H};
-        ALLEGRO_BITMAP *dpyBuffer = nullptr;
+        ALLEGRO_BITMAP *dpyBuffer = NULL;
         bool dpyChanged = true;
         Dim dpyX = 0, dpyY = 0;
         void Allocate(void) {
             this->dpyBuffer = al_create_bitmap((MAX_WIDTH + 2) * TILE_WIDTH, (MAX_HEIGHT + 2) * TILE_HEIGHT);
         }
     public:
+        ALLEGRO_BITMAP *GetBuffer(){return this->dpyBuffer;}
         GridLayer *GetGrid(){return this->grid;}
         void SetTile (Dim row,Dim col, Index index) { this->map[row][col] = index; }
         Index GetTile (Dim row,Dim col) { return this->map[row][col]; }
@@ -167,7 +168,7 @@ class GridLayer {
     private:
         GridTile *GridMap[MAX_HEIGHT][MAX_WIDTH] ;
         Dim totalRows = 0, totalColumns = 0;
-        ALLEGRO_BITMAP *dpyBuffer = nullptr;
+        ALLEGRO_BITMAP *dpyBuffer = NULL;
         Rect viewWin{0,0,DISPLAY_W,DISPLAY_H};
         bool dpyChanged = true;
         Dim dpyX = 0, dpyY = 0;
@@ -183,6 +184,7 @@ class GridLayer {
         void     FilterGridMotionLeft (const Rect& r, int* dx) ;
 
     public:
+        ALLEGRO_BITMAP *GetBuffer(){return this->dpyBuffer;}
         void SetGridTile (Dim row, Dim col, GridTile *tile){this->GridMap[row][col] = tile;}
         GridTile *GetGridTile (Dim row, Dim col) { return this->GridMap[row][col]; }
         void Display(ALLEGRO_BITMAP *dest, const Rect& displayArea);

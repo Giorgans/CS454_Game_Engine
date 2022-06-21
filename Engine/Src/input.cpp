@@ -27,8 +27,8 @@ void input(){
         }
         else if (event.type == ALLEGRO_EVENT_KEY_CHAR) {
             if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
-                background->Scroll(4, 0);
-                terrain->Scroll(4, 0);
+                background->Scroll(8, 0);
+                terrain->Scroll(8, 0);
                 break;
             }
             else if (event.keyboard.keycode == ALLEGRO_KEY_LEFT) {
@@ -37,8 +37,11 @@ void input(){
                 break;
             }
             else if (event.keyboard.keycode == ALLEGRO_KEY_UP) {
-                background->Scroll(0, 8);
-                terrain->Scroll(0, 8);
+                // FOR A TOP DOWN 2D GAME
+                break;
+            }
+            else if (event.keyboard.keycode == ALLEGRO_KEY_DOWN) {
+                // FOR A TOP DOWN 2D GAME
                 break;
             }
             else if(event.keyboard.keycode == ALLEGRO_KEY_G){
@@ -47,11 +50,7 @@ void input(){
                 else displayGrid=false;
                 break;
             }
-            else if (event.keyboard.keycode == ALLEGRO_KEY_DOWN) {
-                background->Scroll(0, -8);
-                terrain->Scroll(0, -8);
-                break;
-            }
+
             else if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                 /*TODO
                     * replace assert(0) with a smoother quit without errors*/
@@ -68,7 +67,6 @@ void input(){
             else if (event.keyboard.keycode == ALLEGRO_KEY_ENTER){
                 /*TODO
                     * implement start function*/
-
             }
 
             else if(event.keyboard.keycode == ALLEGRO_KEY_Z){
@@ -81,7 +79,6 @@ void input(){
                 /*TODO
                  * implement run function*/
                 std::cout<<"RUN"<<std::endl;
-
             }
 
         }

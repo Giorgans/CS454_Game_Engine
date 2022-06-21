@@ -22,6 +22,7 @@ void Rendering(void){
         terrain->GetGrid()->Display(al_get_backbuffer(window),DisplayArea);
     al_unlock_bitmap(al_get_backbuffer(window));
     al_flip_display();
+
 }
 
 // Draws the tiles in dpybuffer and blits it in the backbuffer
@@ -37,10 +38,10 @@ void TileLayer::Display(ALLEGRO_BITMAP *dest, const Rect &displayArea){
         dpyChanged = false;
         for (Dim row = startRow; row <= endRow; ++row)
             for (Dim col = startCol; col <= endCol; ++col)
-                PutTile(dpyBuffer, MUL_TILE_WIDTH(col - startCol), MUL_TILE_HEIGHT(row - startRow), tileSet,GetTile(row, col));
+                PutTile(GetBuffer(), MUL_TILE_WIDTH(col - startCol), MUL_TILE_HEIGHT(row - startRow), tileSet,GetTile(row, col));
      }
-    BitmapBlitScaled(dpyBuffer,{dpyX,dpyY, viewWin.w,viewWin.h},dest,{displayArea.x,displayArea.y});
-    al_destroy_bitmap(dpyBuffer);
+    BitmapBlitScaled(GetBuffer(),{dpyX,dpyY, viewWin.w,viewWin.h},dest,{displayArea.x,displayArea.y});
+    al_destroy_bitmap(GetBuffer());
 }
 
 //Gets {x,y} Position of wanted tile in the tile set
@@ -121,20 +122,17 @@ void BitmapBlitScaled(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Poi
 
 /*************************** Grid implemetation  ********************************/
 
-
 GridTile::GridTile(bool empty){
     if(empty)
         this->setEmpty();
     else
         this->setNotEmpty();
-
 }
 void GridTile::setNotEmpty() {
     this->empty = false;
     for(int i = 0 ; i < GRID_ELEMENT_WIDTH ; i++ )
         for(int j = 0 ; j < GRID_ELEMENT_HEIGHT ; j++ )
             Tile[i][j] = true;
-
 }
 
 void GridTile::setEmpty() {
@@ -142,7 +140,6 @@ void GridTile::setEmpty() {
     for(int i = 0 ; i < GRID_ELEMENT_WIDTH ; i++ )
         for(int j = 0 ; j < GRID_ELEMENT_HEIGHT ; j++ )
             Tile[i][j] = false;
-
 }
 
 GridLayer::GridLayer (unsigned rows, unsigned cols){
@@ -150,7 +147,7 @@ GridLayer::GridLayer (unsigned rows, unsigned cols){
     this->totalColumns=cols;
     for(auto row=0 ; row < rows ; row++)
         for(auto col=0 ; col < cols ; col++)
-            this->SetGridTile(row,col, nullptr);
+            this->SetGridTile(row,col, NULL);
 }
 
 void GridLayer::Display(ALLEGRO_BITMAP *dest, const Rect& displayArea){
@@ -166,17 +163,27 @@ void GridLayer::Display(ALLEGRO_BITMAP *dest, const Rect& displayArea){
         for (Dim row = startRow; row <= endRow; ++row)
             for (Dim col = startCol; col <= endCol; ++col)
                 if(this->GetGridTile(row,col)!= nullptr && !this->GetGridTile(row,col)->isTileAssumedEmpty()) {
-                    al_set_target_bitmap(this->dpyBuffer);
+                    al_set_target_bitmap(GetBuffer());
+                    // draws grid of the solid Tile
                     al_draw_rectangle(MUL_TILE_WIDTH(col - startCol),
                                       MUL_TILE_HEIGHT(row - startRow),
                                       MUL_TILE_WIDTH(col - startCol) + TILE_WIDTH ,
                                       MUL_TILE_HEIGHT(row - startRow) + TILE_HEIGHT ,
+                                      al_map_rgb(255, 255, 255), 1.5);
+                    // draws the elements of the solid Tile
+                    for(auto elX = 0 ; elX<GRID_ELEMENT_WIDTH ; elX++)
+                        for(auto elY = 0 ; elY<GRID_ELEMENT_HEIGHT ; elY++)
+                            al_draw_rectangle(MUL_TILE_WIDTH(col - startCol) + elX*GRID_ELEMENT_WIDTH,
+                                      MUL_TILE_HEIGHT(row - startRow) + elY*GRID_ELEMENT_HEIGHT,
+                                      MUL_TILE_WIDTH(col - startCol)+ elX*GRID_ELEMENT_WIDTH+ GRID_ELEMENT_WIDTH ,
+                                      MUL_TILE_HEIGHT(row - startRow)+elY*GRID_ELEMENT_HEIGHT + GRID_ELEMENT_HEIGHT ,
                                       al_map_rgb(255, 255, 255), 1);
-                    al_unlock_bitmap(this->dpyBuffer);
+
+                    al_unlock_bitmap(GetBuffer());
                 }
     }
-    BitmapBlitScaled(this->dpyBuffer,{dpyX,dpyY, viewWin.w,viewWin.h},dest,{displayArea.x,displayArea.y});
-    al_destroy_bitmap(this->dpyBuffer);
+    BitmapBlitScaled(GetBuffer(),{dpyX,dpyY, viewWin.w,viewWin.h},dest,{displayArea.x,displayArea.y});
+    al_destroy_bitmap(GetBuffer());
 }
 
 

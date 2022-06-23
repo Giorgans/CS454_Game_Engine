@@ -8,20 +8,31 @@ TileLayer *background= nullptr,*terrain=nullptr;
 bool displayGrid = false;
 /** Main render function,
  * subsystem for Game::MainLoopIteration()  */
-void Rendering(void){
-    if(background==nullptr)
-        background = new TileLayer(MAX_HEIGHT,MAX_WIDTH, al_load_bitmap(TILESET_FILE_PATH),BACKGROUND_CSV_FILE_PATH);
-    if(terrain==nullptr)
-        terrain = new TileLayer(MAX_HEIGHT,MAX_WIDTH, al_load_bitmap(TILESET_FILE_PATH),TERRAIN_CSV_FILE_PATH);
+void Rendering(void) {
 
-    al_set_target_bitmap(al_get_backbuffer(window));
+    if(window== nullptr){
+        window = al_create_display(DISPLAY_W,DISPLAY_H);
+        ALLEGRO_BITMAP *icon = al_load_bitmap(ICON_FILE_PATH);
+        al_set_display_icon(window, icon);
+    }
+    if (background == nullptr)
+        background = new TileLayer(MAX_HEIGHT, MAX_WIDTH, al_load_bitmap(TILESET_FILE_PATH), BACKGROUND_CSV_FILE_PATH);
+    if (terrain == nullptr)
+        terrain = new TileLayer(MAX_HEIGHT, MAX_WIDTH, al_load_bitmap(TILESET_FILE_PATH), TERRAIN_CSV_FILE_PATH);
+
+    al_set_target_backbuffer(window);
     al_clear_to_color(KEY_COLOR);
-    background->Display(al_get_backbuffer(window),DisplayArea);
-    terrain->Display(al_get_backbuffer(window),DisplayArea);
-    if(displayGrid)
-        terrain->GetGrid()->Display(al_get_backbuffer(window),DisplayArea);
+    background->Display(al_get_backbuffer(window), DisplayArea);
+    terrain->Display(al_get_backbuffer(window), DisplayArea);
+    if (displayGrid)
+        terrain->GetGrid()->Display(al_get_backbuffer(window), DisplayArea);
     al_unlock_bitmap(al_get_backbuffer(window));
     al_flip_display();
+
+    al_set_target_backbuffer(window);
+    al_clear_to_color(al_map_rgb(0,0,0));
+    al_unlock_bitmap(al_get_backbuffer(window));
+
 
 }
 

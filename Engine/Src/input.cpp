@@ -5,7 +5,7 @@
 #include "../Include/input.h"
 #include "../Include/terrain.h"
 
-extern ALLEGRO_DISPLAY *window;
+ALLEGRO_DISPLAY *window = nullptr;
 ALLEGRO_EVENT_QUEUE *event_queue;
 ALLEGRO_EVENT event;
 bool isDone = false;
@@ -25,15 +25,17 @@ void input(){
            break;
 
         }
-        else if (event.type == ALLEGRO_EVENT_KEY_CHAR) {
+        else if (event.type == ALLEGRO_EVENT_KEY_CHAR && !terrain->CanScrollHoriz(8)) {
+            int dx = 4;
             if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
-                background->Scroll(8, 0);
-                terrain->Scroll(8, 0);
+                    background->Scroll(dx, 0);
+                    terrain->Scroll(dx, 0);
                 break;
             }
+            /**
             else if (event.keyboard.keycode == ALLEGRO_KEY_LEFT) {
-                background->Scroll(-16, 0);
-                terrain->Scroll(-16, 0);
+                // ORIGINAL SUPER MARIO BROS. DOES NOT SUPPORT GOING LEFT
+                // FOR A TOP DOWN 2D GAME OR A PLATFORM GAME THAT GOES LEFT TOO
                 break;
             }
             else if (event.keyboard.keycode == ALLEGRO_KEY_UP) {
@@ -44,6 +46,7 @@ void input(){
                 // FOR A TOP DOWN 2D GAME
                 break;
             }
+            */
             else if(event.keyboard.keycode == ALLEGRO_KEY_G){
                 // std::cout<<"GRID DISPLAY"<<std::endl;
                 if(!displayGrid)displayGrid=true;

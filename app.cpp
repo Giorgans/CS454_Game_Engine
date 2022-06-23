@@ -5,7 +5,6 @@
 #include "app.h"
 
 using namespace app;
-ALLEGRO_DISPLAY *window;
 
 class UnitTest1 : public App {
     public:
@@ -18,13 +17,9 @@ class UnitTest1 : public App {
             assert(al_install_keyboard());
             assert(al_init_image_addon());
             assert(al_init_font_addon());
-            window = al_create_display(DISPLAY_W,DISPLAY_H);
-            ALLEGRO_BITMAP *icon = al_load_bitmap(ICON_FILE_PATH);
-            al_set_display_icon(window, icon);
             GetGame().SetDone(NotDone);
             GetGame().SetRender(Rendering);
             GetGame().SetInput(input);
-            //initialiseTilesetGrid();
         }
         void Load(void){  }
         void Clear(void){  }

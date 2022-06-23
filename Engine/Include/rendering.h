@@ -61,7 +61,6 @@ void Rendering(void);
 class TileLayer;
 class GridLayer;
 
-
 class TileLayer {
     private:
         Index map[MAX_HEIGHT][MAX_WIDTH] ;
@@ -69,7 +68,7 @@ class TileLayer {
         Dim totalRows = 0, totalColumns = 0;
         ALLEGRO_BITMAP *tileSet = nullptr;
         Rect viewWin{0,0,DISPLAY_W,DISPLAY_H};
-        ALLEGRO_BITMAP *dpyBuffer = NULL;
+        ALLEGRO_BITMAP *dpyBuffer = nullptr;
         bool dpyChanged = true;
         Dim dpyX = 0, dpyY = 0;
         void Allocate(void) {
@@ -93,7 +92,12 @@ class TileLayer {
         unsigned GetTileWidth (void) const { return DIV_TILE_WIDTH(viewWin.w); }
         unsigned GetTileHeight (void) const { return DIV_TILE_HEIGHT(viewWin.h); }
         void Scroll (float dx, float dy);
-        bool CanScrollHoriz (float dx) const;
+        Dim getCols(){return totalColumns;}
+        bool CanScrollHoriz (float dx){
+            //Checking if the level has ended
+            if(GetViewWindow().x + dx == (getCols()*TILE_WIDTH - 20*TILE_WIDTH)) return true;
+            else return false;
+        }
         bool CanScrollVert (float dy) const;
         auto ToString (void) const -> const std::string;
         bool FromString (const std::string&);
@@ -120,8 +124,6 @@ class TileLayer {
 #define GRID_ELEMENTS_PER_TILE (GRID_BLOCK_ROWS * GRID_BLOCK_COLUMNS)
 #define GRID_MAX_HEIGHT (MAX_HEIGHT * GRID_BLOCK_ROWS)
 #define GRID_MAX_WIDTH (MAX_WIDTH * GRID_BLOCK_COLUMNS)
-using GridIndex = byte;
-typedef GridIndex GridMap[GRID_MAX_WIDTH][GRID_MAX_HEIGHT];
 
 #define GRID_THIN_AIR_MASK 0x0000 // element is ignored
 #define  GRID_LEFT_SOLID_MASK 0x0001 // bit 0

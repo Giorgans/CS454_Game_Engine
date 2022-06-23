@@ -2,7 +2,7 @@
 // Created by Georgios Zervos on 8/12/21.
 //
 #include "../Include/rendering.h"
-extern ALLEGRO_DISPLAY *window;
+ALLEGRO_DISPLAY *window = nullptr;
 Rect DisplayArea {0,0,DISPLAY_W*2,DISPLAY_H*2};
 TileLayer *background= nullptr,*terrain=nullptr;
 bool displayGrid = false;

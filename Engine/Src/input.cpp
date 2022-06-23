@@ -5,7 +5,7 @@
 #include "../Include/input.h"
 #include "../Include/terrain.h"
 
-ALLEGRO_DISPLAY *window = nullptr;
+extern ALLEGRO_DISPLAY *window;
 ALLEGRO_EVENT_QUEUE *event_queue;
 ALLEGRO_EVENT event;
 bool isDone = false;

@@ -6,11 +6,13 @@ ALLEGRO_DISPLAY *window = nullptr;
 Rect DisplayArea {0,0,DISPLAY_W*2,DISPLAY_H*2};
 TileLayer *background= nullptr,*terrain=nullptr;
 bool displayGrid = false;
+
+
 /** Main render function,
  * subsystem for Game::MainLoopIteration()  */
 void Rendering(void) {
-
-    if(window== nullptr){
+// 50/50 runs scroll works
+    if(window == nullptr){
         window = al_create_display(DISPLAY_W,DISPLAY_H);
         ALLEGRO_BITMAP *icon = al_load_bitmap(ICON_FILE_PATH);
         al_set_display_icon(window, icon);
@@ -26,11 +28,7 @@ void Rendering(void) {
     terrain->Display(al_get_backbuffer(window), DisplayArea);
     if (displayGrid)
         terrain->GetGrid()->Display(al_get_backbuffer(window), DisplayArea);
-    al_unlock_bitmap(al_get_backbuffer(window));
     al_flip_display();
-
-    al_set_target_backbuffer(window);
-    al_clear_to_color(al_map_rgb(0,0,0));
     al_unlock_bitmap(al_get_backbuffer(window));
 
 

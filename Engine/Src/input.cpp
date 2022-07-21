@@ -3,7 +3,6 @@
 //
 
 #include "../Include/input.h"
-#include "../Include/terrain.h"
 
 extern ALLEGRO_DISPLAY *window;
 ALLEGRO_EVENT_QUEUE *event_queue;
@@ -26,10 +25,9 @@ void input(){
 
         }
         else if (event.type == ALLEGRO_EVENT_KEY_CHAR && !terrain->CanScrollHoriz(8)) {
-            int dx = 4;
             if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
-                    background->Scroll(dx, 0);
-                    terrain->Scroll(dx, 0);
+                    background->Scroll(4, 0);
+                    terrain->Scroll(4, 0);
                 break;
             }
             /**

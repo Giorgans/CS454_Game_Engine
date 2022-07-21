@@ -20,7 +20,7 @@
 #define DIV_TILE_WIDTH(i) ((i)>>4)
 #define DIV_TILE_HEIGHT(i)((i)>>4)
 #define MOD_TILE_WIDTH(i) ((i)&15)
-#define MOD_TILE_HEIGHT(i)((i)&15)
+//#define MOD_TILE_HEIGHT(i)((i)&15)
 
 typedef unsigned short Dim;
 struct Rect { int x, y, w, h; };
@@ -46,7 +46,7 @@ private:
     ALLEGRO_BITMAP *dpyBuffer = nullptr;
     bool dpyChanged = true;
     Dim dpyX = 0, dpyY = 0;
-    void Allocate(void) {
+    void Allocate() {
         this->dpyBuffer = al_create_bitmap((MAX_WIDTH + 2) * TILE_WIDTH, (MAX_HEIGHT + 2) * TILE_HEIGHT);
     }
 public:
@@ -54,26 +54,18 @@ public:
     GridLayer *GetGrid(){return this->grid;}
     void SetTile (Dim row,Dim col, Index index) { this->map[row][col] = index; }
     Index GetTile (Dim row,Dim col) { return this->map[row][col]; }
-    const Point Pick (Dim x, Dim y) const {
-        return { DIV_TILE_WIDTH(x + viewWin.x),
-                 DIV_TILE_HEIGHT(y + viewWin.y) };
-    }
-    const Rect& GetViewWindow (void) const { return viewWin; }
+    const Rect& GetViewWindow () const { return viewWin; }
     void SetViewWindow (const Rect& r) { viewWin = r; dpyChanged = true; }
     void Display (ALLEGRO_BITMAP *dest, const Rect& displayArea);
     void Scroll (float dx, float dy);
-    Dim getCols(){return totalColumns;}
+    Dim getCols(){return this->totalColumns;}
     bool CanScrollHoriz (float dx){
         //Checking if the level has ended
         if(GetViewWindow().x + dx == (getCols()*TILE_WIDTH - 20*TILE_WIDTH)) return true;
         else return false;
     }
-    bool CanScrollVert (float dy) const;
-    auto ToString (void) const -> const std::string;
-    bool FromString (const std::string&);
-    void Save (const std::string& path) ;
-    bool Load (const std::string& path);
-    FILE* WriteText (FILE* fp) const    { fprintf(fp, "%s", ToString().c_str()); return fp; }
+    //void Save (const std::string& path) ;
+    //bool Load (const std::string& path);
     bool ReadText (std::string path);
     TileLayer (Dim rows, Dim cols, ALLEGRO_BITMAP *tileSet,std::string path);
     ~TileLayer (){
@@ -91,36 +83,6 @@ public:
 #if TILE_HEIGHT % GRID_ELEMENT_HEIGHT != 0
 #error "TILE_HEIGHT % GRID_ELEMENT_HEIGHT must be zero!"
 #endif
-#define GRID_BLOCK_COLUMNS (TILE_WIDTH / GRID_ELEMENT_WIDTH)
-#define GRID_BLOCK_ROWS (TILE_HEIGHT / GRID_ELEMENT_HEIGHT)
-#define GRID_ELEMENTS_PER_TILE (GRID_BLOCK_ROWS * GRID_BLOCK_COLUMNS)
-#define GRID_MAX_HEIGHT (MAX_HEIGHT * GRID_BLOCK_ROWS)
-#define GRID_MAX_WIDTH (MAX_WIDTH * GRID_BLOCK_COLUMNS)
-
-#define GRID_THIN_AIR_MASK 0x0000 // element is ignored
-#define  GRID_LEFT_SOLID_MASK 0x0001 // bit 0
-#define  GRID_RIGHT_SOLID_MASK 0x0002 // bit 1
-#define GRID_TOP_SOLID_MASK  0x0004 // bit 2
-#define GRID_BOTTOM_SOLID_MASK 0x0008 // bit 3
-#define GRID_GROUND_MASK 0x0010 // bit 4, keep objects top / bottom (gravity)
-#define GRID_FLOATING_MASK 0x0020  // bit 5, keep objects anywhere inside (gravity)
-#define GRID_EMPTY_TILE GRID_THIN_AIR_MASK
-#define GRID_SOLID_TILE (GRID_LEFT_SOLID_MASK | GRID_RIGHT_SOLID_MASK | GRID_TOP_SOLID_MASK | GRID_BOTTOM_SOLID_MASK)
-#define MAX_PIXEL_WIDTH MUL_TILE_WIDTH(MAX_WIDTH)
-#define MAX_PIXEL_HEIGHT MUL_TILE_HEIGHT(MAX_HEIGHT)
-#define DIV_GRID_ELEMENT_WIDTH(i) ((i)>>2)
-#define DIV_GRID_ELEMENT_HEIGHT(i) ((i)>>2)
-#define MUL_GRID_ELEMENT_WIDTH(i) ((i)<<2)
-#define MUL_GRID_ELEMENT_HEIGHT(i) ((i)<<2)
-
-#define GRID_BLOCK_SIZEOF \
-(GRID_ELEMENTS_PER_TILE * sizeof(GridIndex))
-
-#define SetGridTileBlockEmpty(col, row, cols, grid) \
-SetGridTileBlock(col, row, cols, grid, GRID_EMPTY_TILE)
-
-#define SetGridTileBlockSolid(col, row, cols, grid) \
-SetGridTileBlock(col, row, cols, grid, GRID_SOLID_TILE)
 
 class GridTile{
 private:

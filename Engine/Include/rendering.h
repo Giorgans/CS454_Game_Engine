@@ -15,7 +15,6 @@
 /** Definitions for tiles */
 #define KEY_COLOR al_map_rgb(148,148,255)
 #define TRANSPARENT al_map_rgba(0,0,0,0)
-#define FPS 60
 #define DISPLAY_W 640
 #define DISPLAY_H 480
 #define TILESET_WIDTH 16
@@ -32,6 +31,6 @@
 #define TERRAIN_CSV_FILE_PATH "/Users/george/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/Levels/1-1/1-1_Terrain.csv"
 #define ICON_FILE_PATH "/Users/george/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/unnamed.png"
 
-void Rendering(void);
+void Rendering();
 
 #endif //CS454_SUPER_MARIO_GAME_RENDERING_H

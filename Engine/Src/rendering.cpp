@@ -11,7 +11,7 @@ bool displayGrid = false;
 
 /** Main render function,
  * subsystem for Game::MainLoopIteration()  */
-void Rendering(void) {
+void Rendering() {
     if(window == nullptr){
         window = al_create_display(DISPLAY_W,DISPLAY_H);
         al_set_display_icon(window, al_load_bitmap(ICON_FILE_PATH));

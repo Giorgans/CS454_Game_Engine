@@ -20,8 +20,7 @@ class UnitTest1 : public App {
             GetGame().SetDone(NotDone);
             GetGame().SetRender(Rendering);
             GetGame().SetInput(input);
-            //initialiseTilesetGrid();
-        }
+     }
         void Load(void){  }
         void Clear(void){  }
 };

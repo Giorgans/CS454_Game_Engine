@@ -14,6 +14,24 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 #include "rendering.h"
+// Moving tiles
+#define MUL_TILE_WIDTH(i) ((i)<<4)
+#define MUL_TILE_HEIGHT(i)((i)<<4)
+#define DIV_TILE_WIDTH(i) ((i)>>4)
+#define DIV_TILE_HEIGHT(i)((i)>>4)
+#define MOD_TILE_WIDTH(i) ((i)&15)
+#define MOD_TILE_HEIGHT(i)((i)&15)
+
+typedef unsigned short Dim;
+struct Rect { int x, y, w, h; };
+struct Point { int x, y; };
+typedef unsigned char byte;
+typedef unsigned short Index;
+void PutTile (ALLEGRO_BITMAP *dest, Dim x, Dim y, ALLEGRO_BITMAP *tiles, Index tile);
+void BitmapBlit(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point);
+void BitmapBlitScaled(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point);
+Dim TileX (byte index);
+Dim TileY (byte index);
 
 class TileLayer;
 class GridLayer;
@@ -43,11 +61,6 @@ public:
     const Rect& GetViewWindow (void) const { return viewWin; }
     void SetViewWindow (const Rect& r) { viewWin = r; dpyChanged = true; }
     void Display (ALLEGRO_BITMAP *dest, const Rect& displayArea);
-    ALLEGRO_BITMAP *GetBitmap (void) const { return dpyBuffer; }
-    int GetPixelWidth (void) const { return viewWin.w; }
-    int GetPixelHeight (void) const { return viewWin.h; }
-    unsigned GetTileWidth (void) const { return DIV_TILE_WIDTH(viewWin.w); }
-    unsigned GetTileHeight (void) const { return DIV_TILE_HEIGHT(viewWin.h); }
     void Scroll (float dx, float dy);
     Dim getCols(){return totalColumns;}
     bool CanScrollHoriz (float dx){
@@ -63,7 +76,9 @@ public:
     FILE* WriteText (FILE* fp) const    { fprintf(fp, "%s", ToString().c_str()); return fp; }
     bool ReadText (std::string path);
     TileLayer (Dim rows, Dim cols, ALLEGRO_BITMAP *tileSet,std::string path);
-    ~TileLayer ();
+    ~TileLayer (){
+        al_destroy_bitmap(GetBuffer());
+    }
 };
 
 

@@ -131,7 +131,7 @@ GridLayer::GridLayer (unsigned rows, unsigned cols){
 }
 
 void GridLayer::Display(ALLEGRO_BITMAP *dest, const Rect& displayArea){
-    Allocate();
+    if(GetBuffer() == nullptr) Allocate();
     if (dpyChanged) {
         al_set_target_bitmap(GetBuffer());
         al_clear_to_color(TRANSPARENT);
@@ -166,7 +166,6 @@ void GridLayer::Display(ALLEGRO_BITMAP *dest, const Rect& displayArea){
                 }
     }
     BitmapBlitScaled(GetBuffer(),{dpyX,dpyY, viewWin.w,viewWin.h},dest,{0,0});
-    al_destroy_bitmap(GetBuffer());
 }
 
 

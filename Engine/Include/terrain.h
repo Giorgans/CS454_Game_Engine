@@ -93,7 +93,7 @@ public:
     bool getTileElement(int x,int y){return this->Tile[x][y];}
     void setNotEmpty();
     void setEmpty();
-    bool isTileAssumedEmpty(){ return  empty; }
+    bool isTileAssumedEmpty() const { return  empty; }
     GridTile(bool empty);
 };
 
@@ -104,7 +104,7 @@ class GridLayer {
 private:
     GridTile *GridMap[MAX_HEIGHT][MAX_WIDTH] ;
     Dim totalRows = 0, totalColumns = 0;
-    ALLEGRO_BITMAP *dpyBuffer = NULL;
+    ALLEGRO_BITMAP *dpyBuffer = nullptr;
     Rect viewWin{0,0,DISPLAY_W,DISPLAY_H};
     bool dpyChanged = true;
     Dim dpyX = 0, dpyY = 0;
@@ -112,10 +112,10 @@ private:
         this->dpyBuffer = al_create_bitmap((MAX_WIDTH + 2) * TILE_WIDTH, (MAX_HEIGHT + 2) * TILE_HEIGHT);
     }
     // inside the private section
-    void     FilterGridMotionDown (const Rect& r, int* dy) ;
-    void     FilterGridMotionUp (const Rect& r, int* dy) ;
-    void     FilterGridMotionRight (const Rect& r, int* dx) ;
-    void     FilterGridMotionLeft (const Rect& r, int* dx) ;
+    //void     FilterGridMotionDown (const Rect& r, int* dy) ;
+   // void     FilterGridMotionUp (const Rect& r, int* dy) ;
+   // void     FilterGridMotionRight (const Rect& r, int* dx) ;
+   // void     FilterGridMotionLeft (const Rect& r, int* dx) ;
 
 public:
     ALLEGRO_BITMAP *GetBuffer(){return this->dpyBuffer;}
@@ -123,8 +123,6 @@ public:
     GridTile *GetGridTile (Dim row, Dim col) { return this->GridMap[row][col]; }
     void Display(ALLEGRO_BITMAP *dest, const Rect& displayArea);
     void SetViewWindow (const Rect& r) { viewWin = r; dpyChanged = true; }
-    Dim getRows(){return this->totalRows;}
-    Dim getColumns(){return this->totalColumns;}
 
     GridLayer (unsigned rows, unsigned cols);
 

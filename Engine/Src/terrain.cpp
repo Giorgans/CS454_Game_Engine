@@ -58,7 +58,7 @@ bool TileLayer::ReadText(std::string path) {
 }
 
 //Tile layer constructor
-TileLayer::TileLayer(Dim rows, Dim cols, ALLEGRO_BITMAP *tileSet, std::string path) {
+TileLayer::TileLayer(Dim rows, Dim cols, ALLEGRO_BITMAP *tileSet,std::string path) {
     Allocate();
     this->tileSet=tileSet;
     al_convert_mask_to_alpha(tileSet,KEY_COLOR);
@@ -123,9 +123,7 @@ void GridTile::setEmpty() {
 }
 
 GridLayer::GridLayer (unsigned rows, unsigned cols){
-    this->totalRows=rows;
-    this->totalColumns=cols;
-    for(auto row=0 ; row < rows ; row++)
+     for(auto row=0 ; row < rows ; row++)
         for(auto col=0 ; col < cols ; col++)
             this->SetGridTile(row,col, NULL);
 }

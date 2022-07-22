@@ -98,18 +98,15 @@ public:
 };
 
 
-void initialiseTilesetGrid();
-
 class GridLayer {
 private:
     GridTile *GridMap[MAX_HEIGHT][MAX_WIDTH] ;
-    Dim totalRows = 0, totalColumns = 0;
     ALLEGRO_BITMAP *dpyBuffer = nullptr;
     Rect viewWin{0,0,DISPLAY_W,DISPLAY_H};
     bool dpyChanged = true;
     Dim dpyX = 0, dpyY = 0;
-    void Allocate(void) {
-        this->dpyBuffer = al_create_bitmap((MAX_WIDTH + 2) * TILE_WIDTH, (MAX_HEIGHT + 2) * TILE_HEIGHT);
+    void Allocate() {
+        this->dpyBuffer = al_create_bitmap(MAX_WIDTH  * TILE_WIDTH, MAX_HEIGHT  * TILE_HEIGHT);
     }
     // inside the private section
     //void     FilterGridMotionDown (const Rect& r, int* dy) ;
@@ -125,6 +122,7 @@ public:
     void SetViewWindow (const Rect& r) { viewWin = r; dpyChanged = true; }
 
     GridLayer (unsigned rows, unsigned cols);
+    ~GridLayer(){ al_destroy_bitmap(GetBuffer());}
 
 };
 

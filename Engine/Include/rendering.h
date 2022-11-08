@@ -14,6 +14,7 @@
 
 /** Definitions for tiles */
 #define KEY_COLOR al_map_rgb(148,148,255)
+#define WHITE al_map_rgb(255, 255, 255)
 #define TRANSPARENT al_map_rgba(0,0,0,0)
 #define DISPLAY_W 640
 #define DISPLAY_H 480

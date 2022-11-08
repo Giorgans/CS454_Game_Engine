@@ -194,6 +194,30 @@ CS454_Super_Mario_Game/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/build
 .PHONY : CS454_Super_Mario_Game/fast
 
+Engine/Src/animation.o: Engine/Src/animation.cpp.o
+.PHONY : Engine/Src/animation.o
+
+# target to build an object file
+Engine/Src/animation.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/animation.cpp.o
+.PHONY : Engine/Src/animation.cpp.o
+
+Engine/Src/animation.i: Engine/Src/animation.cpp.i
+.PHONY : Engine/Src/animation.i
+
+# target to preprocess a source file
+Engine/Src/animation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/animation.cpp.i
+.PHONY : Engine/Src/animation.cpp.i
+
+Engine/Src/animation.s: Engine/Src/animation.cpp.s
+.PHONY : Engine/Src/animation.s
+
+# target to generate assembly for a file
+Engine/Src/animation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/animation.cpp.s
+.PHONY : Engine/Src/animation.cpp.s
+
 Engine/Src/input.o: Engine/Src/input.cpp.o
 .PHONY : Engine/Src/input.o
 
@@ -218,6 +242,30 @@ Engine/Src/input.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/input.cpp.s
 .PHONY : Engine/Src/input.cpp.s
 
+Engine/Src/physics.o: Engine/Src/physics.cpp.o
+.PHONY : Engine/Src/physics.o
+
+# target to build an object file
+Engine/Src/physics.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/physics.cpp.o
+.PHONY : Engine/Src/physics.cpp.o
+
+Engine/Src/physics.i: Engine/Src/physics.cpp.i
+.PHONY : Engine/Src/physics.i
+
+# target to preprocess a source file
+Engine/Src/physics.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/physics.cpp.i
+.PHONY : Engine/Src/physics.cpp.i
+
+Engine/Src/physics.s: Engine/Src/physics.cpp.s
+.PHONY : Engine/Src/physics.s
+
+# target to generate assembly for a file
+Engine/Src/physics.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/physics.cpp.s
+.PHONY : Engine/Src/physics.cpp.s
+
 Engine/Src/rendering.o: Engine/Src/rendering.cpp.o
 .PHONY : Engine/Src/rendering.o
 
@@ -241,6 +289,30 @@ Engine/Src/rendering.s: Engine/Src/rendering.cpp.s
 Engine/Src/rendering.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/rendering.cpp.s
 .PHONY : Engine/Src/rendering.cpp.s
+
+Engine/Src/sprite.o: Engine/Src/sprite.cpp.o
+.PHONY : Engine/Src/sprite.o
+
+# target to build an object file
+Engine/Src/sprite.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/sprite.cpp.o
+.PHONY : Engine/Src/sprite.cpp.o
+
+Engine/Src/sprite.i: Engine/Src/sprite.cpp.i
+.PHONY : Engine/Src/sprite.i
+
+# target to preprocess a source file
+Engine/Src/sprite.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/sprite.cpp.i
+.PHONY : Engine/Src/sprite.cpp.i
+
+Engine/Src/sprite.s: Engine/Src/sprite.cpp.s
+.PHONY : Engine/Src/sprite.s
+
+# target to generate assembly for a file
+Engine/Src/sprite.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CS454_Super_Mario_Game.dir/build.make CMakeFiles/CS454_Super_Mario_Game.dir/Engine/Src/sprite.cpp.s
+.PHONY : Engine/Src/sprite.cpp.s
 
 Engine/Src/terrain.o: Engine/Src/terrain.cpp.o
 .PHONY : Engine/Src/terrain.o
@@ -353,12 +425,21 @@ help:
 	@echo "... package_source"
 	@echo "... rebuild_cache"
 	@echo "... CS454_Super_Mario_Game"
+	@echo "... Engine/Src/animation.o"
+	@echo "... Engine/Src/animation.i"
+	@echo "... Engine/Src/animation.s"
 	@echo "... Engine/Src/input.o"
 	@echo "... Engine/Src/input.i"
 	@echo "... Engine/Src/input.s"
+	@echo "... Engine/Src/physics.o"
+	@echo "... Engine/Src/physics.i"
+	@echo "... Engine/Src/physics.s"
 	@echo "... Engine/Src/rendering.o"
 	@echo "... Engine/Src/rendering.i"
 	@echo "... Engine/Src/rendering.s"
+	@echo "... Engine/Src/sprite.o"
+	@echo "... Engine/Src/sprite.i"
+	@echo "... Engine/Src/sprite.s"
 	@echo "... Engine/Src/terrain.o"
 	@echo "... Engine/Src/terrain.i"
 	@echo "... Engine/Src/terrain.s"

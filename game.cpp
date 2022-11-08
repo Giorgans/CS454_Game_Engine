@@ -3,13 +3,14 @@
 //
 #include "app.h"
 extern bool isDone;
-void app::Game::MainLoop (void) {
+void app::Game::MainLoop() {
     while (!IsFinished())
         MainLoopIteration();
 }
+
 // allagi
 
-void app::Game::MainLoopIteration (void) {
+void app::Game::MainLoopIteration() {
     Render();
     Input();
     ProgressAnimations();

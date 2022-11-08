@@ -87,7 +87,7 @@ public:
 class GridTile{
 private:
     bool Tile[GRID_ELEMENT_WIDTH][GRID_ELEMENT_HEIGHT];  // Element: true if solid false otherwise
-    bool empty;  // true if empty false otherwise
+    bool empty = false;  // true if empty false otherwise
 public:
     void setTileElement(int x,int y,bool solid){this->Tile[x][y]=solid;}
     bool getTileElement(int x,int y){return this->Tile[x][y];}
@@ -106,7 +106,7 @@ private:
     bool dpyChanged = true;
     Dim dpyX = 0, dpyY = 0;
     void Allocate() {
-        this->dpyBuffer = al_create_bitmap(MAX_WIDTH  * TILE_WIDTH, MAX_HEIGHT  * TILE_HEIGHT);
+        this->dpyBuffer = al_create_bitmap((MAX_WIDTH + 2) * TILE_WIDTH, (MAX_HEIGHT + 2) * TILE_HEIGHT);
     }
     // inside the private section
     //void     FilterGridMotionDown (const Rect& r, int* dy) ;

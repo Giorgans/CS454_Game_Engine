@@ -42,13 +42,11 @@ bool TileLayer::ReadText(std::string path) {
             if(std::stoi(csv_value)==-1) {
                 SetTile(row, col, EMPTY_TILE);
                 this->GetGrid()->SetGridTile(row,col,new GridTile(true));
-
             }
             else{
                 SetTile(row,col, std::stoi(csv_value));
                 this->GetGrid()->SetGridTile(row,col,new GridTile(false));
             }
-
             col++;
         }
         row++;
@@ -123,6 +121,9 @@ void GridTile::setEmpty() {
 }
 
 GridLayer::GridLayer (unsigned rows, unsigned cols){
+    for(auto i = 0 ; i<MAX_HEIGHT ; i++)
+        for(auto j = 0 ; j < MAX_WIDTH ; j++)
+            GridMap[i][j] = new GridTile(true);
      for(auto row=0 ; row < rows ; row++)
         for(auto col=0 ; col < cols ; col++)
             this->SetGridTile(row,col, NULL);
@@ -143,22 +144,22 @@ void GridLayer::Display(ALLEGRO_BITMAP *dest, const Rect& displayArea){
         dpyChanged = false;
         for (Dim row = startRow; row <= endRow; ++row)
             for (Dim col = startCol; col <= endCol; ++col)
-                if(this->GetGridTile(row,col)!= nullptr && !this->GetGridTile(row,col)->isTileAssumedEmpty()) {
+                if( (GetGridTile(row,col) != nullptr) && (!GetGridTile(row,col)->isTileAssumedEmpty()) ) {
                     al_set_target_bitmap(GetBuffer());
                     // draws grid of the solid Tile
-                    al_draw_rectangle(MUL_TILE_WIDTH(col - startCol),
+                    al_draw_rectangle(MUL_TILE_WIDTH(col - startCol) ,
                                       MUL_TILE_HEIGHT(row - startRow),
-                                      MUL_TILE_WIDTH(col - startCol) + TILE_WIDTH ,
+                                      MUL_TILE_WIDTH(col - startCol)  + TILE_WIDTH  ,
                                       MUL_TILE_HEIGHT(row - startRow) + TILE_HEIGHT ,
-                                      al_map_rgb(255, 255, 255), 1.5);
+                                      WHITE, 1.5);
                     // draws the elements of the solid Tile
                     for(auto elX = 0 ; elX<GRID_ELEMENT_WIDTH ; elX++)
                         for(auto elY = 0 ; elY<GRID_ELEMENT_HEIGHT ; elY++)
-                            al_draw_rectangle(MUL_TILE_WIDTH(col - startCol) + elX*GRID_ELEMENT_WIDTH,
+                            al_draw_rectangle(MUL_TILE_WIDTH(col - startCol)  + elX*GRID_ELEMENT_WIDTH ,
                                               MUL_TILE_HEIGHT(row - startRow) + elY*GRID_ELEMENT_HEIGHT,
-                                              MUL_TILE_WIDTH(col - startCol)+ elX*GRID_ELEMENT_WIDTH+ GRID_ELEMENT_WIDTH ,
-                                              MUL_TILE_HEIGHT(row - startRow)+elY*GRID_ELEMENT_HEIGHT + GRID_ELEMENT_HEIGHT ,
-                                              al_map_rgb(255, 255, 255), 1);
+                                              (MUL_TILE_WIDTH(col - startCol)  + elX*GRID_ELEMENT_WIDTH)  + GRID_ELEMENT_WIDTH ,
+                                              (MUL_TILE_HEIGHT(row - startRow) + elY*GRID_ELEMENT_HEIGHT) + GRID_ELEMENT_HEIGHT ,
+                                              WHITE, 1);
 
                     al_unlock_bitmap(GetBuffer());
                 }

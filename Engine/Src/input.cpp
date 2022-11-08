@@ -26,8 +26,8 @@ void input(){
         }
         else if (event.type == ALLEGRO_EVENT_KEY_CHAR && !terrain->CanScrollHoriz(8)) {
             if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
-                    background->Scroll(4, 0);
-                    terrain->Scroll(4, 0);
+                    background->Scroll(8, 0);
+                    terrain->Scroll(8, 0);
                 break;
             }
             /**

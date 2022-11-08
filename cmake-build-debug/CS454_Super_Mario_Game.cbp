@@ -142,10 +142,19 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Include/animation.h">
+			<Option target="CS454_Super_Mario_Game"/>
+		</Unit>
 		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Include/input.h">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
+		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Include/physics.h">
+			<Option target="CS454_Super_Mario_Game"/>
+		</Unit>
 		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Include/rendering.h">
+			<Option target="CS454_Super_Mario_Game"/>
+		</Unit>
+		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Include/sprite.h">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
 		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Include/terrain.h">
@@ -154,10 +163,19 @@
 		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Include/timing.h">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
+		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Src/animation.cpp">
+			<Option target="CS454_Super_Mario_Game"/>
+		</Unit>
 		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Src/input.cpp">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
+		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Src/physics.cpp">
+			<Option target="CS454_Super_Mario_Game"/>
+		</Unit>
 		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Src/rendering.cpp">
+			<Option target="CS454_Super_Mario_Game"/>
+		</Unit>
+		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Src/sprite.cpp">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
 		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Src/terrain.cpp">

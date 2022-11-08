@@ -27,10 +27,10 @@ namespace app {
         public:
             void SetDone(const Pred& f) { done  = f;  }
             void SetRender (const Action & f) { render = f; }
-            void Render (void){ Invoke(render); }
-            bool IsFinished (void) const { return done(); }
-            void MainLoop (void);
-            void MainLoopIteration (void);
+            void Render() { Invoke(render); }
+            bool IsFinished() const { return done(); }
+            void MainLoop();
+            void MainLoopIteration();
 
             void SetProgressAnimations(const Action & f) { anim = f; }
             void SetInput(const Action & f) { input = f; }
@@ -40,13 +40,13 @@ namespace app {
             void SetCommitDestructions(const Action & f) { destruct = f; }
             void SetUserCode(const Action & f) { user = f; }
 
-            void ProgressAnimations (void) { Invoke(anim); }
-            void Input (void) { Invoke(input); }
-            void AI (void) { Invoke(ai); }
-            void Physics (void) { Invoke(physics); }
-            void CollisionChecking (void) { Invoke(collisions); }
-            void CommitDestructions (void) { Invoke(destruct); }
-            void UserCode (void){ Invoke(user); }
+            void ProgressAnimations() { Invoke(anim); }
+            void Input() { Invoke(input); }
+            void AI() { Invoke(ai); }
+            void Physics() { Invoke(physics); }
+            void CollisionChecking() { Invoke(collisions); }
+            void CommitDestructions() { Invoke(destruct); }
+            void UserCode() { Invoke(user); }
 
     };
 

@@ -2,12 +2,11 @@
 // Created by Georgios Zervos on 8/12/21.
 //
 #include "../Include/rendering.h"
-#include "../Include/terrain.h"
+
 ALLEGRO_DISPLAY *window = nullptr;
 Rect DisplayArea {0,0,DISPLAY_W*2,DISPLAY_H*2};
 TileLayer *background= nullptr,*terrain=nullptr;
 bool displayGrid = false;
-
 
 /** Main render function,
  * subsystem for Game::MainLoopIteration()  */
@@ -23,10 +22,19 @@ void Rendering() {
 
     al_set_target_backbuffer(window);
     al_clear_to_color(KEY_COLOR);
+
+    //Render terrain and background
     background->Display(al_get_backbuffer(window), DisplayArea);
     terrain->Display(al_get_backbuffer(window), DisplayArea);
+    //Render Grid
     if (displayGrid)
         terrain->GetGrid()->Display(al_get_backbuffer(window), DisplayArea);
+    // Render sprites
+    for(auto i : SpriteManager::GetSingleton().GetDisplayList()){
+        if(i->IsVisible())
+            i->Display(al_get_backbuffer(window),DisplayArea,MakeTileLayerClipper(terrain));
+    }
+
     al_flip_display();
     al_unlock_bitmap(al_get_backbuffer(window));
 }

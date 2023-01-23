@@ -4,7 +4,7 @@
 #include <allegro5/allegro.h>
 #include "../Include/timing.h"
 
-SystemClock SystemClock::instance;
+SystemClock SystemClock::Clock;
 
 uint64_t SystemClock::milli_secs () const {
     return std::chrono::duration_cast<std::chrono::milliseconds>

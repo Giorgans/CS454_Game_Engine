@@ -9,6 +9,15 @@
 #include <map>
 #include <set>
 #include "terrain.h"
+#include <filesystem>
+#include "timing.h"
+#define AnimationBitmaps "/Users/george/CLionProjects/CS454_Super_Mario_Game/UnitTests/ZeldaII/Media/AnimationFilmBitmaps/"
+#define WalkingRight "link.right.png"
+#define WalkingLeft "link.left.png"
+#define DownLeft "link.DownAttack.left.png"
+#define DownRight "link.DownAttack.right.png"
+
+void setgametime();
 
 class AnimationFilm {
     private:
@@ -16,8 +25,8 @@ class AnimationFilm {
         ALLEGRO_BITMAP *bitmap;
         std::string id;
     public:
-        auto GetBoxes(){ return boxes; }
-        auto GetTotalFrames() const { return boxes.size(); }
+        auto GetBoxes() const { return boxes; }
+        int GetTotalFrames() const { return boxes.size(); }
         ALLEGRO_BITMAP *GetBitmap(){ return bitmap; }
         auto GetID ()  { return id; }
         const Rect& GetFrameBox (byte frameNo) const { assert(boxes.size()>frameNo); return boxes[frameNo]; }
@@ -36,19 +45,24 @@ class AnimationFilm {
 /**
  * Loads the bitmaps to the Animation Film Holder
  */
-class BitmapLoader {
+class BitmapLoader  {
     private:
         using Bitmaps = std::map<std::string,ALLEGRO_BITMAP*>;
-        Bitmaps bitmaps;
-
         ALLEGRO_BITMAP *GetBitmap(const std::string &path) const {
             return  bitmaps.find(path)->second != bitmaps.end()->second ? bitmaps.find(path)->second : nullptr ;
         }
+        static BitmapLoader Loader; // singleton
     public:
-        ALLEGRO_BITMAP *Load (const std::string& path) {
-            auto b = GetBitmap(path);
-            if (!b) { assert(b); }
-            return b;
+    Bitmaps bitmaps;
+
+    static auto GetLoader() -> BitmapLoader& { return Loader; }
+        void Store(const std::string& filename,ALLEGRO_BITMAP *bitmap){
+            bitmaps[filename] = bitmap;
+        }
+        ALLEGRO_BITMAP *Load (const std::string& filename) {
+            if(bitmaps.count(filename))
+                return bitmaps.at(filename);
+            else return NULL;
         }
         void CleanUp () {
             for (auto &i: bitmaps) al_destroy_bitmap(i.second);
@@ -61,7 +75,7 @@ class BitmapLoader {
 /**
  * Holds all the Animation Films
  */
-class AnimationFilmHolder final {
+class AnimationFilmHolder {
     public:
         using Parser = std::function<bool (std::list<AnimationFilm>& output, const std::string& input)>;
         using EntryParser = std::function<
@@ -75,14 +89,20 @@ class AnimationFilmHolder final {
     private:
         using Films = std::map<std::string, AnimationFilm*>;
         Films films;
-        BitmapLoader bitmaps; // only for loading of film bitmaps
         static AnimationFilmHolder holder; // singleton
     public:
-        static auto Get () -> const AnimationFilmHolder& { return holder; }
-        void Load (const std::string& text, const EntryParser& entryParser);
-        void Load (const std::string& text, const Parser& parser);
+        static auto GetHolder() -> AnimationFilmHolder& { return holder; }
+        //void Load (const std::string& text, const EntryParser& entryParser);
+        //void Load (const std::string& text, const Parser& parser);
+        AnimationFilm *Load(const std::string& text){
+            return films[text];
+        }
+        void Store(const std::string& filename,AnimationFilm *film){
+            films[filename] = film;
+        }
         void CleanUp ();
         auto GetFilm (const std::string& id) -> const AnimationFilm* const;
+
         AnimationFilmHolder () {}
         ~AnimationFilmHolder() { CleanUp(); }
 };
@@ -145,7 +165,7 @@ class FrameRangeAnimation : public MovingAnimation {
             return new FrameRangeAnimation(id, start, end, GetReps(), GetDx(), GetDy(), GetDelay());
         }
         FrameRangeAnimation (
-            const std::string& _id,
+            const std::string _id,
             unsigned s, unsigned e,
             unsigned r, int dx, int dy, int d
             ): start(s), end(e), MovingAnimation(id, r, dx, dy, d){}
@@ -277,10 +297,12 @@ class TickAnimation : public Animation {
  * Animator for each Category
  ***************************/
 
-typedef uint64_t timestamp_t; enum animatorstate_t {
+typedef uint64_t timestamp_t;
+enum animatorstate_t {
     ANIMATOR_FINISHED = 0, ANIMATOR_RUNNING = 1, ANIMATOR_STOPPED= 2
 };
 
+//Animator superclass
 class Animator {
     public:
         using OnFinish = std::function<void(Animator *)>;
@@ -336,6 +358,7 @@ class FrameRangeAnimator : public Animator {
         void Progress(timestamp_t currTime);
         unsigned GetCurrFrame() const { return currFrame; }
         unsigned GetCurrRep() const { return currRep; }
+        FrameRangeAnimation *GetAnim(){return anim;}
         void Start(FrameRangeAnimation *a, timestamp_t t) {
             anim = a;
             lastTime = t;
@@ -345,7 +368,7 @@ class FrameRangeAnimator : public Animator {
             NotifyStarted();
             NotifyAction(*anim);
         }
-        FrameRangeAnimator() = default;
+        FrameRangeAnimator() { };
 };
 
 class TickAnimator : public Animator {
@@ -374,13 +397,9 @@ class TickAnimator : public Animator {
 class AnimatorManager {
     private:
         std::set<Animator*> running, suspended;
-        static AnimatorManager singleton;
-        AnimatorManager() = default;
+        static AnimatorManager Manager;
     public:
-        AnimatorManager(AnimatorManager&) = delete;
-        AnimatorManager(AnimatorManager&&) = delete;
         void Register (Animator* a) {
-            assert(a->HasFinished());
             suspended.insert(a);
         }
         void Cancel (Animator* a) {
@@ -388,7 +407,6 @@ class AnimatorManager {
             suspended.erase(a);
         }
         void MarkAsRunning (Animator* a) {
-            assert(!a->HasFinished());
             suspended.erase(a);
             running.insert(a);
         }
@@ -402,8 +420,13 @@ class AnimatorManager {
             for (auto* a : copied)
                 a->Progress(currTime);
         }
-        static auto &GetSingleton() { return singleton; }
+        static auto GetManager() { return Manager; }
+        AnimatorManager() {};
+
 };
 
+void InitializeBitmaps();
+void InitializeFilms();
+void InitializeAnimators();
 
 #endif //CS454_SUPER_MARIO_GAME_ANIMATION_H

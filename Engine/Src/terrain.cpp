@@ -21,7 +21,7 @@ void TileLayer::Display(ALLEGRO_BITMAP *dest, const Rect &displayArea){
             for (Dim col = startCol; col <= endCol; ++col)
                 PutTile(GetBuffer(), MUL_TILE_WIDTH(col - startCol), MUL_TILE_HEIGHT(row - startRow), tileSet,GetTile(row, col));
     }
-    BitmapBlitScaled(GetBuffer(),{dpyX,dpyY, viewWin.w,viewWin.h},dest,{0,0});
+    BitmapBlitScaled(GetBuffer(),{dpyX,dpyY, viewWin.w,viewWin.h },dest,{0,0});
 }
 
 //Gets {x,y} Position of wanted tile in the tile set
@@ -58,6 +58,10 @@ bool TileLayer::ReadText(std::string path) {
 //Tile layer constructor
 TileLayer::TileLayer(Dim rows, Dim cols, ALLEGRO_BITMAP *tileSet,std::string path) {
     Allocate();
+    auto r  = GetViewWindow();
+    r.x += ZELDA_STARTING_POINT_X;
+    r.y += ZELDA_STARTING_POINT_Y;
+    SetViewWindow(r);
     this->tileSet=tileSet;
     al_convert_mask_to_alpha(tileSet,KEY_COLOR);
     this->totalRows=rows;
@@ -91,11 +95,16 @@ void BitmapBlit(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point des
 // Draws a scaled part of bitmap to an area of another bitmap
 void BitmapBlitScaled(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point){
     al_set_target_bitmap(dest);
-    al_draw_scaled_bitmap(src,src_rect.x,src_rect.y,src_rect.w,src_rect.h,dest_point.x,dest_point.y,DISPLAY_W*2,DISPLAY_H*2,0);
+    al_draw_scaled_bitmap(src,src_rect.x,src_rect.y,src_rect.w,src_rect.h,dest_point.x,dest_point.y,DISPLAY_W*2.5,DISPLAY_H*2.5,0);
     al_unlock_bitmap(dest);
 }
 
-
+// Draws a scaled part of bitmap to an area of another bitmap
+void BitmapBlitScaledSprite(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point){
+    al_set_target_bitmap(dest);
+    al_draw_scaled_bitmap(src,src_rect.x,src_rect.y,src_rect.w,src_rect.h,dest_point.x,dest_point.y,64,64,0);
+    al_unlock_bitmap(dest);
+}
 
 
 /*************************** Grid implemetation  ********************************/
@@ -168,9 +177,8 @@ void GridLayer::Display(ALLEGRO_BITMAP *dest, const Rect& displayArea){
 }
 
 
-/*
+
 void GridLayer::FilterGridMotion (const Rect& r, int* dx, int* dy)  {
-    assert( abs(*dx) <= GRID_ELEMENT_WIDTH && abs(*dy) <= GRID_ELEMENT_HEIGHT );
     // try horizontal move
     if (*dx < 0) FilterGridMotionLeft(r, dx);
     else if (*dx > 0)
@@ -180,4 +188,89 @@ void GridLayer::FilterGridMotion (const Rect& r, int* dx, int* dy)  {
     else if (*dy > 0)
         FilterGridMotionDown(r, dy);
 }
-*/
+
+void GridLayer::FilterGridMotionDown (const Rect& r, int* dy) const {
+    auto y2 = r.y + r.h - 1;
+    auto y2_next = y2 + *dy;
+    if (y2_next >= MAX_PIXEL_HEIGHT)
+        *dy = (MAX_PIXEL_HEIGHT - 1) - y2;
+    else {
+        auto newRow = DIV_TILE_HEIGHT(y2_next);
+        auto currRow = DIV_TILE_HEIGHT(y2);
+        if (newRow != currRow) {
+            assert(newRow - 1 == currRow); // we really move down
+            auto startCol = DIV_TILE_WIDTH(r.x);
+            auto endCol = DIV_TILE_WIDTH(r.x + r.w - 1);
+            for (auto col = startCol; col <= endCol; ++col) {
+                if (CanPassGridTile(col, newRow)) {
+                    *dy = 0;
+                    break;
+                }
+            }
+        }
+    }
+}
+void GridLayer::FilterGridMotionUp (const Rect& r, int* dy) {
+    auto y1_next = r.y + *dy;
+    if (y1_next < 0)
+        *dy = -r.y;
+    else {
+        auto newRow = DIV_GRID_ELEMENT_HEIGHT(y1_next);
+        auto currRow = DIV_GRID_ELEMENT_HEIGHT(r.y);
+        if (newRow != currRow) {
+            assert(newRow + 1 == currRow); // we really move left
+            auto startCol = DIV_GRID_ELEMENT_WIDTH(r.x);
+            auto endCol = DIV_GRID_ELEMENT_HEIGHT(r.x + r.w - 1);
+            for (auto col = startCol; col <= endCol; ++col) {
+                if (!CanPassGridTile(col, newRow)) {
+                    *dy = MUL_GRID_ELEMENT_HEIGHT(currRow) - r.y;
+                    break;
+                }
+            }
+        }
+    }
+
+}
+
+void GridLayer::FilterGridMotionRight (const Rect& r, int* dx) {
+    auto x2 = r.x + r.w - 1;
+    auto x2_next = x2 + *dx;
+    if (x2_next >= MAX_PIXEL_WIDTH)
+        *dx = (MAX_PIXEL_WIDTH - 1) - x2;
+    else {
+        auto newCol = DIV_TILE_WIDTH(x2_next);
+        auto currCol = DIV_TILE_WIDTH(x2);
+        if (newCol != currCol) {
+            assert(newCol - 1 == currCol); // we really move right
+            auto startRow = DIV_TILE_HEIGHT(r.y);
+            auto endRow = DIV_TILE_HEIGHT(r.y + r.h - 1);
+            for (auto row = startRow; row <= endRow; ++row) {
+                if (!CanPassGridTile(newCol, row)) {
+                    *dx = 0;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+void GridLayer::FilterGridMotionLeft (const Rect& r, int* dx) {
+    auto x1_next = r.x + *dx;
+    if (x1_next < 0)
+        *dx = -r.x;
+    else {
+        auto newCol = DIV_GRID_ELEMENT_WIDTH(x1_next);
+        auto currCol = DIV_GRID_ELEMENT_WIDTH(r.x);
+        if (newCol != currCol) {
+            assert(newCol + 1 == currCol); // we really move left
+            auto startRow = DIV_GRID_ELEMENT_HEIGHT(r.y);
+            auto endRow = DIV_GRID_ELEMENT_HEIGHT(r.y + r.h - 1);
+            for (auto row = startRow; row <= endRow; ++row) {
+                if (!CanPassGridTile(newCol, row)) {
+                    *dx = MUL_GRID_ELEMENT_WIDTH(currCol) - r.x;
+                    break;
+                }
+            }
+        }
+    }
+}

@@ -27,7 +27,7 @@
 					<Add directory="/usr/local/Cellar/allegro/5.2.7.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
-					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/13.1.6/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/14.0.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
 					<Add directory="/System/Library/Frameworks"/>
 					<Add directory="/Library/Frameworks"/>
@@ -49,7 +49,7 @@
 					<Add directory="/usr/local/Cellar/allegro/5.2.7.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
-					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/13.1.6/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/14.0.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
 					<Add directory="/System/Library/Frameworks"/>
 					<Add directory="/Library/Frameworks"/>
@@ -148,10 +148,10 @@
 		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Include/input.h">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
-		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Include/physics.h">
+		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Include/rendering.h">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
-		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Include/rendering.h">
+		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Include/sound.h">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
 		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Include/sprite.h">
@@ -169,10 +169,10 @@
 		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Src/input.cpp">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
-		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Src/physics.cpp">
+		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Src/rendering.cpp">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
-		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Src/rendering.cpp">
+		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Src/sound.cpp">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
 		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Src/sprite.cpp">
@@ -184,13 +184,13 @@
 		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/Src/timing.cpp">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
+		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/Engine/game.cpp">
+			<Option target="CS454_Super_Mario_Game"/>
+		</Unit>
 		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/app.cpp">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
 		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/app.h">
-			<Option target="CS454_Super_Mario_Game"/>
-		</Unit>
-		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/game.cpp">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
 		<Unit filename="/Users/george/CLionProjects/CS454_Super_Mario_Game/CMakeLists.txt">

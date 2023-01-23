@@ -6,7 +6,7 @@
 
 using namespace app;
 
-class UnitTest1 : public App {
+class ZeldaII : public App {
     public:
     static const bool NotDone() { return  false;}
     static const bool Done(){return true;}
@@ -15,19 +15,33 @@ class UnitTest1 : public App {
             assert(al_init());
             assert(al_init_primitives_addon());
             assert(al_install_keyboard());
+            assert(al_install_audio());
             assert(al_init_image_addon());
             assert(al_init_font_addon());
+            assert(al_init_acodec_addon());
             GetGame().SetDone(NotDone);
             GetGame().SetRender(Rendering);
             GetGame().SetInput(input);
-     }
+            GetGame().SetPhysics( Physic);
+            GetGame().SetProgressAnimations(ProgAnimation);
+
+            std::cout << "before" << std::endl;
+            InitializeBitmaps();
+            InitializeFilms();
+            InitializeSprites();
+            InitializeAnimators() ;
+
+        std::cout << "after" << std::endl;
+
+
+    }
         void Load(void){  }
         void Clear(void){  }
 };
 
 int main(int argc, char **argv)
 {
-    UnitTest1 app;
+    ZeldaII app;
     app.Main();
     return 0;
 }

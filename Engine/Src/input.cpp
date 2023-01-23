@@ -3,7 +3,7 @@
 //
 
 #include "../Include/input.h"
-
+extern FrameRangeAnimator *WalkingAnimator,*DownAttackAnimator;
 extern ALLEGRO_DISPLAY *window;
 ALLEGRO_EVENT_QUEUE *event_queue;
 ALLEGRO_EVENT event;
@@ -17,36 +17,77 @@ void input(){
 
     while (true) {
         al_wait_for_event(event_queue, &event);
+        Sprite * Link =  SpriteManager::GetSingleton().GetDisplayList().at(0);
+        FrameRangeAnimation *WalkingAnimation = new FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,32,0,150);
         if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
-            /*TODO
-             * replace assert(0) with a smoother quit without errors*/
            isDone = true;
            break;
-
         }
-        else if (event.type == ALLEGRO_EVENT_KEY_CHAR && !terrain->CanScrollHoriz(8)) {
+        else if (event.type == ALLEGRO_EVENT_KEY_CHAR) {
             if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
-                    background->Scroll(8, 0);
-                    terrain->Scroll(8, 0);
+                if (Link->GetFilm()->GetID() == WalkingRight) {
+                    WalkingAnimator->Progress(GetSystemTime());
+                }
+                else if (Link->GetFilm()->GetID() == WalkingLeft) {
+                    Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
+                    WalkingAnimator->Progress(GetSystemTime());
+                }
+                else {
+                    Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
+                    WalkingAnimator->Start(WalkingAnimator->GetAnim(),GetSystemTime());
+                    WalkingAnimator->Progress(GetSystemTime());
+                }
+                //background->Scroll(8, 0);
+                //terrain->Scroll(8, 0);
+                int dx = 4,dy=0;
+                //Rect box = Link->GetBox();
+                //terrain->GetGrid()->FilterGridMotion(box, &dx, &dy);
+                Link->SetHasDirectMotion(true).Move(dx,0).SetHasDirectMotion(false);
+                Link->SetFrame(WalkingAnimator->GetCurrFrame());
+                break;
+            }
+
+            else if (event.keyboard.keycode == ALLEGRO_KEY_LEFT) {
+                if (Link->GetFilm()->GetID() == WalkingLeft) {
+                    WalkingAnimator->Progress(GetSystemTime());
+                }
+                if (Link->GetFilm()->GetID() == WalkingRight) {
+                    Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
+                    WalkingAnimator->Progress(GetSystemTime());
+                }
+                else {
+                    Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
+                    WalkingAnimator->Start(WalkingAnimator->GetAnim(),GetSystemTime());
+                    WalkingAnimator->Progress(GetSystemTime());
+                }
+                //background->Scroll(-8, 0);
+                //terrain->Scroll(-8, 0);
+                int dx = -4,dy=0;
+                Link->SetHasDirectMotion(true).Move(dx,0).SetHasDirectMotion(false);
+                Link->SetFrame(WalkingAnimator->GetCurrFrame());
+
                 break;
             }
             /**
-            else if (event.keyboard.keycode == ALLEGRO_KEY_LEFT) {
-                // ORIGINAL SUPER MARIO BROS. DOES NOT SUPPORT GOING LEFT
-                // FOR A TOP DOWN 2D GAME OR A PLATFORM GAME THAT GOES LEFT TOO
-                break;
-            }
             else if (event.keyboard.keycode == ALLEGRO_KEY_UP) {
                 // FOR A TOP DOWN 2D GAME
                 break;
-            }
+            } */
             else if (event.keyboard.keycode == ALLEGRO_KEY_DOWN) {
-                // FOR A TOP DOWN 2D GAME
+                WalkingAnimator->Stop();
+                if (Link->GetFilm()->GetID() == WalkingLeft ) {
+                    Link->SetFilm(AnimationFilmHolder::GetHolder().Load(DownLeft));
+                    Link->SetFrame(0);
+
+                }
+                else if (Link->GetFilm()->GetID() == WalkingRight ) {
+                    Link->SetFilm(AnimationFilmHolder::GetHolder().Load(DownRight));
+                    Link->SetFrame(0);
+                }
                 break;
             }
-            */
+
             else if(event.keyboard.keycode == ALLEGRO_KEY_G){
-                // std::cout<<"GRID DISPLAY"<<std::endl;
                 if(!displayGrid)displayGrid=true;
                 else displayGrid=false;
                 break;
@@ -76,10 +117,11 @@ void input(){
                 std::cout<<"JUMP"<<std::endl;
 
             }
-            else if(event.keyboard.keycode == ALLEGRO_KEY_X){
-                /*TODO
-                 * implement run function*/
-                std::cout<<"RUN"<<std::endl;
+            else if(event.keyboard.keycode == ALLEGRO_KEY_A){
+                if(Link->GetFilm()->GetID() == DownRight || Link->GetFilm()->GetID() == DownLeft){
+                    Link->SetFrame(1);
+                }
+                break;
             }
 
         }

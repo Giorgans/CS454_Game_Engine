@@ -4,8 +4,14 @@
 
 #ifndef CS454_SUPER_MARIO_GAME_SPRITE_H
 #define CS454_SUPER_MARIO_GAME_SPRITE_H
+#include <vector>
 #include "animation.h"
-#include "physics.h"
+
+void Physic();
+void ProgAnimation();
+
+#define PLAYER_TYPE "player"
+#define ENEMY_TYPE "enemy"
 
 class Clipper;
 
@@ -20,14 +26,43 @@ class MotionQuantizer {
         Mover mover; // filters requested motion too! bool used = false;
         bool used = false;
     public:
-        MotionQuantizer& SetUsed(bool val);
-        MotionQuantizer& SetRange(int h, int v) { horizMax = h, vertMax = v; used = true; return *this; }
-        MotionQuantizer& SetMover(const Mover & f) { mover = f; return *this; }
-        void Move (const Rect& r, int* dx, int* dy);
-        MotionQuantizer () = default;
-        MotionQuantizer (const MotionQuantizer&) = default;
+        MotionQuantizer& SetUsed(bool val) { used = val; }
+        MotionQuantizer& SetRange(int h, int v) {
+            horizMax = h,vertMax = v;
+            SetUsed(true);
+            return *this;
+        }
+        MotionQuantizer& SetMover(const Mover & f) {
+            mover = f;
+            return *this;
+        }
+        void Move(const Rect& r, int* dx, int* dy);
+        MotionQuantizer() = default;
+        MotionQuantizer(const MotionQuantizer&) = default;
 };
 
+class GravityHandler {
+public:
+    using OnSolidGroundPred = std::function<bool(const Rect&)>;
+    using OnStartFalling = std::function<void(void)>;
+    using OnStopFalling = std::function<void(void)>;
+protected:
+    bool gravityAddicted = true;
+    bool isFalling = false;
+    OnSolidGroundPred onSolidGround;
+    OnStartFalling onStartFalling;
+    OnStopFalling onStopFalling;
+public:
+    template <typename T> void SetOnStartFalling (const T & f)
+    {onStartFalling = f;}
+    template <typename T> void SetOnStopFalling (const T& f)
+    {onStopFalling = f;}
+    template <typename T> void SetOnSolidGround (const T& f)
+    {onSolidGround = f;}
+    void Reset (void) { isFalling = false; }
+    void Check (const Rect& r);
+
+};
 
 class Sprite {
     public:
@@ -43,30 +78,42 @@ class Sprite {
         std::string typeId, stateId;
         Mover mover;
         MotionQuantizer quantizer;
+        bool directMotion = false;
+        GravityHandler gravity;
     public:
         template <typename Tfunc>
         void SetMover(const Tfunc& f) { quantizer.SetMover(mover = f); }
-        const Rect GetBox() const { return { x, y, frameBox.w, frameBox.h }; }
-        void Move(int dx, int dy) { quantizer.Move(GetBox(), &dx, &dy); }
+        Rect GetBox() const { return { x, y, frameBox.w, frameBox.h }; }
+        Sprite& Move (int dx, int dy) {
+            if (directMotion) // apply unconditionally offsets! x += dx, y += dy;
+                x += dx, y += dy;
+            else {
+                quantizer.Move(GetBox(), &dx, &dy);
+                gravity.Check(GetBox());
+            }
+            return *this;
+        }
         void SetPos(int _x, int _y) { x = _x; y = _y; }
         void SetZorder(unsigned z) { zorder = z;}
         unsigned GetZorder() { return zorder; }
     void SetFrame(byte i) {
-        if (i != frameNo) {
-            assert(i < currFilm->GetTotalFrames());
-            frameBox = currFilm->GetFrameBox(frameNo = i); }
+            if (i != frameNo) {
+                assert(i < currFilm->GetTotalFrames());
+                frameBox = currFilm->GetFrameBox(frameNo = i); }
     }
     byte GetFrame() const { return frameNo; }
- /*   void SetBoundingArea(const BoundingArea& area) { assert(!boundingArea); boundingArea = area.Clone(); }
-    void SetBoundingArea(BoundingArea* area) {
-        assert(!boundingArea);
-        boundingArea = area;
-    }
-    auto GetBoundingArea() const -> const BoundingArea* { return boundingArea; } */
     auto GetTypeId() -> const std::string& { return typeId; }
     void SetVisibility (bool v) { isVisible = v; }
     bool IsVisible() const { return isVisible; }
     bool CollisionCheck(const Sprite* s) const;
+    GravityHandler& GetGravityHandler (void){ return gravity; }
+    Sprite& SetHasDirectMotion (bool v) { directMotion = true; return *this; }
+    bool GetHasDirectMotion (void) const { return directMotion; }
+    AnimationFilm *GetFilm(){return currFilm;}
+    void SetFilm(AnimationFilm *film)  {
+        currFilm = film;
+        frameBox = film->GetFrameBox(frameNo);
+    }
     void Display(ALLEGRO_BITMAP *dest, const Rect& dpyArea, const Clipper& clipper) const;
     Sprite(int _x, int _y, AnimationFilm* film, const std::string& _typeId = "")
     : x(_x), y(_y), currFilm(film), typeId (_typeId) {
@@ -75,11 +122,32 @@ class Sprite {
     }
 };
 
-template <typename Tnum> int number_sign (Tnum x) {
+class SpriteManager  {
+    public:
+        using SpriteList = std::vector<Sprite*>;
+        using TypeLists = std::map<std::string, SpriteList>;
+    private:
+        SpriteList dpyList;
+        TypeLists types;
+        static SpriteManager singleton;
+    public:
+        void Add (Sprite* s) {
+            dpyList.push_back(s);
+        } //TODO: insert by ascending zorder
+        void Remove (Sprite* s);
+        SpriteList GetDisplayList() { return dpyList; }
+        auto GetTypeList(const std::string& typeId) -> const SpriteList& { return types[typeId]; }
+        static auto GetSingleton()-> SpriteManager&{ return singleton; }
+        static auto GetSingletonConst() -> const SpriteManager& { return singleton; }
+        SpriteManager() {};
+
+};
+
+template <typename Tnum> int number_sign(Tnum x) {
     return x > 0 ? 1 : x < 0 ? -1 : 0;
 }
 
-template <class T> bool clip_rect(
+template <class T> bool clipping(
         T x, T y,
         T w, T h,
         T wx,T wy,
@@ -92,17 +160,7 @@ template <class T> bool clip_rect(
     return *cw > 0 && *ch > 0;
 }
 
-bool clip_rect (const Rect& r, const Rect& area, Rect* result) {
-    return clip_rect(
-            r.x,r.y,
-            r.w,r.h,
-            area.x,area.y,
-            area.w,area.h,
-            &result->x,&result->y,
-            &result->w,&result->h
-    );
-}
-
+bool clip_rect(const Rect& r, const Rect& area, Rect* result);
 // generic clipper assuming any terrain-based view // and any bitmap-based display area
 class Clipper {
     public:
@@ -120,6 +178,10 @@ class Clipper {
         Clipper() = default;
         Clipper(const Clipper&) = default;
 };
+const Clipper MakeTileLayerClipper (TileLayer* layer) ;
+void PrepareSpriteGravityHandler (GridLayer* gridLayer, Sprite* sprite) ;
+void FrameRange_Action (Sprite* sprite, Animator* animator, const FrameRangeAnimation& anim) ;
+void InitializeSprites();
 
 
 #endif //CS454_SUPER_MARIO_GAME_SPRITE_H

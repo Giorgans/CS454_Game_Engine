@@ -2,13 +2,18 @@
 // Created by Georgios Zervos on 6/11/22.
 //
 #include "../Include/animation.h"
+AnimationFilmHolder  AnimationFilmHolder::holder ;
+AnimatorManager AnimatorManager::Manager  ;
+BitmapLoader BitmapLoader::Loader  ;
 
-AnimatorManager AnimatorManager::singleton;
+static unsigned long currT = 0;
+void setgametime() { currT = GetSystemTime (); }
+unsigned long getgametime(){ return currT; }
 
 /***************************************
  *  Animation Film Holder implementation
  **************************************/
-void AnimationFilmHolder::Load (const std::string& text, const EntryParser& entryParser) {
+/** void AnimationFilmHolder::Load (const std::string& text, const EntryParser& entryParser) {
     int pos = 0;
     while (true) {
         std::string id, path;
@@ -18,7 +23,7 @@ void AnimationFilmHolder::Load (const std::string& text, const EntryParser& entr
         if (!i) return;
         pos += i;
         assert(!GetFilm(id));
-        films[id] = new AnimationFilm(bitmaps.Load(path), rects, id);
+        films[id] = new AnimationFilm(BitmapLoader::GetLoader().Load(path), rects, id);
     }
 
 }
@@ -29,10 +34,10 @@ void AnimationFilmHolder::Load (const std::string& text, const Parser& parser) {
     assert(result);
     for (auto &entry: output) {
         assert(!GetFilm(entry.GetID()));
-        films[entry.GetID()] = new AnimationFilm(bitmaps.Load(entry.GetID()), entry.GetBoxes(), entry.GetID());
+        films[entry.GetID()] = new AnimationFilm(BitmapLoader::GetLoader().Load(entry.GetID()), entry.GetBoxes(), entry.GetID());
     }
 }
-
+**/
 void AnimationFilmHolder::CleanUp () {
     for (auto& i : films)
         delete(i.second);
@@ -67,22 +72,22 @@ void Animator::TimeShift (timestamp_t offset) {
 }
 
 void Animator::NotifyStopped() {
-    AnimatorManager::GetSingleton().MarkAsSuspended(this);
+    AnimatorManager::GetManager().MarkAsSuspended(this);
     if (onFinish)
         (onFinish)(this);
 }
 
 void Animator::NotifyStarted() {
-    AnimatorManager::GetSingleton().MarkAsRunning(this);
+    AnimatorManager::GetManager().MarkAsRunning(this);
     if (onStart)
         (onStart)(this);
 }
 Animator::Animator () {
-    AnimatorManager::GetSingleton().Register(this);
+    AnimatorManager::GetManager().Register(this);
 }
 
 Animator::~Animator(){
-    AnimatorManager::GetSingleton().Cancel(this);
+    AnimatorManager::GetManager().Cancel(this);
 }
 
 void MovingAnimator::Progress (timestamp_t currTime) {
@@ -133,8 +138,7 @@ void FrameRange_Action (Sprite* sprite, Animator* animator, const FrameRangeAnim
     sprite->SetFrame(frameRangeAnimator->GetCurrFrame());
 }
 
-    animator->SetOnAction(
-[sprite](Animator* animator, const Animation& anim) {
+    animator->SetOnAction([sprite](Animator* animator, const Animation& anim) {
 } );
  */
 
@@ -155,3 +159,39 @@ void TickAnimator::Progress (timestamp_t currTime) {
             }
         }
 }
+
+
+
+
+/**
+* Initialization
+*/
+void InitializeBitmaps(){
+    for(auto const f : std::__fs::filesystem::directory_iterator(AnimationBitmaps)){
+       if(f.path().filename()!=".DS_Store") // hidden file on mac folder
+        BitmapLoader::GetLoader().Store(f.path().filename(), al_load_bitmap( f.path().string().c_str()) );
+    }
+    std::cout << "size: " << BitmapLoader::GetLoader().bitmaps.size() << std::endl;
+}
+
+void InitializeFilms(){
+    for(auto const f : std::__fs::filesystem::directory_iterator(AnimationBitmaps)) {
+        if (f.path().filename() != ".DS_Store") { // hidden file on mac folder
+            ALLEGRO_BITMAP *bitmap = BitmapLoader::GetLoader().Load(f.path().filename());
+            std::cout << "name: " << f.path().filename() << std::endl;
+            if (bitmap == NULL)assert(false);
+            int frames = int(al_get_bitmap_width(bitmap) / 32);
+            std::vector<Rect> boxes = {};
+            for (int i = 0; i < frames; i++)
+                boxes.push_back({i * 32, 0, 32, 32});
+            AnimationFilm *film = new AnimationFilm(bitmap, boxes, f.path().filename());
+
+            AnimationFilmHolder::GetHolder().Store(f.path().filename(), film);
+
+        }
+    }
+}
+
+
+
+

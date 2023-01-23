@@ -13,15 +13,38 @@
 #include "allegro5/allegro_image.h"
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
-#include "rendering.h"
+
+#define KEY_COLOR al_map_rgb(0,0,1)
+#define WHITE al_map_rgb(255, 255, 255)
+#define TRANSPARENT al_map_rgba(0,0,0,0)
+#define DISPLAY_W 640
+#define DISPLAY_H 480
+#define TILESET_WIDTH 10
+#define TILESET_HEIGHT 10
+#define TILE_WIDTH 16
+#define TILE_HEIGHT 16
+#define EMPTY_TILE 40
+//Max storage of tile map
+#define MAX_WIDTH 482
+#define MAX_HEIGHT 47
+
 // Moving tiles
 #define MUL_TILE_WIDTH(i) ((i)<<4)
 #define MUL_TILE_HEIGHT(i)((i)<<4)
 #define DIV_TILE_WIDTH(i) ((i)>>4)
 #define DIV_TILE_HEIGHT(i)((i)>>4)
 #define MOD_TILE_WIDTH(i) ((i)&15)
+#define ZELDA_STARTING_POINT_X MUL_TILE_WIDTH(48)
+#define ZELDA_STARTING_POINT_Y MUL_TILE_HEIGHT(2)
+
 //#define MOD_TILE_HEIGHT(i)((i)&15)
 
+#define DIV_GRID_ELEMENT_WIDTH(i) ((i)>>2)
+#define DIV_GRID_ELEMENT_HEIGHT(i) ((i)>>2)
+#define MUL_GRID_ELEMENT_WIDTH(i) ((i)<<2)
+#define MUL_GRID_ELEMENT_HEIGHT(i) ((i)<<2)
+#define MAX_PIXEL_WIDTH MUL_TILE_WIDTH(MAX_WIDTH)
+#define MAX_PIXEL_HEIGHT MUL_TILE_HEIGHT(MAX_HEIGHT)
 typedef unsigned short Dim;
 struct Rect { int x, y, w, h; };
 struct Point { int x, y; };
@@ -30,6 +53,7 @@ typedef unsigned short Index;
 void PutTile (ALLEGRO_BITMAP *dest, Dim x, Dim y, ALLEGRO_BITMAP *tiles, Index tile);
 void BitmapBlit(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point);
 void BitmapBlitScaled(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point);
+void BitmapBlitScaledSprite(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point);
 Dim TileX (byte index);
 Dim TileY (byte index);
 
@@ -60,9 +84,9 @@ public:
     void Scroll (float dx, float dy);
     Dim getCols(){return this->totalColumns;}
     bool CanScrollHoriz (float dx){
-        //Checking if the level has ended
-        if(GetViewWindow().x + dx == (getCols()*TILE_WIDTH - 20*TILE_WIDTH)) return true;
-        else return false;
+
+
+
     }
     //void Save (const std::string& path) ;
     //bool Load (const std::string& path);
@@ -91,7 +115,7 @@ private:
 public:
     void setTileElement(int x,int y,bool solid){this->Tile[x][y]=solid;}
     bool getTileElement(int x,int y){return this->Tile[x][y];}
-    void setNotEmpty();
+   void setNotEmpty();
     void setEmpty();
     bool isTileAssumedEmpty() const { return  empty; }
     GridTile(bool empty);
@@ -109,23 +133,30 @@ private:
         this->dpyBuffer = al_create_bitmap((MAX_WIDTH + 2) * TILE_WIDTH, (MAX_HEIGHT + 2) * TILE_HEIGHT);
     }
     // inside the private section
-    //void     FilterGridMotionDown (const Rect& r, int* dy) ;
-   // void     FilterGridMotionUp (const Rect& r, int* dy) ;
-   // void     FilterGridMotionRight (const Rect& r, int* dx) ;
-   // void     FilterGridMotionLeft (const Rect& r, int* dx) ;
+
+    void     FilterGridMotionDown (const Rect& r, int* dy) const;
+    void     FilterGridMotionUp (const Rect& r, int* dy) ;
+    void     FilterGridMotionRight (const Rect& r, int* dx) ;
+    void     FilterGridMotionLeft (const Rect& r, int* dx) ;
 
 public:
+    bool CanPassGridTile (Dim col, Dim row) const // i.e. checks if flags set
+      { return GridMap[row][col]->isTileAssumedEmpty(); }
+    bool IsOnSolidGround (const Rect& r) const { // will need later for gravity
+        int dy = 1; // down 1 pixel
+        FilterGridMotionDown(r, &dy);
+        return dy == 0; // if true IS attached to solid ground
+    }
     ALLEGRO_BITMAP *GetBuffer(){return this->dpyBuffer;}
     void SetGridTile (Dim row, Dim col, GridTile *tile){this->GridMap[row][col] = tile;}
     GridTile *GetGridTile (Dim row, Dim col) { return this->GridMap[row][col]; }
     void Display(ALLEGRO_BITMAP *dest, const Rect& displayArea);
     void SetViewWindow (const Rect& r) { viewWin = r; dpyChanged = true; }
-
+    void FilterGridMotion (const Rect& r, int* dx, int* dy);
     GridLayer (unsigned rows, unsigned cols);
     ~GridLayer(){ al_destroy_bitmap(GetBuffer());}
 
 };
-
 
 
 #endif //CS454_SUPER_MARIO_GAME_TERRAIN_H

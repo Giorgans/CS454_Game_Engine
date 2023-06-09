@@ -134,12 +134,12 @@ void InitializeAnimators(){
 }
 
 void ProgAnimation(){
-        Sprite * Link =  SpriteManager::GetSingleton().GetDisplayList().at(0);
+    /*    Sprite * Link =  SpriteManager::GetSingleton().GetDisplayList().at(0);
         if (Link->GetFilm()->GetID() == DownLeft || Link->GetFilm()->GetID() == DownRight  ) {
             if(Link->GetFilm()->GetID() == DownLeft) Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
             else Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
             WalkingAnimator->Start(WalkingAnimator->GetAnim(),GetSystemTime());
             WalkingAnimator->Progress(GetSystemTime());
         }
-
+*/
 }

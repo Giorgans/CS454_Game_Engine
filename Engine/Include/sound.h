@@ -13,6 +13,6 @@
 #define level "/Users/george/CLionProjects/CS454_Super_Mario_Game/UnitTests/ZeldaII/Media/Sound/dungeon.wav"
 #define attack "/Users/george/CLionProjects/CS454_Super_Mario_Game/UnitTests/ZeldaII/Media/Sound/attack.wav"
 void Sound();
-
+void PlayAttackSound();
 
 #endif //CS454_SUPER_MARIO_GAME_SOUND_H

@@ -5,6 +5,8 @@
 #include "../Include/input.h"
 extern FrameRangeAnimator *WalkingAnimator,*DownAttackAnimator;
 extern ALLEGRO_DISPLAY *window;
+extern Rect DisplayArea;
+
 ALLEGRO_EVENT_QUEUE *event_queue;
 ALLEGRO_EVENT event;
 bool isDone = false;
@@ -18,7 +20,41 @@ void input(){
     while (true) {
         al_wait_for_event(event_queue, &event);
         Sprite * Link =  SpriteManager::GetSingleton().GetDisplayList().at(0);
-        FrameRangeAnimation *WalkingAnimation = new FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,32,0,150);
+        bool isDown = event.keyboard.keycode == ALLEGRO_KEY_DOWN;
+        while(isDown) {
+            WalkingAnimator->Stop();
+
+            if(Link->GetFilm()->GetID() == WalkingLeft){
+                Link->SetFilm(AnimationFilmHolder::GetHolder().Load(DownLeft));
+                Link->SetFrame(0);
+            }
+            if(Link->GetFilm()->GetID() == WalkingRight){
+                Link->SetFilm(AnimationFilmHolder::GetHolder().Load(DownRight));
+                Link->SetFrame(0);
+            }
+            if(event.keyboard.keycode == ALLEGRO_KEY_A){
+                Link->SetFrame(1);
+                PlayAttackSound();
+                Rendering();
+                al_rest(0.5);
+                Link->SetFrame(0);
+                Rendering();
+                al_rest(1);
+            }
+
+            Rendering();
+
+            isDown = event.keyboard.keycode == ALLEGRO_KEY_DOWN;
+            if(!isDown){
+                if (Link->GetFilm()->GetID() == DownLeft )
+                    Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
+                else
+                    Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
+                Link->SetFrame(0);
+                Rendering();
+            }
+
+        }
         if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
            isDone = true;
            break;
@@ -46,20 +82,16 @@ void input(){
                 Link->SetFrame(WalkingAnimator->GetCurrFrame());
                 break;
             }
-
             else if (event.keyboard.keycode == ALLEGRO_KEY_LEFT) {
                 if (Link->GetFilm()->GetID() == WalkingLeft) {
                     WalkingAnimator->Progress(GetSystemTime());
                 }
                 if (Link->GetFilm()->GetID() == WalkingRight) {
                     Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
-                    WalkingAnimator->Progress(GetSystemTime());
-                }
-                else {
-                    Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
                     WalkingAnimator->Start(WalkingAnimator->GetAnim(),GetSystemTime());
                     WalkingAnimator->Progress(GetSystemTime());
                 }
+
                 //background->Scroll(-8, 0);
                 //terrain->Scroll(-8, 0);
                 int dx = -4,dy=0;
@@ -73,20 +105,6 @@ void input(){
                 // FOR A TOP DOWN 2D GAME
                 break;
             } */
-            else if (event.keyboard.keycode == ALLEGRO_KEY_DOWN) {
-                WalkingAnimator->Stop();
-                if (Link->GetFilm()->GetID() == WalkingLeft ) {
-                    Link->SetFilm(AnimationFilmHolder::GetHolder().Load(DownLeft));
-                    Link->SetFrame(0);
-
-                }
-                else if (Link->GetFilm()->GetID() == WalkingRight ) {
-                    Link->SetFilm(AnimationFilmHolder::GetHolder().Load(DownRight));
-                    Link->SetFrame(0);
-                }
-                break;
-            }
-
             else if(event.keyboard.keycode == ALLEGRO_KEY_G){
                 if(!displayGrid)displayGrid=true;
                 else displayGrid=false;
@@ -117,11 +135,24 @@ void input(){
                 std::cout<<"JUMP"<<std::endl;
 
             }
-            else if(event.keyboard.keycode == ALLEGRO_KEY_A){
-                if(Link->GetFilm()->GetID() == DownRight || Link->GetFilm()->GetID() == DownLeft){
-                    Link->SetFrame(1);
-                }
-                break;
+            else{}
+
+
+
+
+        }
+        else {
+            if(Link->GetFilm()->GetID() == DownRight){
+                Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
+                WalkingAnimator->Start(WalkingAnimator->GetAnim(),GetSystemTime());
+                WalkingAnimator->Progress(GetSystemTime());
+                Rendering();
+            }
+            if(Link->GetFilm()->GetID() == DownLeft){
+                Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
+                WalkingAnimator->Start(WalkingAnimator->GetAnim(),GetSystemTime());
+                WalkingAnimator->Progress(GetSystemTime());
+                Rendering();
             }
 
         }

@@ -319,7 +319,10 @@ class Animator {
         void NotifyAction(const Animation &);
         void Finish(bool isForced = false);
     public:
-        void Stop();
+        void Stop(){
+            state = ANIMATOR_STOPPED;
+            NotifyStopped();
+        }
         bool HasFinished() const { return state != ANIMATOR_RUNNING; }
         virtual void TimeShift(timestamp_t offset);
         virtual void Progress(timestamp_t currTime) = 0;

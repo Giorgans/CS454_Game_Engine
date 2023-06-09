@@ -30,10 +30,6 @@ class ZeldaII : public App {
             InitializeFilms();
             InitializeSprites();
             InitializeAnimators() ;
-
-        std::cout << "after" << std::endl;
-
-
     }
         void Load(void){  }
         void Clear(void){  }

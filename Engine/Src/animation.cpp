@@ -59,9 +59,6 @@ void Animator::Finish (bool isForced) {
     }
 }
 
-void Animator::Stop () {
-    Finish(true);
-}
 
 void Animator::NotifyAction (const Animation& anim) {
     if (onAction)

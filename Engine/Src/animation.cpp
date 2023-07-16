@@ -114,16 +114,16 @@ Sprite_MoveAction(
 
 void FrameRangeAnimator::Progress (timestamp_t currTime) {
     while (currTime > lastTime && (currTime - lastTime) >= anim->GetDelay()) {
-        if (currFrame == anim->GetEndFrame()) {
+        if (currFrame >= anim->GetEndFrame()) {
             assert(anim->IsForever() || currRep < anim->GetReps());
             currFrame = anim->GetStartFrame(); // flip to start
         }
         else{
-                ++currFrame;
+            ++currFrame;
         }
         lastTime = currTime;
         NotifyAction(*anim);
-        if (currFrame >= anim->GetEndFrame())
+        if (currFrame == anim->GetEndFrame())
             currFrame = 0;
             if (!anim->IsForever() && ++currRep == anim->GetReps()) {
                 state = ANIMATOR_FINISHED;
@@ -173,14 +173,12 @@ void InitializeBitmaps(){
        if(f.path().filename()!=".DS_Store") // hidden file on mac folder
         BitmapLoader::GetLoader().Store(f.path().filename(), al_load_bitmap( f.path().string().c_str()) );
     }
-    std::cout << "size: " << BitmapLoader::GetLoader().bitmaps.size() << std::endl;
 }
 
 void InitializeFilms(){
     for(auto const f : std::__fs::filesystem::directory_iterator(AnimationBitmaps)) {
         if (f.path().filename() != ".DS_Store") { // hidden file on mac folder
             ALLEGRO_BITMAP *bitmap = BitmapLoader::GetLoader().Load(f.path().filename());
-            std::cout << "name: " << f.path().filename() << std::endl;
             if (bitmap == NULL)assert(false);
             int frames = int(al_get_bitmap_width(bitmap) / 32);
             std::vector<Rect> boxes = {};

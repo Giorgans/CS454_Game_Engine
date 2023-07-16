@@ -97,6 +97,8 @@ void input(){
             else if(event.keyboard.keycode == ALLEGRO_KEY_G){
                 if(!displayGrid)displayGrid=true;
                 else displayGrid=false;
+
+                Rendering();
                 break;
             }
 

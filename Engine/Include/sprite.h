@@ -112,7 +112,7 @@ class Sprite {
     AnimationFilm *GetFilm(){return currFilm;}
     void SetFilm(AnimationFilm *film)  {
         currFilm = film;
-        frameBox = film->GetFrameBox(frameNo);
+        frameBox = film->GetFrameBox(0);
     }
     void Display(ALLEGRO_BITMAP *dest, const Rect& dpyArea, const Clipper& clipper) const;
     Sprite(int _x, int _y, AnimationFilm* film, const std::string& _typeId = "")

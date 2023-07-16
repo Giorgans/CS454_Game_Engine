@@ -120,16 +120,21 @@ void InitializeSprites(){
 }
 FrameRangeAnimator *WalkingAnimator = new FrameRangeAnimator();
 FrameRangeAnimator *DownAttackAnimator = new FrameRangeAnimator();
+const int FRAME_RATE = 60;            // Frames per second
+const double FRAME_DURATION = 1.0 / FRAME_RATE;  // Duration of each frame
 
 void InitializeAnimators(){
-    FrameRangeAnimation *WalkingAnimation = new FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,32,0,150);
+    auto *WalkingAnimation = new FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,32,0,FRAME_DURATION);
     WalkingAnimator->Start(WalkingAnimation,GetSystemTime());
     WalkingAnimator->Progress(GetSystemTime());
     //AnimatorManager::GetManager().Register(WalkingAnimator);
     //AnimatorManager::GetManager().MarkAsRunning(WalkingAnimator);
     auto link = SpriteManager::GetSingleton().GetDisplayList().at(0);
+    link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
     WalkingAnimator->SetOnAction([link](Animator* animator, const Animation& anim) {} );
     FrameRange_Action(link, WalkingAnimator, *WalkingAnimator->GetAnim());
+    WalkingAnimator->Start(WalkingAnimator->GetAnim(),GetSystemTime());
+    WalkingAnimator->Progress(GetSystemTime());
 
 }
 

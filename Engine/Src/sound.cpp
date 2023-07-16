@@ -15,6 +15,7 @@ ALLEGRO_MIXER *SFXmixer = NULL;
 ALLEGRO_MIXER *MasterMixer = NULL;
 ALLEGRO_VOICE *voice = NULL;
 void Sound() {
+    /*
     if (levelsound == NULL) {
         levelsound = al_load_sample(level);
         levelsoundInstance = al_create_sample_instance(levelsound);
@@ -42,6 +43,7 @@ void Sound() {
         al_set_sample_instance_playmode(levelsoundInstance, ALLEGRO_PLAYMODE_LOOP);
         al_play_sample_instance(levelsoundInstance);
     }
+     */
 }
 
 void PlayAttackSound(){
@@ -49,4 +51,5 @@ void PlayAttackSound(){
     al_attach_sample_instance_to_mixer(AttackSoundInstance, SFXmixer);
     al_set_sample_instance_playmode(AttackSoundInstance, ALLEGRO_PLAYMODE_ONCE);
     al_play_sample_instance(AttackSoundInstance);
+
 }

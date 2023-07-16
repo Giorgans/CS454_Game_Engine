@@ -25,7 +25,6 @@ class ZeldaII : public App {
             GetGame().SetPhysics( Physic);
             GetGame().SetProgressAnimations(ProgAnimation);
 
-            std::cout << "before" << std::endl;
             InitializeBitmaps();
             InitializeFilms();
             InitializeSprites();

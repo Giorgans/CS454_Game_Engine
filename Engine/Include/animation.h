@@ -11,7 +11,7 @@
 #include "terrain.h"
 #include <filesystem>
 #include "timing.h"
-#define AnimationBitmaps "/Users/george/CLionProjects/CS454_Super_Mario_Game/UnitTests/ZeldaII/Media/AnimationFilmBitmaps/"
+#define AnimationBitmaps "/Users/george/CLionProjects/CS454_ZeldaII/UnitTests/ZeldaII/Media/AnimationFilmBitmaps/"
 #define WalkingRight "link.right.png"
 #define WalkingLeft "link.left.png"
 #define DownLeft "link.DownAttack.left.png"
@@ -129,7 +129,7 @@ class MovingAnimation : public Animation {
     protected:
         unsigned reps = 1; // 0=forever
         int dx = 0, dy = 0;
-        unsigned delay = 0;
+        double delay = 0;
     public:
         using Me = MovingAnimation;
         int GetDx() const { return dx; }

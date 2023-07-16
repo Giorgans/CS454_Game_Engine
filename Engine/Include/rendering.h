@@ -14,10 +14,10 @@
 #include "sprite.h"
 /** Definitions for tiles */
 // PATHS
-#define TILESET_FILE_PATH "/Users/george/CLionProjects/CS454_Super_Mario_Game/UnitTests/ZeldaII/Media/Zelda-II-Parapa-Palace-Tileset.png"
-#define BACKGROUND_CSV_FILE_PATH "/Users/george/CLionProjects/CS454_Super_Mario_Game/UnitTests/ZeldaII/Media/zelda2map_background.csv"
-#define TERRAIN_CSV_FILE_PATH "/Users/george/CLionProjects/CS454_Super_Mario_Game/UnitTests/ZeldaII/Media/zelda2map_terrain.csv"
-#define ICON_FILE_PATH "/Users/george/CLionProjects/CS454_Super_Mario_Game/UnitTests/SuperMarioBros/Media/unnamed.png"
+#define TILESET_FILE_PATH "/Users/george/CLionProjects/CS454_ZeldaII/UnitTests/ZeldaII/Media/Zelda-II-Parapa-Palace-Tileset.png"
+#define BACKGROUND_CSV_FILE_PATH "/Users/george/CLionProjects/CS454_ZeldaII/UnitTests/ZeldaII/Media/zelda2map_background.csv"
+#define TERRAIN_CSV_FILE_PATH "/Users/george/CLionProjects/CS454_ZeldaII/UnitTests/ZeldaII/Media/zelda2map_terrain.csv"
+#define ICON_FILE_PATH "/Users/george/CLionProjects/CS454_ZeldaII/UnitTests/SuperMarioBros/Media/unnamed.png"
 
 void Rendering();
 

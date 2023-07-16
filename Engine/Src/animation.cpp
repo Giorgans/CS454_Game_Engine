@@ -86,7 +86,7 @@ Animator::Animator () {
 Animator::~Animator(){
     AnimatorManager::GetManager().Cancel(this);
 }
-
+/*
 void MovingAnimator::Progress (timestamp_t currTime) {
     while (currTime > lastTime && (currTime - lastTime) >= anim->GetDelay()) {
         lastTime += anim->GetDelay();
@@ -97,7 +97,7 @@ void MovingAnimator::Progress (timestamp_t currTime) {
             return;
         }
     }
-}
+}*/
 /*
 void Sprite_MoveAction (Sprite* sprite, const MovingAnimation& anim) {
     sprite->Move(anim.GetDx(), anim.GetDy());
@@ -111,15 +111,20 @@ Sprite_MoveAction(
 (const MovingAnimation&)anim );
 } ); */
 
+
 void FrameRangeAnimator::Progress (timestamp_t currTime) {
     while (currTime > lastTime && (currTime - lastTime) >= anim->GetDelay()) {
-        if (currFrame == anim->GetEndFrame()) { assert(anim->IsForever() || currRep < anim->GetReps()); currFrame = anim->GetStartFrame(); // flip to start
+        if (currFrame == anim->GetEndFrame()) {
+            assert(anim->IsForever() || currRep < anim->GetReps());
+            currFrame = anim->GetStartFrame(); // flip to start
         }
-        else
-            ++currFrame;
-        lastTime += anim->GetDelay();
+        else{
+                ++currFrame;
+        }
+        lastTime = currTime;
         NotifyAction(*anim);
-        if (currFrame == anim->GetEndFrame())
+        if (currFrame >= anim->GetEndFrame())
+            currFrame = 0;
             if (!anim->IsForever() && ++currRep == anim->GetReps()) {
                 state = ANIMATOR_FINISHED;
                 NotifyStopped();

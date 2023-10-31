@@ -11,5 +11,5 @@
 #define ICON_FILE_PATH "/Users/george/CLionProjects/CS454_ZeldaII/UnitTests/ZeldaII/Media/icon.jpg"
 #define level "/Users/george/CLionProjects/CS454_ZeldaII/UnitTests/ZeldaII/Media/Sound/dungeon.wav"
 #define attack "/Users/george/CLionProjects/CS454_ZeldaII/UnitTests/ZeldaII/Media/Sound/attack.wav"
-
+#define dummy ""
 #endif //CS454_SUPER_MARIO_GAME_PATHS_H

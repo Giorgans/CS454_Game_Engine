@@ -11,7 +11,7 @@
 #include "terrain.h"
 #include <filesystem>
 #include "timing.h"
-#define AnimationBitmaps "/Users/george/CLionProjects/CS454_ZeldaII/UnitTests/ZeldaII/Media/AnimationFilmBitmaps/"
+#include "../paths.h"
 #define WalkingRight "link.right.png"
 #define WalkingLeft "link.left.png"
 #define DownLeft "link.DownAttack.left.png"

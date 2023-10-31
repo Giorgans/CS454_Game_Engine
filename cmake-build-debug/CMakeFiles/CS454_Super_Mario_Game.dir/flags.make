@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/usr/local/Cellar/allegro/5.2.7.0/include
 
-CXX_FLAGS =  -std=c++14  -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk
+CXX_FLAGS =  -std=c++14  -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk
 

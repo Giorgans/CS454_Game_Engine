@@ -57,33 +57,13 @@ RM = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/george/CLionProjects/CS454_ZeldaII
+CMAKE_SOURCE_DIR = "/Users/george/Desktop/Courses/HY-454 Video Game/Project 2023"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/george/CLionProjects/CS454_ZeldaII/cmake-build-debug
+CMAKE_BINARY_DIR = "/Users/george/Desktop/Courses/HY-454 Video Game/Project 2023/cmake-build-debug"
 
 #=============================================================================
 # Targets provided globally by CMake.
-
-# Special rule for the target package
-package: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cpack --config ./CPackConfig.cmake
-.PHONY : package
-
-# Special rule for the target package
-package/fast: package
-.PHONY : package/fast
-
-# Special rule for the target package_source
-package_source:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cpack --config ./CPackSourceConfig.cmake /Users/george/CLionProjects/CS454_ZeldaII/cmake-build-debug/CPackSourceConfig.cmake
-.PHONY : package_source
-
-# Special rule for the target package_source
-package_source/fast: package_source
-.PHONY : package_source/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -152,9 +132,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/george/CLionProjects/CS454_ZeldaII/cmake-build-debug/CMakeFiles /Users/george/CLionProjects/CS454_ZeldaII/cmake-build-debug//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/george/Desktop/Courses/HY-454 Video Game/Project 2023/cmake-build-debug/CMakeFiles" "/Users/george/Desktop/Courses/HY-454 Video Game/Project 2023/cmake-build-debug//CMakeFiles/progress.marks"
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/george/CLionProjects/CS454_ZeldaII/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/george/Desktop/Courses/HY-454 Video Game/Project 2023/cmake-build-debug/CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -421,8 +401,6 @@ help:
 	@echo "... install/local"
 	@echo "... install/strip"
 	@echo "... list_install_components"
-	@echo "... package"
-	@echo "... package_source"
 	@echo "... rebuild_cache"
 	@echo "... CS454_Super_Mario_Game"
 	@echo "... Engine/Src/animation.o"

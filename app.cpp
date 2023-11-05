@@ -23,12 +23,13 @@ class ZeldaII : public App {
             GetGame().SetRender(Rendering);
             GetGame().SetInput(input);
             GetGame().SetPhysics( Physic);
-            GetGame().SetProgressAnimations(ProgAnimation);
+            GetGame().SetProgressAnimations(Animations);
 
             InitializeBitmaps();
             InitializeFilms();
             InitializeSprites();
-            InitializeAnimators() ;
+            InitializeAnimators();
+            InitializeInputs();
     }
         void Load(void){  }
         void Clear(void){  }

@@ -7,7 +7,11 @@
 #include "../Include/terrain.h"
 #include "../Include/rendering.h"
 #include "sound.h"
+#include <map>
+
 extern TileLayer *background,*terrain;
 
 void input(void);
+void InitializeInputs();
+
 #endif //CS454_SUPER_MARIO_GAME_INPUT_H

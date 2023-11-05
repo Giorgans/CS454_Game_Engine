@@ -11,6 +11,7 @@ ALLEGRO_EVENT_QUEUE *event_queue;
 ALLEGRO_EVENT event;
 bool isDone = false;
 extern bool displayGrid;
+std::map<std::string,bool> inputs;
 
 void input(){
     event_queue = al_create_event_queue();
@@ -19,121 +20,65 @@ void input(){
 
     while (true) {
         al_wait_for_event(event_queue, &event);
-        Sprite * Link =  SpriteManager::GetSingleton().GetDisplayList().at(0);
-        if (Link->GetFilm()->GetID() == DownLeft ){
-            Link->SetFrame(0);
-            Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
-            WalkingAnimator->Start(WalkingAnimator->GetAnim(),GetSystemTime());
-            WalkingAnimator->Progress(GetSystemTime());
-        }
-        if (Link->GetFilm()->GetID() == DownRight ){
-            Link->SetFrame(0);
-            Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
-            WalkingAnimator->Start(WalkingAnimator->GetAnim(),GetSystemTime());
-            WalkingAnimator->Progress(GetSystemTime());
-        }
-        Rendering();
-
         if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
            isDone = true;
            break;
         }
-        else if (event.type == ALLEGRO_EVENT_KEY_CHAR) {
-            if(event.keyboard.keycode == ALLEGRO_KEY_DOWN){
-                WalkingAnimator->Stop();
-                if (Link->GetFilm()->GetID() == WalkingLeft ){
-                    Link->SetFilm(AnimationFilmHolder::GetHolder().Load(DownLeft));
-                }
-                if (Link->GetFilm()->GetID() == WalkingRight ){
-                    Link->SetFilm(AnimationFilmHolder::GetHolder().Load(DownRight));
-                }
-                Link->SetFrame(0);
-                Rendering();
-            }
-            if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
-                if (Link->GetFilm()->GetID() == WalkingRight) {
-                    WalkingAnimator->Progress(GetSystemTime());
-                }
-                else if (Link->GetFilm()->GetID() == WalkingLeft || Link->GetFilm()->GetID() == DownLeft || Link->GetFilm()->GetID() == DownRight) {
-                    Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
-                    WalkingAnimator->Start(WalkingAnimator->GetAnim(),GetSystemTime());
-                    WalkingAnimator->Progress(GetSystemTime());
-                }
-                if( ((terrain->GetViewWindow().x + terrain->GetViewWindow().w) - (terrain->GetViewWindow().x/2)) <= Link->GetBox().x){
-                    background->Scroll(4, 0);
-                    terrain->Scroll(4, 0);
-                }
-                Link->SetHasDirectMotion(true).Move(4,0).SetHasDirectMotion(false);
-                Link->SetFrame(WalkingAnimator->GetCurrFrame());
-                break;
-            }
-            else if (event.keyboard.keycode == ALLEGRO_KEY_LEFT) {
-                if (Link->GetFilm()->GetID() == WalkingLeft) {
-                    WalkingAnimator->Progress(GetSystemTime());
-                }
-                if (Link->GetFilm()->GetID() == WalkingRight || Link->GetFilm()->GetID() == DownLeft || Link->GetFilm()->GetID() == DownRight) {
-                    Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
-                    WalkingAnimator->Start(WalkingAnimator->GetAnim(),GetSystemTime());
-                    WalkingAnimator->Progress(GetSystemTime());
-                }
-                if( ((terrain->GetViewWindow().x - 4 ) >= 0) && ((terrain->GetViewWindow().x + terrain->GetViewWindow().w/2) ) <= Link->GetBox().x ){
-                    background->Scroll(-4, 0);
-                    terrain->Scroll(-4, 0);
-                }
-                //background->Scroll(-8, 0);
-                //terrain->Scroll(-8, 0);
-                int dx = -4,dy=0;
-                Link->SetHasDirectMotion(true).Move(dx,0).SetHasDirectMotion(false);
-                Link->SetFrame(WalkingAnimator->GetCurrFrame());
+        else if(event.type == ALLEGRO_EVENT_KEY_DOWN) {
+            if (event.keyboard.keycode == ALLEGRO_KEY_DOWN) inputs.at("Down") = true;
 
-                break;
-            }
+            if(event.keyboard.keycode == ALLEGRO_KEY_A) inputs.at("A") = true;
+
+            if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) inputs.at("Right") = true;
+
+            if (event.keyboard.keycode == ALLEGRO_KEY_LEFT) inputs.at("Left") = true;
 
             /**
-            else if (event.keyboard.keycode == ALLEGRO_KEY_UP) {
-                // FOR A TOP DOWN 2D GAME
-                break;
+            if (event.keyboard.keycode == ALLEGRO_KEY_UP) {
+                     // FOR A TOP DOWN 2D GAME
+                     break;
             } */
-            else if(event.keyboard.keycode == ALLEGRO_KEY_G){
-                if(!displayGrid)displayGrid=true;
-                else displayGrid=false;
+            if (event.keyboard.keycode == ALLEGRO_KEY_G) {
+                if (!displayGrid)displayGrid = true;
+                else displayGrid = false;
 
                 Rendering();
-                break;
             }
+            if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) isDone = true;
 
-            else if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
-                isDone = true;
-                break;
+            if (event.keyboard.keycode == ALLEGRO_KEY_COMMAND) {
+                if (event.keyboard.keycode == ALLEGRO_KEY_Q) isDone = true;
             }
-            if(event.keyboard.keycode == ALLEGRO_KEY_COMMAND){
-                if(event.keyboard.keycode == ALLEGRO_KEY_Q ) {
-                    isDone = true;
-                    break;
-                }
-            }
-            else if (event.keyboard.keycode == ALLEGRO_KEY_ENTER){
+            if (event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
                 /*TODO
                     * implement start function*/
             }
-            else if(event.keyboard.keycode == ALLEGRO_KEY_Z){
-                WalkingAnimator->Stop();
-
+            if (event.keyboard.keycode == ALLEGRO_KEY_Z) {
                 /*TODO
                  * implement jump function*/
-                std::cout<<"JUMP"<<std::endl;
-
+                std::cout << "JUMP" << std::endl;
             }
-            else{}
-
-
-
-
         }
-        else {
-        }
+        else if(event.type == ALLEGRO_EVENT_KEY_UP) {
+            if (event.keyboard.keycode == ALLEGRO_KEY_DOWN) inputs.at("Down") = false;
 
+            if (event.keyboard.keycode == ALLEGRO_KEY_A) inputs.at("A") = false;
+
+            if(event.keyboard.keycode == ALLEGRO_KEY_RIGHT) inputs.at("Right") = false;
+
+            if(event.keyboard.keycode == ALLEGRO_KEY_LEFT) inputs.at("Left") = false;
+        }
+        else{ break; }
+
+        break;
+
+    }
 
 }
+void InitializeInputs(){
+    inputs.insert(std::pair<std::string ,bool>("Down",false));
+    inputs.insert(std::pair<std::string ,bool>("Left",false));
+    inputs.insert(std::pair<std::string ,bool>("Right",false));
+    inputs.insert(std::pair<std::string ,bool>("A",false));
 
 }

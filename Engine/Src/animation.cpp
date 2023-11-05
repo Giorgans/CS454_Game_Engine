@@ -2,13 +2,95 @@
 // Created by Georgios Zervos on 6/11/22.
 //
 #include "../Include/animation.h"
+#include "../Include/input.h"
+
 AnimationFilmHolder  AnimationFilmHolder::holder ;
 AnimatorManager AnimatorManager::Manager  ;
 BitmapLoader BitmapLoader::Loader  ;
+extern FrameRangeAnimator *WalkingAnimator,*DownAttackAnimator;
+extern std::map<std::string,bool> inputs;
 
 static unsigned long currT = 0;
 void setgametime() { currT = GetSystemTime (); }
 unsigned long getgametime(){ return currT; }
+
+
+void Animations(){
+    Sprite * Link =  SpriteManager::GetSingleton().GetDisplayList().at(0);
+
+    if(inputs.at("Down")){
+        WalkingAnimator->Stop();
+        if (Link->GetFilm()->GetID() == WalkingLeft) {
+            Link->SetFilm(AnimationFilmHolder::GetHolder().Load(DownLeft));
+        }
+        if (Link->GetFilm()->GetID() == WalkingRight) {
+            Link->SetFilm(AnimationFilmHolder::GetHolder().Load(DownRight));
+        }
+        Link->SetFrame(0);
+
+        Rendering();
+
+    }
+    else{
+        if ( Link->GetFilm()->GetID() == DownLeft) {
+            Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
+            Link->SetFrame(0);
+            WalkingAnimator->Start(WalkingAnimator->GetAnim(), GetSystemTime());
+            WalkingAnimator->Progress(GetSystemTime());
+            Rendering();
+        }
+        if (Link->GetFilm()->GetID() == DownRight) {
+            Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
+            Link->SetFrame(0);
+            WalkingAnimator->Start(WalkingAnimator->GetAnim(), GetSystemTime());
+            WalkingAnimator->Progress(GetSystemTime());
+            Rendering();
+        }
+    }
+
+    if(inputs.at("Right")){
+        if (Link->GetFilm()->GetID() == WalkingRight) {
+            WalkingAnimator->Progress(GetSystemTime());
+        } else if (Link->GetFilm()->GetID() == WalkingLeft || Link->GetFilm()->GetID() == DownLeft ||
+                   Link->GetFilm()->GetID() == DownRight) {
+            Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
+            WalkingAnimator->Start(WalkingAnimator->GetAnim(), GetSystemTime());
+            WalkingAnimator->Progress(GetSystemTime());
+        }
+        if (((terrain->GetViewWindow().x + terrain->GetViewWindow().w) - (terrain->GetViewWindow().x / 2)) <=
+            Link->GetBox().x) {
+            background->Scroll(4, 0);
+            terrain->Scroll(4, 0);
+        }
+        Link->SetHasDirectMotion(true).Move(4, 0).SetHasDirectMotion(false);
+        Link->SetFrame(WalkingAnimator->GetCurrFrame());
+
+    }
+
+    if(inputs.at("Left")){
+        if (Link->GetFilm()->GetID() == WalkingLeft) {
+            WalkingAnimator->Progress(GetSystemTime());
+        }
+        if (Link->GetFilm()->GetID() == WalkingRight || Link->GetFilm()->GetID() == DownLeft ||
+            Link->GetFilm()->GetID() == DownRight) {
+            Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
+            WalkingAnimator->Start(WalkingAnimator->GetAnim(), GetSystemTime());
+            WalkingAnimator->Progress(GetSystemTime());
+        }
+        if (((terrain->GetViewWindow().x - 4) >= 0) &&
+            ((terrain->GetViewWindow().x + terrain->GetViewWindow().w / 2)) <= Link->GetBox().x) {
+            background->Scroll(-4, 0);
+            terrain->Scroll(-4, 0);
+        }
+        //background->Scroll(-8, 0);
+        //terrain->Scroll(-8, 0);
+        int dx = -4, dy = 0;
+        Link->SetHasDirectMotion(true).Move(dx, 0).SetHasDirectMotion(false);
+        Link->SetFrame(WalkingAnimator->GetCurrFrame());
+
+    }
+
+}
 
 /***************************************
  *  Animation Film Holder implementation

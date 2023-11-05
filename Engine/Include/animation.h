@@ -16,8 +16,10 @@
 #define WalkingLeft "link.left.png"
 #define DownLeft "link.DownAttack.left.png"
 #define DownRight "link.DownAttack.right.png"
-#define test "test"
+
 void setgametime();
+
+void Animations();
 
 class AnimationFilm {
     private:

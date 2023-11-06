@@ -6,8 +6,7 @@
 ALLEGRO_DISPLAY *window = nullptr;
 Rect DisplayArea {0,0,DISPLAY_W*2,DISPLAY_H*2};
 TileLayer *background= nullptr,*terrain=nullptr;
-bool displayGrid = false;
-
+extern std::map<std::string,bool> inputs;
 /** Main render function,
  * subsystem for Game::MainLoopIteration()  */
 void Rendering() {
@@ -27,7 +26,7 @@ void Rendering() {
     background->Display(al_get_backbuffer(window), DisplayArea);
     terrain->Display(al_get_backbuffer(window), DisplayArea);
     //Render Grid
-    if (displayGrid)
+    if (inputs.at("G"))
         terrain->GetGrid()->Display(al_get_backbuffer(window), DisplayArea);
     // Render sprites
     for(auto i : SpriteManager::GetSingleton().GetDisplayList()){

@@ -2,7 +2,7 @@
 // Created by Georgios Zervos on 6/12/21.
 //
 #include "../app.h"
-extern bool isDone;
+extern std::map<std::string,bool> inputs;
 void app::Game::MainLoop() {
     while (!IsFinished())
         MainLoopIteration();
@@ -20,5 +20,5 @@ void app::Game::MainLoopIteration() {
     Physics();
     CollisionChecking();
     UserCode();  // hook for custom code at end CommitDestructions();
-    if (isDone) { SetDone(Done); }
+    if (inputs.at("exit")) { SetDone(Done); }
 }

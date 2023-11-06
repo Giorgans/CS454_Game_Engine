@@ -311,6 +311,7 @@ class Animator {
         using OnStart = std::function<void(Animator *)>;
         using OnAction = std::function<void(Animator *, const Animation &)>;
     protected:
+        std::string id ;
         timestamp_t lastTime = 0;
         animatorstate_t state = ANIMATOR_FINISHED;
         OnFinish onFinish;
@@ -325,6 +326,7 @@ class Animator {
             state = ANIMATOR_STOPPED;
             NotifyStopped();
         }
+        std::string GetID() {return id;}
         bool HasFinished() const { return state != ANIMATOR_RUNNING; }
         virtual void TimeShift(timestamp_t offset);
         virtual void Progress(timestamp_t currTime) = 0;
@@ -373,7 +375,7 @@ class FrameRangeAnimator : public Animator {
             NotifyStarted();
             NotifyAction(*anim);
         }
-        FrameRangeAnimator() { };
+        FrameRangeAnimator(std::string id) { this->id = id; };
 };
 
 class TickAnimator : public Animator {
@@ -425,7 +427,22 @@ class AnimatorManager {
             for (auto* a : copied)
                 a->Progress(currTime);
         }
-        static auto GetManager() { return Manager; }
+        Animator* GetAnimatorByID(std::string id) {
+        // Search in suspended Animators
+        for (auto* a : suspended) {
+            if (a->GetID() == id)
+                return a;
+        }
+        // Search in running Animators
+        for (auto* a : running) {
+            if (a->GetID() == id)
+                return a;
+        }
+        return nullptr; // Animator not found
+    }
+
+
+    static auto GetManager() { return Manager; }
         AnimatorManager() {};
 
 };

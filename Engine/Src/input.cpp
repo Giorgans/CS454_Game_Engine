@@ -21,7 +21,8 @@ void input(){
         if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
             inputs.at("exit") = true;
         else if(event.type == ALLEGRO_EVENT_KEY_DOWN) {
-            if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE)  inputs.at("exit") = true;
+            if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+                inputs.at("exit") = true;
 
             if (event.keyboard.keycode == ALLEGRO_KEY_COMMAND)
                 if (event.keyboard.keycode == ALLEGRO_KEY_Q)

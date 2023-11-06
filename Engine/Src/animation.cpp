@@ -20,16 +20,13 @@ void Animations(){
 
     if(inputs.at("Down")){
         WalkingAnimator->Stop();
-        if (Link->GetFilm()->GetID() == WalkingLeft) {
+        if (Link->GetFilm()->GetID() == WalkingLeft)
             Link->SetFilm(AnimationFilmHolder::GetHolder().Load(DownLeft));
-        }
-        if (Link->GetFilm()->GetID() == WalkingRight) {
+
+        if (Link->GetFilm()->GetID() == WalkingRight)
             Link->SetFilm(AnimationFilmHolder::GetHolder().Load(DownRight));
-        }
+
         Link->SetFrame(0);
-
-        Rendering();
-
     }
     else{
         if ( Link->GetFilm()->GetID() == DownLeft) {
@@ -37,21 +34,23 @@ void Animations(){
             Link->SetFrame(0);
             WalkingAnimator->Start(WalkingAnimator->GetAnim(), GetSystemTime());
             WalkingAnimator->Progress(GetSystemTime());
-            Rendering();
         }
         if (Link->GetFilm()->GetID() == DownRight) {
             Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
             Link->SetFrame(0);
             WalkingAnimator->Start(WalkingAnimator->GetAnim(), GetSystemTime());
             WalkingAnimator->Progress(GetSystemTime());
-            Rendering();
         }
     }
 
-    if(inputs.at("Right")){
-        if (Link->GetFilm()->GetID() == WalkingRight) {
+    if(inputs.at("Down") && inputs.at("A"))
+        Link->SetFrame(1);
+
+
+    if(inputs.at("Right") && !inputs.at("Down")){
+        if (Link->GetFilm()->GetID() == WalkingRight)
             WalkingAnimator->Progress(GetSystemTime());
-        } else if (Link->GetFilm()->GetID() == WalkingLeft || Link->GetFilm()->GetID() == DownLeft ||
+        else if (Link->GetFilm()->GetID() == WalkingLeft || Link->GetFilm()->GetID() == DownLeft ||
                    Link->GetFilm()->GetID() == DownRight) {
             Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
             WalkingAnimator->Start(WalkingAnimator->GetAnim(), GetSystemTime());
@@ -67,7 +66,7 @@ void Animations(){
 
     }
 
-    if(inputs.at("Left")){
+    if(inputs.at("Left") && !inputs.at("Down")){
         if (Link->GetFilm()->GetID() == WalkingLeft) {
             WalkingAnimator->Progress(GetSystemTime());
         }
@@ -88,6 +87,10 @@ void Animations(){
         Link->SetHasDirectMotion(true).Move(dx, 0).SetHasDirectMotion(false);
         Link->SetFrame(WalkingAnimator->GetCurrFrame());
 
+    }
+
+    if(inputs.at("A") && !inputs.at("Down") ){
+        Link->SetFrame(1);
     }
 
 }
@@ -274,6 +277,22 @@ void InitializeFilms(){
     }
 }
 
+FrameRangeAnimator *WalkingAnimator = new FrameRangeAnimator("WalkingAnimator");
+
+const int FRAME_RATE = 60;            // Frames per second
+const double FRAME_DURATION = 1.0 / FRAME_RATE;  // Duration of each frame
+
+void InitializeAnimators(){
+    auto *WalkingAnimation = new FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,32,0,FRAME_DURATION);
+    WalkingAnimator->Start(WalkingAnimation,GetSystemTime());
+    //AnimatorManager::GetManager().Register(WalkingAnimator);
+    //AnimatorManager::GetManager().MarkAsRunning(WalkingAnimator);
+    auto link = SpriteManager::GetSingleton().GetDisplayList().at(0);
+    link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
+    WalkingAnimator->SetOnAction([link](Animator* animator, const Animation& anim) {} );
+    FrameRange_Action(link, WalkingAnimator, *WalkingAnimator->GetAnim());
+
+}
 
 
 

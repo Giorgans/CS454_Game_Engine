@@ -2,6 +2,11 @@
 // Created by Georgios Zervos on 23/1/23.
 //
 #include "../Include/sound.h"
+#include "../Include/input.h"
+#include "../Include/timing.h"
+
+extern std::map<std::string,bool> inputs;
+
 #define FREQUENCY 44100
 #define DEPTH ALLEGRO_AUDIO_DEPTH_FLOAT32
 #define CHAN_CONFIG ALLEGRO_CHANNEL_CONF_2
@@ -14,8 +19,9 @@ ALLEGRO_MIXER *Levelmixer = NULL;
 ALLEGRO_MIXER *SFXmixer = NULL;
 ALLEGRO_MIXER *MasterMixer = NULL;
 ALLEGRO_VOICE *voice = NULL;
-void Sound() {
-    /*
+uint64_t lastAttack=0;
+
+void Sound() { /**
     if (levelsound == NULL) {
         levelsound = al_load_sample(level);
         levelsoundInstance = al_create_sample_instance(levelsound);
@@ -24,12 +30,12 @@ void Sound() {
         AttackSound = al_load_sample(attack);
         AttackSoundInstance = al_create_sample_instance(AttackSound);
     }
-    if(Levelmixer == NULL){
+    if(Levelmixer == NULL)
         Levelmixer = al_create_mixer(FREQUENCY,DEPTH, CHAN_CONFIG);
-    }
-    if(SFXmixer == NULL){
+
+    if(SFXmixer == NULL)
         SFXmixer = al_create_mixer(FREQUENCY,DEPTH, CHAN_CONFIG);
-    }
+
     if(MasterMixer == NULL){
         MasterMixer = al_create_mixer(FREQUENCY,DEPTH, CHAN_CONFIG);
         al_attach_mixer_to_mixer(Levelmixer,MasterMixer );
@@ -43,7 +49,12 @@ void Sound() {
         al_set_sample_instance_playmode(levelsoundInstance, ALLEGRO_PLAYMODE_LOOP);
         al_play_sample_instance(levelsoundInstance);
     }
-     */
+    if(inputs.at("A") && inputs.at("Down") && (GetSystemTime()-lastAttack >=100) ){
+        PlayAttackSound();
+        lastAttack = GetSystemTime();
+    }
+
+    **/
 }
 
 void PlayAttackSound(){

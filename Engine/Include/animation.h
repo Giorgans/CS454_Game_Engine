@@ -16,6 +16,8 @@
 #define WalkingLeft "link.left.png"
 #define DownLeft "link.DownAttack.left.png"
 #define DownRight "link.DownAttack.right.png"
+#define AttackLeft "link.attack.left.png"
+#define AttackRight "link.attack.right.png"
 
 void setgametime();
 
@@ -131,7 +133,7 @@ class MovingAnimation : public Animation {
     protected:
         unsigned reps = 1; // 0=forever
         int dx = 0, dy = 0;
-        double delay = 0;
+        uint64_t delay = 0;
     public:
         using Me = MovingAnimation;
         int GetDx() const { return dx; }
@@ -328,6 +330,7 @@ class Animator {
         }
         std::string GetID() {return id;}
         bool HasFinished() const { return state != ANIMATOR_RUNNING; }
+        timestamp_t GetLastTime() {return lastTime;}
         virtual void TimeShift(timestamp_t offset);
         virtual void Progress(timestamp_t currTime) = 0;
         template<typename Tfunc> void SetOnFinish(const Tfunc &f) { onFinish = f; }

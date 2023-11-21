@@ -7,7 +7,7 @@
 AnimationFilmHolder  AnimationFilmHolder::holder ;
 AnimatorManager AnimatorManager::Manager  ;
 BitmapLoader BitmapLoader::Loader  ;
-extern FrameRangeAnimator *WalkingAnimator,*DownAttackAnimator;
+extern FrameRangeAnimator *WalkingAnimator,*DownAttackAnimator,*AttackAnimatorRight;
 extern std::map<std::string,bool> inputs;
 
 static unsigned long currT = 0;
@@ -58,10 +58,10 @@ void Animations(){
         }
         if (((terrain->GetViewWindow().x + terrain->GetViewWindow().w) - (terrain->GetViewWindow().x / 2)) <=
             Link->GetBox().x) {
-            background->Scroll(4, 0);
-            terrain->Scroll(4, 0);
+           // background->Scroll(4, 0);
+           // terrain->Scroll(4, 0);
         }
-        Link->SetHasDirectMotion(true).Move(4, 0).SetHasDirectMotion(false);
+        Link->SetHasDirectMotion(true).Move(WalkingAnimator->GetAnim()->GetDx(), WalkingAnimator->GetAnim()->GetDy()).SetHasDirectMotion(false);
         Link->SetFrame(WalkingAnimator->GetCurrFrame());
 
     }
@@ -90,7 +90,28 @@ void Animations(){
     }
 
     if(inputs.at("A") && !inputs.at("Down") ){
-        Link->SetFrame(1);
+      /*  if(Link->GetFilm()->GetID() == WalkingRight){
+            auto *AttackRightAnimation = new FrameRangeAnimation("AttackRight",0,AnimationFilmHolder::GetHolder().GetFilm(AttackRight)->GetTotalFrames()-1,0,0,0,1000/2);
+            WalkingAnimator->Stop();
+
+            Link->SetFilm(AnimationFilmHolder::GetHolder().Load(AttackRight));
+            AttackAnimatorRight->Start(AttackRightAnimation,GetSystemTime());
+            FrameRange_Action(Link, AttackAnimatorRight, *AttackAnimatorRight->GetAnim());
+
+            while(Link->GetFrame() <  AnimationFilmHolder::GetHolder().GetFilm(AttackRight)->GetTotalFrames()-1){
+                AttackAnimatorRight->Progress(GetSystemTime());
+                if(AttackAnimatorRight->GetCurrFrame()==0 && Link->GetFrame()==1 && AttackAnimatorRight0->Get) break;
+                Link->SetFrame(AttackAnimatorRight->GetCurrFrame());
+                 Rendering();
+
+            }
+            AttackAnimatorRight->Stop();
+            Link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
+            WalkingAnimator->Start(WalkingAnimator->GetAnim(), GetSystemTime());
+            WalkingAnimator->Progress(GetSystemTime());
+
+        }
+        */
     }
 
 }
@@ -112,7 +133,7 @@ void Animations(){
     }
 
 }
-
+//
 void AnimationFilmHolder::Load (const std::string& text, const Parser& parser) {
     std::list<AnimationFilm> output;
     auto result = parser(output, text);
@@ -198,7 +219,7 @@ Sprite_MoveAction(
 
 
 void FrameRangeAnimator::Progress (timestamp_t currTime) {
-    while (currTime > lastTime && (currTime - lastTime) >= anim->GetDelay()) {
+    if (currTime > lastTime && (currTime - lastTime) >= anim->GetDelay()) {
         if (currFrame >= anim->GetEndFrame()) {
             assert(anim->IsForever() || currRep < anim->GetReps());
             currFrame = anim->GetStartFrame(); // flip to start
@@ -208,7 +229,7 @@ void FrameRangeAnimator::Progress (timestamp_t currTime) {
         }
         lastTime = currTime;
         NotifyAction(*anim);
-        if (currFrame == anim->GetEndFrame())
+        if (currFrame > anim->GetEndFrame())
             currFrame = 0;
             if (!anim->IsForever() && ++currRep == anim->GetReps()) {
                 state = ANIMATOR_FINISHED;
@@ -278,18 +299,25 @@ void InitializeFilms(){
 }
 
 FrameRangeAnimator *WalkingAnimator = new FrameRangeAnimator("WalkingAnimator");
+FrameRangeAnimator *AttackAnimatorRight = new FrameRangeAnimator("AttackAnimatorRight");
 
-const int FRAME_RATE = 60;            // Frames per second
-const double FRAME_DURATION = 1.0 / FRAME_RATE;  // Duration of each frame
+//auto *AttackLeftAnimation = new FrameRangeAnimation("AttackLeft",0,AnimationFilmHolder::GetHolder().GetFilm(AttackLeft)->GetTotalFrames()-1,0,0,0,1000/3);
+
+uint64_t FRAME_RATE = 24;            // Frames per second
+uint64_t FRAME_DURATION = 1000 / FRAME_RATE;  // Duration of each frame
 
 void InitializeAnimators(){
-    auto *WalkingAnimation = new FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,32,0,FRAME_DURATION);
+    auto *WalkingAnimation = new FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,4,0,FRAME_DURATION);
+
     WalkingAnimator->Start(WalkingAnimation,GetSystemTime());
+
     //AnimatorManager::GetManager().Register(WalkingAnimator);
     //AnimatorManager::GetManager().MarkAsRunning(WalkingAnimator);
     auto link = SpriteManager::GetSingleton().GetDisplayList().at(0);
     link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
     WalkingAnimator->SetOnAction([link](Animator* animator, const Animation& anim) {} );
+    AttackAnimatorRight->SetOnAction([link](Animator* animator, const Animation& anim) {} );
+
     FrameRange_Action(link, WalkingAnimator, *WalkingAnimator->GetAnim());
 
 }

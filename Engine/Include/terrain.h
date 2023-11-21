@@ -19,8 +19,8 @@
 #define TRANSPARENT al_map_rgba(0,0,0,0)
 #define DISPLAY_W 640
 #define DISPLAY_H 480
-#define TILESET_WIDTH 10
-#define TILESET_HEIGHT 10
+#define TILESET_WIDTH 16
+#define TILESET_HEIGHT 16
 #define TILE_WIDTH 16
 #define TILE_HEIGHT 16
 #define EMPTY_TILE 40
@@ -34,8 +34,8 @@
 #define DIV_TILE_WIDTH(i) ((i)>>4)
 #define DIV_TILE_HEIGHT(i)((i)>>4)
 #define MOD_TILE_WIDTH(i) ((i)&15)
-#define ZELDA_STARTING_POINT_X MUL_TILE_WIDTH(48)
-#define ZELDA_STARTING_POINT_Y MUL_TILE_HEIGHT(2)
+#define ZELDA_STARTING_POINT_X MUL_TILE_WIDTH(64)
+#define ZELDA_STARTING_POINT_Y MUL_TILE_HEIGHT(3)
 
 //#define MOD_TILE_HEIGHT(i)((i)&15)
 
@@ -115,7 +115,7 @@ private:
 public:
     void setTileElement(int x,int y,bool solid){this->Tile[x][y]=solid;}
     bool getTileElement(int x,int y){return this->Tile[x][y];}
-   void setNotEmpty();
+    void setNotEmpty();
     void setEmpty();
     bool isTileAssumedEmpty() const { return  empty; }
     GridTile(bool empty);
@@ -141,7 +141,7 @@ private:
 
 public:
     bool CanPassGridTile (Dim col, Dim row) const // i.e. checks if flags set
-      { return GridMap[row][col]->isTileAssumedEmpty(); }
+    { return GridMap[row][col]->isTileAssumedEmpty(); }
     bool IsOnSolidGround (const Rect& r) const { // will need later for gravity
         int dy = 1; // down 1 pixel
         FilterGridMotionDown(r, &dy);

@@ -1,7 +1,7 @@
-/Users/george/Desktop/Courses/HY-454 Video Game/Project 2023/cmake-build-debug/CMakeFiles/CS454_Super_Mario_Game.dir
-/Users/george/Desktop/Courses/HY-454 Video Game/Project 2023/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/george/Desktop/Courses/HY-454 Video Game/Project 2023/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/george/Desktop/Courses/HY-454 Video Game/Project 2023/cmake-build-debug/CMakeFiles/list_install_components.dir
-/Users/george/Desktop/Courses/HY-454 Video Game/Project 2023/cmake-build-debug/CMakeFiles/install.dir
-/Users/george/Desktop/Courses/HY-454 Video Game/Project 2023/cmake-build-debug/CMakeFiles/install/local.dir
-/Users/george/Desktop/Courses/HY-454 Video Game/Project 2023/cmake-build-debug/CMakeFiles/install/strip.dir
+/Users/george/Desktop/Courses/CS454/Project2023/cmake-build-debug/CMakeFiles/CS454_Super_Mario_Game.dir
+/Users/george/Desktop/Courses/CS454/Project2023/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/george/Desktop/Courses/CS454/Project2023/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/george/Desktop/Courses/CS454/Project2023/cmake-build-debug/CMakeFiles/list_install_components.dir
+/Users/george/Desktop/Courses/CS454/Project2023/cmake-build-debug/CMakeFiles/install.dir
+/Users/george/Desktop/Courses/CS454/Project2023/cmake-build-debug/CMakeFiles/install/local.dir
+/Users/george/Desktop/Courses/CS454/Project2023/cmake-build-debug/CMakeFiles/install/strip.dir

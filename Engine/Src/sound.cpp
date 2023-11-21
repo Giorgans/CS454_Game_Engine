@@ -21,8 +21,8 @@ ALLEGRO_MIXER *MasterMixer = NULL;
 ALLEGRO_VOICE *voice = NULL;
 uint64_t lastAttack=0;
 
-void Sound() { /**
-    if (levelsound == NULL) {
+void Sound() {
+   /* if (levelsound == NULL) {
         levelsound = al_load_sample(level);
         levelsoundInstance = al_create_sample_instance(levelsound);
     }
@@ -53,8 +53,8 @@ void Sound() { /**
         PlayAttackSound();
         lastAttack = GetSystemTime();
     }
+*/
 
-    **/
 }
 
 void PlayAttackSound(){

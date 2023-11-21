@@ -133,7 +133,7 @@ GridLayer::GridLayer (unsigned rows, unsigned cols){
     for(auto i = 0 ; i<MAX_HEIGHT ; i++)
         for(auto j = 0 ; j < MAX_WIDTH ; j++)
             GridMap[i][j] = new GridTile(true);
-     for(auto row=0 ; row < rows ; row++)
+    for(auto row=0 ; row < rows ; row++)
         for(auto col=0 ; col < cols ; col++)
             this->SetGridTile(row,col, NULL);
 }

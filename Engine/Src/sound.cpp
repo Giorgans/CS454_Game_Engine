@@ -22,6 +22,7 @@ ALLEGRO_VOICE *voice = NULL;
 uint64_t lastAttack=0;
 
 void Sound() {
+    /*
     if (levelsound == NULL) {
         levelsound = al_load_sample(level);
         levelsoundInstance = al_create_sample_instance(levelsound);
@@ -54,7 +55,7 @@ void Sound() {
         lastAttack = GetSystemTime();
     }
 
-
+*/
 }
 
 void PlayAttackSound(){

@@ -11,6 +11,7 @@
 #include "terrain.h"
 #include <filesystem>
 #include "timing.h"
+#include "sound.h"
 #include "../paths.h"
 #define WalkingRight "link.right.png"
 #define WalkingLeft "link.left.png"

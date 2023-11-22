@@ -167,6 +167,9 @@
 		<Unit filename="/Users/george/Desktop/Courses/CS454/Project2023/Engine/game.cpp">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>
+		<Unit filename="/Users/george/Desktop/Courses/CS454/Project2023/Engine/paths.h">
+			<Option target="CS454_Super_Mario_Game"/>
+		</Unit>
 		<Unit filename="/Users/george/Desktop/Courses/CS454/Project2023/app.cpp">
 			<Option target="CS454_Super_Mario_Game"/>
 		</Unit>

@@ -22,7 +22,7 @@ ALLEGRO_VOICE *voice = NULL;
 uint64_t lastAttack=0;
 
 void Sound() {
-   /* if (levelsound == NULL) {
+    if (levelsound == NULL) {
         levelsound = al_load_sample(level);
         levelsoundInstance = al_create_sample_instance(levelsound);
     }
@@ -49,11 +49,11 @@ void Sound() {
         al_set_sample_instance_playmode(levelsoundInstance, ALLEGRO_PLAYMODE_LOOP);
         al_play_sample_instance(levelsoundInstance);
     }
-    if(inputs.at("A") && inputs.at("Down") && (GetSystemTime()-lastAttack >=100) ){
+    if(inputs.at("A") && (GetSystemTime()-lastAttack >=300) ){
         PlayAttackSound();
         lastAttack = GetSystemTime();
     }
-*/
+
 
 }
 

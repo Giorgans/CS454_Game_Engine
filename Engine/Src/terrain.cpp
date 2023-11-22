@@ -17,8 +17,8 @@ void TileLayer::Display(ALLEGRO_BITMAP *dest, const Rect &displayArea){
         dpyX = MOD_TILE_WIDTH(viewWin.x);
         dpyY = MOD_TILE_WIDTH(viewWin.y);
         dpyChanged = false;
-        for (Dim row = startRow; row <= endRow; ++row)
-            for (Dim col = startCol; col <= endCol; ++col)
+        for (auto row = startRow; row <= endRow; ++row)
+            for (auto col = startCol; col <= endCol; ++col)
                 PutTile(GetBuffer(), MUL_TILE_WIDTH(col - startCol), MUL_TILE_HEIGHT(row - startRow), tileSet,GetTile(row, col));
     }
     BitmapBlitScaled(GetBuffer(),{dpyX,dpyY, viewWin.w,viewWin.h },dest,{0,0});
@@ -30,6 +30,7 @@ Dim TileY (byte index)  { return (index / TILESET_HEIGHT); }
 
 Dim TileX3 (Index index)  { return index >> TILEX_SHIFT ; }
 Dim TileY3 (Index index)  { return index & TILEY_MASK   ; }
+
 
 // Reads csv file and stores the indexes in the tile map
 bool TileLayer::ReadText(std::string path) {

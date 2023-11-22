@@ -52,7 +52,7 @@ void input(){
             if (event.keyboard.keycode == ALLEGRO_KEY_A)
                 inputs.at("A") = false;
 
-            if (event.keyboard.keycode == ALLEGRO_KEY_A)
+            if (event.keyboard.keycode == ALLEGRO_KEY_G)
                 inputs.at("G") = false;
 
             if(event.keyboard.keycode == ALLEGRO_KEY_RIGHT)

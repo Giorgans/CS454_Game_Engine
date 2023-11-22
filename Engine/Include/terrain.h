@@ -29,6 +29,10 @@
 #define MAX_HEIGHT 47
 
 // Moving tiles
+#define	TILEX_MASK	0xFF00
+#define	TILEX_SHIFT	8
+#define	TILEY_MASK	0x00FF
+
 #define MUL_TILE_WIDTH(i) ((i)<<4)
 #define MUL_TILE_HEIGHT(i)((i)<<4)
 #define DIV_TILE_WIDTH(i) ((i)>>4)
@@ -56,6 +60,9 @@ void BitmapBlitScaled(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Poi
 void BitmapBlitScaledSprite(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point);
 Dim TileX (byte index);
 Dim TileY (byte index);
+Dim TileX3 (Index index);
+Dim TileY3 (Index index);
+
 
 class TileLayer;
 class GridLayer;

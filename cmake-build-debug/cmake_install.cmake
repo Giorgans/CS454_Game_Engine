@@ -1,4 +1,4 @@
-# Install script for directory: /Users/george/Desktop/Courses/HY-454 Video Game/Project 2023
+# Install script for directory: /Users/george/Desktop/Courses/CS454/Project2023
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,7 +38,7 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/GAME_TEST" TYPE DIRECTORY FILES "/Users/george/Desktop/Courses/HY-454 Video Game/Project 2023/cmake-build-debug/CS454_Super_Mario_Game.app" USE_SOURCE_PERMISSIONS)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/GAME_TEST" TYPE DIRECTORY FILES "/Users/george/Desktop/Courses/CS454/Project2023/cmake-build-debug/CS454_Super_Mario_Game.app" USE_SOURCE_PERMISSIONS)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -49,5 +49,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/george/Desktop/Courses/HY-454 Video Game/Project 2023/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/george/Desktop/Courses/CS454/Project2023/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

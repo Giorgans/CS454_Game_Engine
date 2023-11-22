@@ -25,13 +25,17 @@ void TileLayer::Display(ALLEGRO_BITMAP *dest, const Rect &displayArea){
 }
 
 //Gets {x,y} Position of wanted tile in the tile set
-Dim TileX (byte index)  { return (index % TILESET_WIDTH)*TILE_WIDTH; }
-Dim TileY (byte index)  { return (index / TILESET_HEIGHT)*TILE_HEIGHT; }
+Dim TileX (byte index)  { return (index % TILESET_WIDTH); }
+Dim TileY (byte index)  { return (index / TILESET_HEIGHT); }
+
+Dim TileX3 (Index index)  { return index >> TILEX_SHIFT ; }
+Dim TileY3 (Index index)  { return index & TILEY_MASK   ; }
 
 // Reads csv file and stores the indexes in the tile map
 bool TileLayer::ReadText(std::string path) {
     std::string csv_value,line;
     Dim col=0,row=0;
+    Index index;
     std::ifstream file;
     file.open(path);
     if(!file.is_open()) return false;
@@ -44,7 +48,8 @@ bool TileLayer::ReadText(std::string path) {
                 this->GetGrid()->SetGridTile(row,col,new GridTile(true));
             }
             else{
-                SetTile(row,col, std::stoi(csv_value));
+                index = (MUL_TILE_WIDTH(TileX(std::stoi(csv_value))) << TILEX_SHIFT) | MUL_TILE_HEIGHT(TileY(std::stoi(csv_value)));
+                SetTile(row,col, index);
                 this->GetGrid()->SetGridTile(row,col,new GridTile(false));
             }
             col++;
@@ -82,8 +87,9 @@ void TileLayer::Scroll (float dx, float dy){
 // Draws tile to specific area of a bitmap
 void PutTile (ALLEGRO_BITMAP *dest, Dim x, Dim y, ALLEGRO_BITMAP *tiles, Index tile) {
     if(tile!=EMPTY_TILE)
-        BitmapBlit(tiles,  { TileX(tile), TileY(tile) , TILE_WIDTH, TILE_HEIGHT }, dest,{ x, y });
+        BitmapBlit(tiles,  { TileX3(tile), TileY3(tile) , TILE_WIDTH, TILE_HEIGHT }, dest,{ x, y });
 }
+
 
 // Draws a part of bitmap to an area of another bitmap
 void BitmapBlit(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point){

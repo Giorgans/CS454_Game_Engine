@@ -17,8 +17,6 @@ void input(){
 
     if(!inputs.at("locked"))
             al_wait_for_event(event_queue, &event);
-    else
-            al_flush_event_queue(event_queue);
 
     if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
         inputs.at("exit") = true;

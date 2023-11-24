@@ -3,6 +3,8 @@
 //
 
 #include "../Include/input.h"
+#include "../Include/terrain.h"
+
 extern ALLEGRO_DISPLAY *window;
 extern Rect DisplayArea;
 

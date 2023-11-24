@@ -4,6 +4,8 @@
 
 #ifndef CS454_SUPER_MARIO_GAME_TERRAIN_H
 #define CS454_SUPER_MARIO_GAME_TERRAIN_H
+
+#include "../paths.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -48,7 +50,8 @@
 #define MUL_GRID_ELEMENT_WIDTH(i) ((i)<<2)
 #define MUL_GRID_ELEMENT_HEIGHT(i) ((i)<<2)
 #define MAX_PIXEL_WIDTH MUL_TILE_WIDTH(MAX_WIDTH)
-#define MAX_PIXEL_HEIGHT MUL_TILE_HEIGHT(MAX_HEIGHT)
+#define MAX_PIXEL_HEIGHT MUL_TILE_HEIGHT(MAX_HEIGHT
+
 typedef unsigned short Dim;
 struct Rect { int x, y, w, h; };
 struct Point { int x, y; };
@@ -90,18 +93,13 @@ public:
     void Display (ALLEGRO_BITMAP *dest, const Rect& displayArea);
     void Scroll (float dx, float dy);
     Dim getCols(){return this->totalColumns;}
-    bool CanScrollHoriz (float dx){
-
-
-
-    }
     //void Save (const std::string& path) ;
     //bool Load (const std::string& path);
     bool ReadText (std::string path);
     TileLayer (Dim rows, Dim cols, ALLEGRO_BITMAP *tileSet,std::string path);
     ~TileLayer (){
         al_destroy_bitmap(GetBuffer());
-    }
+    };
 };
 
 
@@ -141,7 +139,7 @@ private:
     }
     // inside the private section
 
-    void     FilterGridMotionDown (const Rect& r, int* dy) const;
+    //void     FilterGridMotionDown (const Rect& r, int* dy) const;
     void     FilterGridMotionUp (const Rect& r, int* dy) ;
 
 public:
@@ -152,7 +150,7 @@ public:
     { return GridMap[row][col]->isTileAssumedEmpty(); }
     bool IsOnSolidGround (const Rect& r) const { // will need later for gravity
         int dy = 1; // down 1 pixel
-        FilterGridMotionDown(r, &dy);
+        //FilterGridMotionDown(r, &dy);
         return dy == 0; // if true IS attached to solid ground
     }
     ALLEGRO_BITMAP *GetBuffer(){return this->dpyBuffer;}

@@ -13,12 +13,7 @@
 #include "timing.h"
 #include "sound.h"
 #include "../paths.h"
-#define WalkingRight "link.right.png"
-#define WalkingLeft "link.left.png"
-#define DownLeft "link.DownAttack.left.png"
-#define DownRight "link.DownAttack.right.png"
-#define AttackLeft "link.attack.left.png"
-#define AttackRight "link.attack.right.png"
+
 
 void setgametime();
 

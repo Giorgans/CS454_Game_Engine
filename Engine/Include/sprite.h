@@ -9,9 +9,6 @@
 
 void Physic();
 
-#define PLAYER_TYPE "player"
-#define ENEMY_TYPE "enemy"
-
 class Clipper;
 
 template <class T> bool clip_rect(
@@ -26,8 +23,6 @@ template <class T> bool clip_rect(
 
 bool clip_r (const Rect& r, const Rect& area, Rect* result) ;
 
-// generic quantizer, can be used to filter motion with any terrain
-// motion filtering function
 
 class MotionQuantizer {
     public:

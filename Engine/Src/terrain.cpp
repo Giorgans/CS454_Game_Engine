@@ -192,14 +192,14 @@ void GridLayer::FilterGridMotion (const Rect& r, int* dx, int* dy)  {
         FilterGridMotionRight(r, dx);
     // try vertical move
     if (*dy < 0) FilterGridMotionUp(r, dy);
-    else if (*dy > 0)
-        FilterGridMotionDown(r, dy);
+    else if (*dy > 0) {}
+        //FilterGridMotionDown(r, dy);
 }
-
+/*
 void GridLayer::FilterGridMotionDown (const Rect& r, int* dy) const {
     auto y2 = r.y + r.h - 1;
     auto y2_next = y2 + *dy;
-    if (y2_next >= MAX_PIXEL_HEIGHT)
+    if (y2_next >= MAX_PIXEL_HEIGHT )
         *dy = (MAX_PIXEL_HEIGHT - 1) - y2;
     else {
         auto newRow = DIV_TILE_HEIGHT(y2_next);
@@ -217,6 +217,7 @@ void GridLayer::FilterGridMotionDown (const Rect& r, int* dy) const {
         }
     }
 }
+ */
 void GridLayer::FilterGridMotionUp (const Rect& r, int* dy) {
     auto y1_next = r.y + *dy;
     if (y1_next < 0)

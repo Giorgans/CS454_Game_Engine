@@ -7,7 +7,7 @@
 
 #include "../UnitTests/ZeldaII/ZeldaII.h"
 
-#include "UserPath.h"
+#include "UserPath.h"    // Add this file with your path as macro with the name "USER_PATH"
 
 
 #define MERGE(a, b) a b

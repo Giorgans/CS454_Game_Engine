@@ -1,10 +1,10 @@
-# CS454_Game_Engine
+# CS454 - 2D Game Engine
 ---------------------------------
 ```
-
+--- Description ---
 2D Game Engine writen in C++ with the Allegro 5 library and created as a CMake Project.
 The description of the project want to create a level from "Zelda II: The Adventures of Link"
-but the engine is as generic as possible considering the time available for this to be developed. 
+but the engine is as generic as possible considering the time available to be developed. 
 
 ```
 

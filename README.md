@@ -2,8 +2,8 @@
 ---------------------------------
 ```
 --- Description ---
-2D Game Engine writen in C++ with the Allegro 5 library and created as a CMake Project.
-The description of the project want to create a level from "Zelda II: The Adventures of Link"
+2D Game Engine written in C++ with the Allegro 5 library and created as a CMake Project.
+The description of the project wants to create a level from "Zelda II: The Adventures of Link"
 but the engine is as generic as possible considering the time available to be developed. 
 
 ```
@@ -20,8 +20,7 @@ Stylianos Michelakakis 3524
 --- Requirements ---
 -Allegro 5 library needs to be installed
 -Needs a "CMakeLists.txt" file with the right script adding allegro 5 there
--Needs a "paths.h" file inside the Engine folder with the right macros, mainly paths
- (needs absolute paths for some reason maybe will be fixed in the future)
+-Needs a "UserPath.h" file inside the Engine folder with the right macro of the user path
 
 ```
 ---------------------------------

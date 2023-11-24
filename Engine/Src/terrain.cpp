@@ -65,8 +65,8 @@ bool TileLayer::ReadText(std::string path) {
 TileLayer::TileLayer(Dim rows, Dim cols, ALLEGRO_BITMAP *tileSet,std::string path) {
     Allocate();
     auto r  = GetViewWindow();
-    r.x += ZELDA_STARTING_POINT_X;
-    r.y += ZELDA_STARTING_POINT_Y;
+    r.x += LEVEL_STARTING_POINT_X;
+    r.y += LEVEL_STARTING_POINT_Y;
     SetViewWindow(r);
     this->tileSet=tileSet;
     al_convert_mask_to_alpha(tileSet,KEY_COLOR);

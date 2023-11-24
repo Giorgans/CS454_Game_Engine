@@ -6,10 +6,74 @@
 #define CS454_SUPER_MARIO_GAME_SPRITE_H
 #include <vector>
 #include "animation.h"
-
-void Physic();
+#include "physics.h"
 
 class Clipper;
+
+class Sprite {
+public:
+    using Mover = std::function<void(const Rect&, int* dx, int* dy)>;
+protected:
+    byte frameNo = 0;
+    Rect frameBox; // inside the film
+    int x = 0, y = 0;
+    bool isVisible = false;
+    AnimationFilm* currFilm = nullptr;
+    //BoundingArea* boundingArea = nullptr;
+    unsigned zorder = 0;
+    std::string typeId, stateId;
+    Mover mover;
+    MotionQuantizer quantizer;
+    bool directMotion = false;
+    GravityHandler gravity;
+public:
+    template <typename Tfunc>
+    void SetMover(const Tfunc& f) { quantizer.SetMover(mover = f); }
+    Rect GetBox() const { return { x, y, frameBox.w, frameBox.h }; }
+    Sprite& Move (int dx, int dy) {
+        if (directMotion) { // apply unconditionally offsets! x += dx, y += dy;
+            x += dx, y += dy;
+        }
+        else {
+            quantizer.Move(GetBox(), &dx, &dy);
+            gravity.Check(GetBox());
+        }
+        return *this;
+    }
+    void SetPos(int _x, int _y) { x = _x; y = _y; }
+    void SetZorder(unsigned z) { zorder = z;}
+    unsigned GetZorder() { return zorder; }
+    void SetFrame(byte i) {
+        if (i != frameNo) {
+            assert(i < currFilm->GetTotalFrames());
+            frameBox = currFilm->GetFrameBox(frameNo = i);
+        }
+    }
+    Rect GetClipedBox(const Rect& dpyArea, const Clipper& clipper);
+
+    byte GetFrame() const { return frameNo; }
+    auto GetTypeId() -> const std::string& { return typeId; }
+    void SetVisibility (bool v) { isVisible = v; }
+    bool IsVisible() const { return isVisible; }
+    bool CollisionCheck(const Sprite* s) const;
+    GravityHandler& GetGravityHandler (void){ return gravity; }
+    Sprite& SetHasDirectMotion (bool v) { directMotion = true; return *this; }
+    bool GetHasDirectMotion (void) const { return directMotion; }
+    AnimationFilm *GetFilm(){return currFilm;}
+    void SetFilm(AnimationFilm *film)  {
+        currFilm = film;
+        frameBox = film->GetFrameBox(0);
+    }
+    void Display(ALLEGRO_BITMAP *dest, const Rect& dpyArea, const Clipper& clipper) const;
+    Sprite(int _x, int _y, AnimationFilm* film, const std::string& _typeId = "")
+            : x(_x), y(_y), currFilm(film), typeId (_typeId) {
+        frameBox = currFilm->GetFrameBox(0);
+        frameNo = currFilm->GetTotalFrames();
+        SetFrame(0);
+    }
+};
+
+
 
 template <class T> bool clip_rect(
         T  x,  T  y,  T  w,  T  h,
@@ -24,114 +88,7 @@ template <class T> bool clip_rect(
 bool clip_r (const Rect& r, const Rect& area, Rect* result) ;
 
 
-class MotionQuantizer {
-    public:
-        using Mover = std::function<void(const Rect &r, int *dx, int *dy)>;
-    protected:
-        int horizMax = 0, vertMax = 0;
-        Mover mover; // filters requested motion too! bool used = false;
-        bool used = false;
-    public:
-        MotionQuantizer& SetUsed(bool val) { used = val; }
-        MotionQuantizer& SetRange(int h, int v) {
-            horizMax = h,vertMax = v;
-            SetUsed(true);
-            return *this;
-        }
-        MotionQuantizer& SetMover(const Mover & f) {
-            mover = f;
-            return *this;
-        }
-        void Move(const Rect& r, int* dx, int* dy);
-        MotionQuantizer() = default;
-        MotionQuantizer(const MotionQuantizer&) = default;
-};
 
-class GravityHandler {
-public:
-    using OnSolidGroundPred = std::function<bool(const Rect&)>;
-    using OnStartFalling = std::function<void(void)>;
-    using OnStopFalling = std::function<void(void)>;
-protected:
-    bool gravityAddicted = true;
-    bool isFalling = false;
-    OnSolidGroundPred onSolidGround;
-    OnStartFalling onStartFalling;
-    OnStopFalling onStopFalling;
-public:
-    template <typename T> void SetOnStartFalling (const T & f)
-    {onStartFalling = f;}
-    template <typename T> void SetOnStopFalling (const T& f)
-    {onStopFalling = f;}
-    template <typename T> void SetOnSolidGround (const T& f)
-    {onSolidGround = f;}
-    void Reset (void) { isFalling = false; }
-    void Check (const Rect& r);
-
-};
-
-class Sprite {
-    public:
-        using Mover = std::function<void(const Rect&, int* dx, int* dy)>;
-    protected:
-        byte frameNo = 0;
-        Rect frameBox; // inside the film
-        int x = 0, y = 0;
-        bool isVisible = false;
-        AnimationFilm* currFilm = nullptr;
-        //BoundingArea* boundingArea = nullptr;
-        unsigned zorder = 0;
-        std::string typeId, stateId;
-        Mover mover;
-        MotionQuantizer quantizer;
-        bool directMotion = false;
-        GravityHandler gravity;
-    public:
-        template <typename Tfunc>
-        void SetMover(const Tfunc& f) { quantizer.SetMover(mover = f); }
-        Rect GetBox() const { return { x, y, frameBox.w, frameBox.h }; }
-        Sprite& Move (int dx, int dy) {
-            if (directMotion) { // apply unconditionally offsets! x += dx, y += dy;
-                x += dx, y += dy;
-            }
-            else {
-                quantizer.Move(GetBox(), &dx, &dy);
-                gravity.Check(GetBox());
-            }
-            return *this;
-        }
-        void SetPos(int _x, int _y) { x = _x; y = _y; }
-        void SetZorder(unsigned z) { zorder = z;}
-        unsigned GetZorder() { return zorder; }
-        void SetFrame(byte i) {
-            if (i != frameNo) {
-                assert(i < currFilm->GetTotalFrames());
-                frameBox = currFilm->GetFrameBox(frameNo = i);
-            }
-        }
-        Rect GetClipedBox(const Rect& dpyArea, const Clipper& clipper);
-
-        byte GetFrame() const { return frameNo; }
-        auto GetTypeId() -> const std::string& { return typeId; }
-        void SetVisibility (bool v) { isVisible = v; }
-        bool IsVisible() const { return isVisible; }
-        bool CollisionCheck(const Sprite* s) const;
-        GravityHandler& GetGravityHandler (void){ return gravity; }
-        Sprite& SetHasDirectMotion (bool v) { directMotion = true; return *this; }
-        bool GetHasDirectMotion (void) const { return directMotion; }
-        AnimationFilm *GetFilm(){return currFilm;}
-        void SetFilm(AnimationFilm *film)  {
-            currFilm = film;
-            frameBox = film->GetFrameBox(0);
-        }
-    void Display(ALLEGRO_BITMAP *dest, const Rect& dpyArea, const Clipper& clipper) const;
-    Sprite(int _x, int _y, AnimationFilm* film, const std::string& _typeId = "")
-    : x(_x), y(_y), currFilm(film), typeId (_typeId) {
-        frameBox = currFilm->GetFrameBox(0);
-        frameNo = currFilm->GetTotalFrames();
-            SetFrame(0);
-    }
-};
 
 class SpriteManager  {
     public:

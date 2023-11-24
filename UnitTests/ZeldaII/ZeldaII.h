@@ -6,12 +6,33 @@
 #define CS454_GAME_ENGINE_ZELDAII_H
 
 
-#define AnimationBitmaps "/Users/george/Desktop/Courses/CS454/Project2023/UnitTests/ZeldaII/Media/AnimationFilmBitmaps"
-#define TILESET_FILE_PATH "/Users/george/Desktop/Courses/CS454/Project2023/UnitTests/ZeldaII/Media/Zelda-II-Parapa-Palace-Tileset.png"
-#define BACKGROUND_CSV_FILE_PATH "/Users/george/Desktop/Courses/CS454/Project2023/UnitTests/ZeldaII/Media/zelda2map_background.csv"
-#define TERRAIN_CSV_FILE_PATH "/Users/george/Desktop/Courses/CS454/Project2023/UnitTests/ZeldaII/Media/zelda2map_terrain.csv"
+
+
+#define KEY_COLOR al_map_rgb(0,0,1)
+#define EMPTY_TILE 40
+
+
+#define AnimationBitmaps "/Users/george/Desktop/Courses/CS454/Project2023/UnitTests/ZeldaII/Media/AnimationFilmBitmaps/Link"
 #define ICON_FILE_PATH "/Users/george/Desktop/Courses/CS454/Project2023/UnitTests/ZeldaII/Media/icon.jpg"
 #define dummy ""
+
+#define PARAPA_PALACE_LEVEL_TILESET_PATH "/Users/george/Desktop/Courses/CS454/Project2023/UnitTests/ZeldaII/Media/Levels/ParapaPalace/tileset.png"
+#define PARAPA_PALACE_LEVEL_BACKGROUND_CSV_PATH "/Users/george/Desktop/Courses/CS454/Project2023/UnitTests/ZeldaII/Media/Levels/ParapaPalace/parapa_palace_background.csv"
+#define PARAPA_PALACE_LEVEL_TERRAIN_CSV_PATH "/Users/george/Desktop/Courses/CS454/Project2023/UnitTests/ZeldaII/Media/Levels/ParapaPalace/parapa_palace_terrain.csv"
+#define PARAPA_PALACE_LEVEL_STARTING_POINT_X 64 << 4
+#define PARAPA_PALACE_LEVEL_STARTING_POINT_Y 3 << 4
+#define PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_X  66 << 4
+#define PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_Y  12 << 4
+
+
+#define ZELDA_STARTING_LEVEL_TILESET_PATH           PARAPA_PALACE_LEVEL_TILESET_PATH
+#define ZELDA_STARTING_LEVEL_BACKGROUND_CSV_PATH    PARAPA_PALACE_LEVEL_BACKGROUND_CSV_PATH
+#define ZELDA_STARTING_LEVEL_TERRAIN_CSV_PATH       PARAPA_PALACE_LEVEL_TERRAIN_CSV_PATH
+#define ZELDA_STARTING_LEVEL_STARTING_POINT_X       PARAPA_PALACE_LEVEL_STARTING_POINT_X
+#define ZELDA_STARTING_LEVEL_STARTING_POINT_Y       PARAPA_PALACE_LEVEL_STARTING_POINT_Y
+
+#define LINK_STARTING_POINT_X                       PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_X
+#define LINK_STARTING_POINT_Y                       PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_Y
 
 #define WalkingRight "link.right.png"
 #define WalkingLeft "link.left.png"

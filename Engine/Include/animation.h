@@ -216,7 +216,7 @@ class MovingPathAnimation : public Animation {
         MovingPathAnimation(
                 const std::string &_id,
                 const Path &_path
-                ) : path(_path), Animation(id) {}
+                ) : path(_path), Animation(_id) {}
 };
 
 /**
@@ -244,7 +244,7 @@ class FlashAnimation : public Animation {
         unsigned GetShowDeay() const { return showDelay; }
         Animation *Clone() const override { return new FlashAnimation(id, repetitions, hideDelay, showDelay); }
         FlashAnimation(const std::string &_id, unsigned n, unsigned show, unsigned hide)
-                : Animation(id), repetitions(n), hideDelay(hide), showDelay(show) {}
+                : Animation(_id), repetitions(n), hideDelay(hide), showDelay(show) {}
 };
 
 struct ScrollEntry {
@@ -289,7 +289,7 @@ class TickAnimation : public Animation {
             return new TickAnimation(id, delay, reps, true);
         }
         TickAnimation (const std::string& _id, unsigned d, unsigned r, bool discrete) :
-                Animation(id), delay(d), reps(r), isDiscrete(discrete) { assert(Inv());
+                Animation(_id), delay(d), reps(r), isDiscrete(discrete) { assert(Inv());
         }
 };
 

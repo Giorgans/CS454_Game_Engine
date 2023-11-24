@@ -16,7 +16,6 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 
-#define KEY_COLOR al_map_rgb(0,0,1)
 #define WHITE al_map_rgb(255, 255, 255)
 #define TRANSPARENT al_map_rgba(0,0,0,0)
 #define DISPLAY_W 640
@@ -25,7 +24,6 @@
 #define TILESET_HEIGHT 16
 #define TILE_WIDTH 16
 #define TILE_HEIGHT 16
-#define EMPTY_TILE 40
 //Max storage of tile map
 #define MAX_WIDTH 481
 #define MAX_HEIGHT 46
@@ -40,10 +38,6 @@
 #define DIV_TILE_WIDTH(i) ((i)>>4)
 #define DIV_TILE_HEIGHT(i)((i)>>4)
 #define MOD_TILE_WIDTH(i) ((i)&15)
-#define ZELDA_STARTING_POINT_X MUL_TILE_WIDTH(64)
-#define ZELDA_STARTING_POINT_Y MUL_TILE_HEIGHT(3)
-#define LINK_STARTING_POINT_X MUL_TILE_WIDTH(66)
-#define LINK_STARTING_POINT_Y MUL_TILE_HEIGHT(12)
 
 #define DIV_GRID_ELEMENT_WIDTH(i) ((i)>>2)
 #define DIV_GRID_ELEMENT_HEIGHT(i) ((i)>>2)

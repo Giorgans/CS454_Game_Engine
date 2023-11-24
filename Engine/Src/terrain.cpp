@@ -109,7 +109,7 @@ void BitmapBlitScaled(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Poi
 // Draws a scaled part of bitmap to an area of another bitmap
 void BitmapBlitScaledSprite(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point){
     al_set_target_bitmap(dest);
-    al_draw_scaled_bitmap(src,src_rect.x,src_rect.y,src_rect.w,src_rect.h,dest_point.x,dest_point.y,32,32,0);
+    al_draw_scaled_bitmap(src,src_rect.x,src_rect.y,src_rect.w,src_rect.h,dest_point.x,dest_point.y,src_rect.w,32,0);
     al_unlock_bitmap(dest);
 }
 
@@ -256,30 +256,36 @@ void GridLayer::FilterGridMotionRight (const Rect& r, int* dx) {
 
             for (auto row = startRow; row <= endRow; ++row) {
                 if (!GetGridTile(row, newCol)->isTileAssumedEmpty()) {
-                    *dx = 0;
+                    *dx = MUL_TILE_WIDTH(newCol) - 1 - x2 ;
                     break;
                 }
+
             }
         }
     }
 }
 
 void GridLayer::FilterGridMotionLeft (const Rect& r, int* dx) {
-    auto x1_next = r.x + *dx;
-    if (x1_next < 0)
-        *dx = -r.x;
+    auto x2 = r.x ;
+    auto x2_next = x2 + *dx;
+    if (x2_next >= MAX_PIXEL_WIDTH)
+        *dx = (MAX_PIXEL_WIDTH - 1) - x2;
     else {
-        auto newCol = DIV_GRID_ELEMENT_WIDTH(x1_next);
-        auto currCol = DIV_GRID_ELEMENT_WIDTH(r.x);
+
+        auto newCol = DIV_TILE_WIDTH(x2_next) ;
+        auto currCol = DIV_TILE_WIDTH(x2);
+
         if (newCol != currCol) {
             assert(newCol + 1 == currCol); // we really move left
-            auto startRow = DIV_GRID_ELEMENT_HEIGHT(r.y);
-            auto endRow = DIV_GRID_ELEMENT_HEIGHT(r.y + r.h - 1);
+            auto startRow = DIV_TILE_HEIGHT(r.y);
+            auto endRow = DIV_TILE_HEIGHT(r.y + r.h - 1);
+
             for (auto row = startRow; row <= endRow; ++row) {
-                if (!CanPassGridTile(newCol, row)) {
-                    *dx = MUL_GRID_ELEMENT_WIDTH(currCol) - r.x;
+                if (!GetGridTile(row, newCol)->isTileAssumedEmpty()) {
+                    *dx = MUL_TILE_WIDTH(currCol) - r.x ;
                     break;
                 }
+
             }
         }
     }

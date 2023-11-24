@@ -143,10 +143,10 @@ private:
 
     void     FilterGridMotionDown (const Rect& r, int* dy) const;
     void     FilterGridMotionUp (const Rect& r, int* dy) ;
-    void     FilterGridMotionLeft (const Rect& r, int* dx) ;
 
 public:
     void     FilterGridMotionRight (const Rect& r, int* dx) ;
+    void     FilterGridMotionLeft (const Rect& r, int* dx) ;
 
     bool CanPassGridTile (Dim col, Dim row) const // i.e. checks if flags set
     { return GridMap[row][col]->isTileAssumedEmpty(); }

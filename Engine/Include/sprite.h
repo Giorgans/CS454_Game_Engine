@@ -108,30 +108,32 @@ class Sprite {
         void SetPos(int _x, int _y) { x = _x; y = _y; }
         void SetZorder(unsigned z) { zorder = z;}
         unsigned GetZorder() { return zorder; }
-    void SetFrame(byte i) {
+        void SetFrame(byte i) {
             if (i != frameNo) {
                 assert(i < currFilm->GetTotalFrames());
-                frameBox = currFilm->GetFrameBox(frameNo = i); }
-    }
-    Rect GetClipedBox(const Rect& dpyArea, const Clipper& clipper);
+                frameBox = currFilm->GetFrameBox(frameNo = i);
+            }
+        }
+        Rect GetClipedBox(const Rect& dpyArea, const Clipper& clipper);
 
-    byte GetFrame() const { return frameNo; }
-    auto GetTypeId() -> const std::string& { return typeId; }
-    void SetVisibility (bool v) { isVisible = v; }
-    bool IsVisible() const { return isVisible; }
-    bool CollisionCheck(const Sprite* s) const;
-    GravityHandler& GetGravityHandler (void){ return gravity; }
-    Sprite& SetHasDirectMotion (bool v) { directMotion = true; return *this; }
-    bool GetHasDirectMotion (void) const { return directMotion; }
-    AnimationFilm *GetFilm(){return currFilm;}
-    void SetFilm(AnimationFilm *film)  {
-        currFilm = film;
-        frameBox = film->GetFrameBox(0);
-    }
+        byte GetFrame() const { return frameNo; }
+        auto GetTypeId() -> const std::string& { return typeId; }
+        void SetVisibility (bool v) { isVisible = v; }
+        bool IsVisible() const { return isVisible; }
+        bool CollisionCheck(const Sprite* s) const;
+        GravityHandler& GetGravityHandler (void){ return gravity; }
+        Sprite& SetHasDirectMotion (bool v) { directMotion = true; return *this; }
+        bool GetHasDirectMotion (void) const { return directMotion; }
+        AnimationFilm *GetFilm(){return currFilm;}
+        void SetFilm(AnimationFilm *film)  {
+            currFilm = film;
+            frameBox = film->GetFrameBox(0);
+        }
     void Display(ALLEGRO_BITMAP *dest, const Rect& dpyArea, const Clipper& clipper) const;
     Sprite(int _x, int _y, AnimationFilm* film, const std::string& _typeId = "")
     : x(_x), y(_y), currFilm(film), typeId (_typeId) {
-            frameNo = currFilm->GetTotalFrames();
+        frameBox = currFilm->GetFrameBox(0);
+        frameNo = currFilm->GetTotalFrames();
             SetFrame(0);
     }
 };

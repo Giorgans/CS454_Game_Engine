@@ -84,10 +84,11 @@ void Animations(){
                 background->Scroll(4, 0);
                 terrain->Scroll(4, 0);
             }
-            int dx = 4;
+            int dx = LinkAnimator->GetAnim()->GetDx();
 
             terrain->GetGrid()->FilterGridMotionRight(Link->GetBox(),&dx);
             Link->SetHasDirectMotion(true).Move(dx,0);
+
             Link->SetFrame(LinkAnimator->GetCurrFrame());
 
         }
@@ -107,10 +108,12 @@ void Animations(){
                 background->Scroll(-4, 0);
                 terrain->Scroll(-4, 0);
             }
-            //background->Scroll(-8, 0);
-            //terrain->Scroll(-8, 0);
-            int dx = -4, dy = 0;
-            Link->SetHasDirectMotion(true).Move(dx, 0);
+
+            int dx = -LinkAnimator->GetAnim()->GetDx();
+
+            terrain->GetGrid()->FilterGridMotionLeft(Link->GetBox(),&dx);
+            Link->SetHasDirectMotion(true).Move(dx,0);
+
             Link->SetFrame(LinkAnimator->GetCurrFrame());
 
         }
@@ -266,10 +269,20 @@ void InitializeFilms(){
         if (f.path().filename() != ".DS_Store") { // hidden file on mac folder
             ALLEGRO_BITMAP *bitmap = BitmapLoader::GetLoader().Load(f.path().filename());
             if (bitmap == NULL)assert(false);
-            int frames = int(al_get_bitmap_width(bitmap) / 32);
+            int frames;
+            int width;
+            if(f.path().filename() == WalkingLeft || f.path().filename() == WalkingRight){
+                 frames = int(al_get_bitmap_width(bitmap) / 16);
+                width = 16;
+            }
+            else {
+                frames = int(al_get_bitmap_width(bitmap) / 32);
+                width = 32;
+            }
+
             std::vector<Rect> boxes = {};
             for (int i = 0; i < frames; i++)
-                boxes.push_back({i * 32, 0, 32, 32});
+                boxes.push_back({i * width, 0, width, 32});
             AnimationFilm *film = new AnimationFilm(bitmap, boxes, f.path().filename());
 
             AnimationFilmHolder::GetHolder().Store(f.path().filename(), film);

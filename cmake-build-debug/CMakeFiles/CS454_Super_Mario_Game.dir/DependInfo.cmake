@@ -19,8 +19,8 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/george/Desktop/Courses/CS454/Project2023/app.cpp" "CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.o" "gcc" "CMakeFiles/CS454_Super_Mario_Game.dir/app.cpp.o.d"
   )
 
-# Targets to which this target links.
-set(CMAKE_TARGET_LINKED_INFO_FILES
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_LINKED_INFO_FILES
   )
 
 # Fortran module output directory.

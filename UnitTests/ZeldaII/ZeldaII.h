@@ -12,13 +12,13 @@
 #define EMPTY_TILE 40
 
 
-#define AnimationBitmaps "/Users/george/Desktop/Courses/CS454/Project2023/UnitTests/ZeldaII/Media/AnimationFilmBitmaps/Link"
-#define ICON_FILE_PATH "/Users/george/Desktop/Courses/CS454/Project2023/UnitTests/ZeldaII/Media/icon.jpg"
+#define Zelda2_AnimationBitmaps "/UnitTests/ZeldaII/Media/AnimationFilmBitmaps/Link"
+#define ZELDAII_ICON_PATH "/UnitTests/ZeldaII/Media/icon.jpg"
 #define dummy ""
 
-#define PARAPA_PALACE_LEVEL_TILESET_PATH "/Users/george/Desktop/Courses/CS454/Project2023/UnitTests/ZeldaII/Media/Levels/ParapaPalace/tileset.png"
-#define PARAPA_PALACE_LEVEL_BACKGROUND_CSV_PATH "/Users/george/Desktop/Courses/CS454/Project2023/UnitTests/ZeldaII/Media/Levels/ParapaPalace/parapa_palace_background.csv"
-#define PARAPA_PALACE_LEVEL_TERRAIN_CSV_PATH "/Users/george/Desktop/Courses/CS454/Project2023/UnitTests/ZeldaII/Media/Levels/ParapaPalace/parapa_palace_terrain.csv"
+#define PARAPA_PALACE_LEVEL_TILESET_PATH "/UnitTests/ZeldaII/Media/Levels/ParapaPalace/tileset.png"
+#define PARAPA_PALACE_LEVEL_BACKGROUND_CSV_PATH "/UnitTests/ZeldaII/Media/Levels/ParapaPalace/parapa_palace_background.csv"
+#define PARAPA_PALACE_LEVEL_TERRAIN_CSV_PATH "/UnitTests/ZeldaII/Media/Levels/ParapaPalace/parapa_palace_terrain.csv"
 #define PARAPA_PALACE_LEVEL_STARTING_POINT_X 64 << 4
 #define PARAPA_PALACE_LEVEL_STARTING_POINT_Y 3 << 4
 #define PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_X  66 << 4

@@ -17,8 +17,8 @@ uint64_t getgametime(){ return currT; }
 void Animations(){
 
     Sprite * Link =  SpriteManager::GetSingleton().GetDisplayList().at(0);
-    auto *AttackRightAnimation = new FrameRangeAnimation("AttackRight",0,AnimationFilmHolder::GetHolder().GetFilm(AttackRight)->GetTotalFrames()-1,0,0,0,1000/2);
-    auto *WalkingAnimation = new FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,4,0,1000/30);
+    auto *AttackRightAnimation = new FrameRangeAnimation("AttackRight",0,AnimationFilmHolder::GetHolder().GetFilm(AttackRight)->GetTotalFrames()-1,0,0,0,1000/3);
+    auto *WalkingAnimation = new FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,4,0,1000/10);
 
     if(inputs.at("locked")){
         if(Link->GetFilm()->GetID() == AttackRight || Link->GetFilm()->GetID() == AttackLeft ){
@@ -84,8 +84,10 @@ void Animations(){
                 background->Scroll(4, 0);
                 terrain->Scroll(4, 0);
             }
-            Link->SetHasDirectMotion(true).Move(LinkAnimator->GetAnim()->GetDx(),
-                                                LinkAnimator->GetAnim()->GetDy()).SetHasDirectMotion(false);
+            int dx = 4;
+
+            terrain->GetGrid()->FilterGridMotionRight(Link->GetBox(),&dx);
+            Link->SetHasDirectMotion(true).Move(dx,0);
             Link->SetFrame(LinkAnimator->GetCurrFrame());
 
         }
@@ -108,7 +110,7 @@ void Animations(){
             //background->Scroll(-8, 0);
             //terrain->Scroll(-8, 0);
             int dx = -4, dy = 0;
-            Link->SetHasDirectMotion(true).Move(dx, 0).SetHasDirectMotion(false);
+            Link->SetHasDirectMotion(true).Move(dx, 0);
             Link->SetFrame(LinkAnimator->GetCurrFrame());
 
         }

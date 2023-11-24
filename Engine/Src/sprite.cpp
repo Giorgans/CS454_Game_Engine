@@ -6,6 +6,23 @@
 SpriteManager SpriteManager::singleton;
 extern TileLayer terrain;
 
+bool clip_r (const Rect& r, const Rect& area, Rect* result) {
+    return clip_rect(
+            r.x,
+            r.y,
+            r.w,
+            r.h,
+            area.x,
+            area.y,
+            area.w,
+            area.h,
+            &result->x,
+            &result->y,
+            &result->w,
+            &result->h
+    );
+}
+
 void MotionQuantizer::Move (const Rect& r, int* dx, int* dy) {
     if (!used)
         mover(r, dx, dy);
@@ -30,9 +47,8 @@ void MotionQuantizer::Move (const Rect& r, int* dx, int* dy) {
 
 bool Clipper::Clip (const Rect& r, const Rect& dpyArea, Point* dpyPos, Rect* clippedBox) const {
     Rect visibleArea;
-    if (!clip_rect(r, view(), &visibleArea)) {
-        clippedBox->w = clippedBox->h = 0; return false;
-    }
+    if (!clip_r(r, view(), &visibleArea))
+    { clippedBox->w = clippedBox->h = 0; return false; }
     else {
         // clippedBox is in ‘r’ coordinates, sub-rectangle of the input rectangle
         clippedBox->x = r.x - visibleArea.x;
@@ -46,38 +62,41 @@ bool Clipper::Clip (const Rect& r, const Rect& dpyArea, Point* dpyPos, Rect* cli
 
         return true;
     }
+
 }
 
 void Sprite::Display (ALLEGRO_BITMAP *dest, const Rect& dpyArea, const Clipper& clipper) const {
-    Rect clippedBox;
-    Point dpyPos;
+    Rect   clippedBox;
+    Point  dpyPos;
+
     if (clipper.Clip(GetBox(), dpyArea, &dpyPos, &clippedBox)) {
-        Rect clippedFrame { frameBox.x + clippedBox.x,
-                            frameBox.y + clippedBox.y,
-                            clippedBox.w,
-                            clippedBox.h
+
+        Rect clippedFrame {
+                frameBox.x + clippedBox.x,
+                frameBox.y + clippedBox.y,
+                clippedBox.w,
+                clippedBox.h
         };
-        BitmapBlitScaledSprite(currFilm->GetBitmap(),clippedFrame,dest,dpyPos);
+
+        BitmapBlitScaledSprite(
+                currFilm->GetBitmap(),
+                clippedFrame,
+                dest,
+                dpyPos
+        );
     }
+
+
 }
+
+
 
 const Clipper MakeTileLayerClipper (TileLayer* layer) {
     return Clipper().SetView(
-            [layer]() { return layer->GetViewWindow(); }
+            [layer](void)
+            { return layer->GetViewWindow(); }
     );
 }
-
-bool clip_rect(const Rect& r, const Rect& area, Rect* result) {
-    return clipping(
-            r.x,r.y,
-            r.w,r.h,
-            area.x,area.y,
-            area.w,area.h,
-            &result->x,&result->y,
-            &result->w,&result->h
-    );
-}
-
 void GravityHandler::Check (const Rect& r) {
     if (gravityAddicted) {
         if (onSolidGround(r)) { if (isFalling) {
@@ -109,7 +128,7 @@ void FrameRange_Action (Sprite* sprite, Animator* animator, const FrameRangeAnim
 }
 
 void createLink() {
-    Sprite *Link = new Sprite(ZELDA_STARTING_POINT_X+30,ZELDA_STARTING_POINT_Y+375,AnimationFilmHolder::GetHolder().Load(WalkingRight),"Link");
+    Sprite *Link = new Sprite(LINK_STARTING_POINT_X,LINK_STARTING_POINT_Y,AnimationFilmHolder::GetHolder().Load(WalkingRight),"Link");
     Link->SetVisibility(true);
     Link->SetZorder(1);
     SpriteManager::GetSingleton().Add(Link);

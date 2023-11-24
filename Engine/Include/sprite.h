@@ -8,12 +8,23 @@
 #include "animation.h"
 
 void Physic();
-void ProgAnimation();
 
 #define PLAYER_TYPE "player"
 #define ENEMY_TYPE "enemy"
 
 class Clipper;
+
+template <class T> bool clip_rect(
+        T  x,  T  y,  T  w,  T  h,
+        T  wx, T  wy, T  ww, T  wh,
+        T* cx, T* cy, T* cw, T* ch
+) {
+    *cw = T(std::min(wx + ww, x + w)) - (*cx = T(std::max(wx, x)));
+    *ch = T(std::min(wy + wh, y + h)) - (*cy = T(std::max(wy, y)));
+    return *cw > 0 && *ch > 0;
+}
+
+bool clip_r (const Rect& r, const Rect& area, Rect* result) ;
 
 // generic quantizer, can be used to filter motion with any terrain
 // motion filtering function
@@ -85,8 +96,9 @@ class Sprite {
         void SetMover(const Tfunc& f) { quantizer.SetMover(mover = f); }
         Rect GetBox() const { return { x, y, frameBox.w, frameBox.h }; }
         Sprite& Move (int dx, int dy) {
-            if (directMotion) // apply unconditionally offsets! x += dx, y += dy;
+            if (directMotion) { // apply unconditionally offsets! x += dx, y += dy;
                 x += dx, y += dy;
+            }
             else {
                 quantizer.Move(GetBox(), &dx, &dy);
                 gravity.Check(GetBox());
@@ -101,6 +113,8 @@ class Sprite {
                 assert(i < currFilm->GetTotalFrames());
                 frameBox = currFilm->GetFrameBox(frameNo = i); }
     }
+    Rect GetClipedBox(const Rect& dpyArea, const Clipper& clipper);
+
     byte GetFrame() const { return frameNo; }
     auto GetTypeId() -> const std::string& { return typeId; }
     void SetVisibility (bool v) { isVisible = v; }
@@ -147,20 +161,7 @@ template <typename Tnum> int number_sign(Tnum x) {
     return x > 0 ? 1 : x < 0 ? -1 : 0;
 }
 
-template <class T> bool clipping(
-        T x, T y,
-        T w, T h,
-        T wx,T wy,
-        T ww,T wh,
-        T* cx, T* cy
-        ,T* cw,T* ch
-){
-    *cw = T(std::min(wx + ww, x + w)) - (*cx = T(std::max(wx, x)));
-    *ch = T(std::min(wy + wh, y + h)) - (*cy = T(std::max(wy, y)));
-    return *cw > 0 && *ch > 0;
-}
 
-bool clip_rect(const Rect& r, const Rect& area, Rect* result);
 // generic clipper assuming any terrain-based view // and any bitmap-based display area
 class Clipper {
     public:
@@ -178,6 +179,7 @@ class Clipper {
         Clipper() = default;
         Clipper(const Clipper&) = default;
 };
+
 const Clipper MakeTileLayerClipper (TileLayer* layer) ;
 void PrepareSpriteGravityHandler (GridLayer* gridLayer, Sprite* sprite) ;
 void FrameRange_Action (Sprite* sprite, Animator* animator, const FrameRangeAnimation& anim) ;

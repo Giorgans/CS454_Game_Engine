@@ -3,6 +3,8 @@
 //
 #include "../Include/animation.h"
 #include "../Include/input.h"
+#include "../Include/rendering.h"
+
 uint64_t FRAME_RATE = 24;            // Frames per second
 uint64_t FRAME_DURATION = 1000 / FRAME_RATE;  // Duration of each frame
 
@@ -138,6 +140,11 @@ void Animations(){
         }
     }
 }
+
+
+void AnimationFilm::DisplayFrame (ALLEGRO_BITMAP *dest, const Point& at, byte frameNo) const
+{BitmapBlit(bitmap,GetFrameBox(frameNo),dest,at);}
+
 
 /***************************************
  *  Animation Film Holder implementation

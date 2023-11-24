@@ -14,7 +14,6 @@
 #include "sound.h"
 #include "../paths.h"
 
-
 void setgametime();
 
 void Animations();
@@ -30,8 +29,7 @@ class AnimationFilm {
         ALLEGRO_BITMAP *GetBitmap(){ return bitmap; }
         auto GetID ()  { return id; }
         const Rect& GetFrameBox (byte frameNo) const { assert(boxes.size()>frameNo); return boxes[frameNo]; }
-        void DisplayFrame (ALLEGRO_BITMAP *dest, const Point& at, byte frameNo) const
-            {BitmapBlit(bitmap,GetFrameBox(frameNo),dest,at);}
+        void DisplayFrame (ALLEGRO_BITMAP *dest, const Point& at, byte frameNo) const;
         void SetBitmap (ALLEGRO_BITMAP *b) { assert(!bitmap); this->bitmap = b; }
         void Append (const Rect& r) { boxes.push_back(r); }
         AnimationFilm (const std::string& _id) : id (_id){}

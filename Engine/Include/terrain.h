@@ -6,6 +6,7 @@
 #define CS454_SUPER_MARIO_GAME_TERRAIN_H
 
 #include "../paths.h"
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -52,9 +53,6 @@ struct Point { int x, y; };
 typedef unsigned char byte;
 typedef unsigned short Index;
 void PutTile (ALLEGRO_BITMAP *dest, Dim x, Dim y, ALLEGRO_BITMAP *tiles, Index tile);
-void BitmapBlit(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point);
-void BitmapBlitScaled(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point);
-void BitmapBlitScaledSprite(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point);
 Dim TileX (byte index);
 Dim TileY (byte index);
 Dim TileX3 (Index index);

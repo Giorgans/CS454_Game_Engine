@@ -2,9 +2,10 @@
 // Created by Georgios Zervos on 7/11/22.
 //
 #include "../Include/sprite.h"
+#include "../Include/rendering.h"
 
 SpriteManager SpriteManager::singleton;
-extern TileLayer terrain;
+extern TileLayer *terrain;
 
 bool clip_r (const Rect& r, const Rect& area, Rect* result) {
     return clip_rect(
@@ -115,9 +116,6 @@ void PrepareSpriteGravityHandler (GridLayer* gridLayer, Sprite* sprite) {
     sprite->GetGravityHandler().SetOnSolidGround([gridLayer](const Rect& r){ return gridLayer->IsOnSolidGround(r); });
 }
 
-void Physic() {
-    PrepareSpriteGravityHandler(terrain.GetGrid(), SpriteManager::GetSingleton().GetDisplayList().at(0));
-}
 
 
 void FrameRange_Action (Sprite* sprite, Animator* animator, const FrameRangeAnimation& anim) {

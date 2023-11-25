@@ -2,8 +2,8 @@
 // Created by Georgios Zervos on 8/12/21.
 //
 
-#ifndef CS454_SUPER_MARIO_GAME_RENDERING_H
-#define CS454_SUPER_MARIO_GAME_RENDERING_H
+#ifndef CS454_GAME_ENGINE_RENDERING_H
+#define CS454_GAME_ENGINE_RENDERING_H
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <iostream>
@@ -23,4 +23,4 @@ void BitmapBlitScaled(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Poi
 void BitmapBlitScaledSprite(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point);
 
 
-#endif //CS454_SUPER_MARIO_GAME_RENDERING_H
+#endif //CS454_GAME_ENGINE_RENDERING_H

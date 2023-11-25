@@ -2,8 +2,8 @@
 // Created by Georgios Zervos on 18/11/21.
 //
 
-#ifndef CS454_SUPER_MARIO_GAME_TERRAIN_H
-#define CS454_SUPER_MARIO_GAME_TERRAIN_H
+#ifndef CS454_GAME_ENGINE_TERRAIN_H
+#define CS454_GAME_ENGINE_TERRAIN_H
 
 #include "../paths.h"
 
@@ -157,4 +157,4 @@ public:
 };
 
 
-#endif //CS454_SUPER_MARIO_GAME_TERRAIN_H
+#endif //CS454_GAME_ENGINE_TERRAIN_H

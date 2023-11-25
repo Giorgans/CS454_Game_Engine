@@ -19,7 +19,7 @@
 #include "Engine/Include/animation.h"
 #include "Engine/Include/sound.h"
 
-    namespace app {
+namespace app {
     class Game { // app::Game namespace, the mother application//
         public:
             using Action = std::function<void(void)>;
@@ -53,7 +53,6 @@
             void CollisionChecking() { Invoke(collisions); }
             void CommitDestructions() { Invoke(destruct); }
             void UserCode() { Invoke(user); }
-
     };
 
 

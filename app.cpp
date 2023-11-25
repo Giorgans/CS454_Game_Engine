@@ -6,34 +6,36 @@
 
 using namespace app;
 
-class ZeldaII : public App {
-    public:
+class ZeldaII: public App {
+public:
     static const bool NotDone() { return  false;}
     static const bool Done(){return true;}
 
     void Initialise(void){
-            assert(al_init());
-            assert(al_init_primitives_addon());
-            assert(al_install_keyboard());
-            assert(al_install_audio());
-            assert(al_init_image_addon());
-            assert(al_init_font_addon());
-            assert(al_init_acodec_addon());
-            GetGame().SetDone(NotDone);
-            GetGame().SetRender(Rendering);
-            GetGame().SetInput(input);
-            GetGame().SetPhysics( Physic);
-            GetGame().SetProgressAnimations(Animations);
+        assert(al_init());
+        assert(al_init_primitives_addon());
+        assert(al_install_keyboard());
+        assert(al_install_audio());
+        assert(al_init_image_addon());
+        assert(al_init_font_addon());
+        assert(al_init_acodec_addon());
 
-            InitializeBitmaps();
-            InitializeFilms();
-            InitializeSprites();
-            InitializeAnimators();
-            InitializeInputs();
+        GetGame().SetDone(NotDone);
+        GetGame().SetRender(Rendering);
+        GetGame().SetInput(input);
+        GetGame().SetPhysics( Physic);
+        GetGame().SetProgressAnimations(Animations);
+
+        InitializeBitmaps();
+        InitializeFilms();
+        InitializeSprites();
+        InitializeAnimators();
+        InitializeInputs();
     }
-        void Load(void){  }
-        void Clear(void){  }
+    void Load(void){  }
+    void Clear(void){  }
 };
+
 
 int main(int argc, char **argv)
 {

@@ -2,13 +2,12 @@
 // Created by Georgios Zervos on 22/11/23.
 //
 
-#ifndef CS454_SUPER_MARIO_GAME_PATHS_H
-#define CS454_SUPER_MARIO_GAME_PATHS_H
+#ifndef CS454_GAME_ENGINE_PATHS_H
+#define CS454_GAME_ENGINE_PATHS_H
 
 #include "../UnitTests/ZeldaII/ZeldaII.h"
 
 #include "UserPath.h"    // Add this file with your path as macro with the name "USER_PATH"
-
 
 #define MERGE(a, b) a b
 
@@ -24,4 +23,4 @@
 #define PLAYER_STARTING_POINT_Y     LINK_STARTING_POINT_Y
 
 
-#endif //CS454_SUPER_MARIO_GAME_PATHS_H
+#endif //CS454_GAME_ENGINE_PATHS_H

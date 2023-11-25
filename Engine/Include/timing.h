@@ -1,8 +1,8 @@
 //
 // Created by Georgios Zervos on 17/11/21.
 //
-#ifndef CS454_SUPER_MARIO_GAME_TIMING_H
-#define CS454_SUPER_MARIO_GAME_TIMING_H
+#ifndef CS454_GAME_ENGINE_TIMING_H
+#define CS454_GAME_ENGINE_TIMING_H
 
 #include <chrono>
 
@@ -20,4 +20,4 @@ class SystemClock final {
 
 uint64_t GetSystemTime (void);
 
-#endif //CS454_SUPER_MARIO_GAME_TIMING_H
+#endif //CS454_GAME_ENGINE_TIMING_H

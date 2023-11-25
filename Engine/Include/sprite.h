@@ -2,8 +2,8 @@
 // Created by Georgios Zervos on 7/11/22.
 //
 
-#ifndef CS454_SUPER_MARIO_GAME_SPRITE_H
-#define CS454_SUPER_MARIO_GAME_SPRITE_H
+#ifndef CS454_GAME_ENGINE_SPRITE_H
+#define CS454_GAME_ENGINE_SPRITE_H
 #include <vector>
 #include "animation.h"
 #include "physics.h"
@@ -140,4 +140,4 @@ void FrameRange_Action (Sprite* sprite, Animator* animator, const FrameRangeAnim
 void InitializeSprites();
 
 
-#endif //CS454_SUPER_MARIO_GAME_SPRITE_H
+#endif //CS454_GAME_ENGINE_SPRITE_H

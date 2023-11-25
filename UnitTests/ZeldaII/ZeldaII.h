@@ -5,15 +5,53 @@
 #ifndef CS454_GAME_ENGINE_ZELDAII_H
 #define CS454_GAME_ENGINE_ZELDAII_H
 
-
-
+#define FRAME_DURATION 1000/60
 
 #define KEY_COLOR al_map_rgb(0,0,1)
 #define EMPTY_TILE 40
 
+/***************************************
+ *  Macros of paths                   *
+ **************************************/
 
 #define Zelda2_AnimationBitmaps "/UnitTests/ZeldaII/Media/AnimationFilmBitmaps/Link"
 #define ZELDAII_ICON_PATH "/UnitTests/ZeldaII/Media/icon.jpg"
+
+
+/***************************************
+ *  Choosing Starting level macros    *
+ **************************************/
+
+#define ZELDA_STARTING_LEVEL_TILESET_PATH           PARAPA_PALACE_LEVEL_TILESET_PATH
+#define ZELDA_STARTING_LEVEL_BACKGROUND_CSV_PATH    PARAPA_PALACE_LEVEL_BACKGROUND_CSV_PATH
+#define ZELDA_STARTING_LEVEL_TERRAIN_CSV_PATH       PARAPA_PALACE_LEVEL_TERRAIN_CSV_PATH
+
+/***************************************
+ *  Starting Position macros for render *
+ **************************************/
+
+#define ZELDA_STARTING_LEVEL_STARTING_POINT_X       PARAPA_PALACE_LEVEL_STARTING_POINT_X
+#define ZELDA_STARTING_LEVEL_STARTING_POINT_Y       PARAPA_PALACE_LEVEL_STARTING_POINT_Y
+
+#define LINK_STARTING_POINT_X                       PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_X
+#define LINK_STARTING_POINT_Y                       PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_Y
+
+/***************************************
+ *  Player's Moveset macros for lookup *
+ **************************************/
+
+#define WalkingRight "link.right.png"
+#define WalkingLeft "link.left.png"
+#define WalkingUp "" // For top-down 2D games
+#define WalkingDown ""  // For top-down 2D games
+#define DownLeft "link.DownAttack.left.png"
+#define DownRight "link.DownAttack.right.png"
+#define AttackLeft "link.attack.left.png"
+#define AttackRight "link.attack.right.png"
+
+/***************************************
+ *  Parapa Palace Level Macros         *
+***************************************/
 
 #define PARAPA_PALACE_LEVEL_TILESET_PATH "/UnitTests/ZeldaII/Media/Levels/ParapaPalace/tileset.png"
 #define PARAPA_PALACE_LEVEL_BACKGROUND_CSV_PATH "/UnitTests/ZeldaII/Media/Levels/ParapaPalace/parapa_palace_background.csv"
@@ -24,23 +62,19 @@
 #define PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_Y  12 << 4
 
 
-#define ZELDA_STARTING_LEVEL_TILESET_PATH           PARAPA_PALACE_LEVEL_TILESET_PATH
-#define ZELDA_STARTING_LEVEL_BACKGROUND_CSV_PATH    PARAPA_PALACE_LEVEL_BACKGROUND_CSV_PATH
-#define ZELDA_STARTING_LEVEL_TERRAIN_CSV_PATH       PARAPA_PALACE_LEVEL_TERRAIN_CSV_PATH
-#define ZELDA_STARTING_LEVEL_STARTING_POINT_X       PARAPA_PALACE_LEVEL_STARTING_POINT_X
-#define ZELDA_STARTING_LEVEL_STARTING_POINT_Y       PARAPA_PALACE_LEVEL_STARTING_POINT_Y
+/***************************************
+ *  Initialization Functions          *
+ **************************************/
 
-#define LINK_STARTING_POINT_X                       PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_X
-#define LINK_STARTING_POINT_Y                       PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_Y
+void InitializeBitmaps();
+void InitializeFilms();
+void InitializeAnimators();
+void InitializeInputs();
 
-#define WalkingRight "link.right.png"
-#define WalkingLeft "link.left.png"
-#define WalkingUp "" // For top-down 2D games
-#define WalkingDown ""  // For top-down 2D games
-#define DownLeft "link.DownAttack.left.png"
-#define DownRight "link.DownAttack.right.png"
-#define AttackLeft "link.attack.left.png"
-#define AttackRight "link.attack.right.png"
+
+/***************************************
+ *  Creating Sprites Functions        *
+ **************************************/
 
 void createLink();
 

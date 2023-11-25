@@ -2,8 +2,8 @@
 // Created by Georgios Zervos on 6/11/22.
 //
 
-#ifndef CS454_SUPER_MARIO_GAME_ANIMATION_H
-#define CS454_SUPER_MARIO_GAME_ANIMATION_H
+#ifndef CS454_GAME_ENGINE_ANIMATION_H
+#define CS454_GAME_ENGINE_ANIMATION_H
 #include <vector>
 #include <list>
 #include <map>
@@ -444,8 +444,5 @@ class AnimatorManager {
 
 };
 
-void InitializeBitmaps();
-void InitializeFilms();
-void InitializeAnimators();
 
-#endif //CS454_SUPER_MARIO_GAME_ANIMATION_H
+#endif //CS454_GAME_ENGINE_ANIMATION_H

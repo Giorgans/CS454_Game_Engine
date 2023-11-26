@@ -1,10 +1,10 @@
 //
 // Created by Georgios Zervos on 23/1/23.
 //
-#include "../Include/sound.h"
-#include "../Include/timing.h"
-#include "../paths.h"
+#include "../ZeldaII.h"
 #include <map>
+#include <allegro5/allegro_audio.h>
+
 extern std::map<std::string,bool> inputs;
 
 #define FREQUENCY 44100
@@ -21,14 +21,14 @@ ALLEGRO_MIXER *MasterMixer = NULL;
 ALLEGRO_VOICE *voice = NULL;
 uint64_t lastAttack=0;
 
-void Sound() {
-/*
+void ZeldaII_Sound() {
+
     if (levelsound == NULL) {
-        levelsound = al_load_sample(LEVEL_MUSIC_PATH);
+        levelsound = al_load_sample(ZELDA_II_PALACE_INTRO_MUSIC);
         levelsoundInstance = al_create_sample_instance(levelsound);
     }
     if (AttackSound == NULL) {
-        AttackSound = al_load_sample(ATTACK_SOUND);
+        AttackSound = al_load_sample(ZELDA_II_ATTACK_SOUND);
         AttackSoundInstance = al_create_sample_instance(AttackSound);
     }
     if(Levelmixer == NULL)
@@ -50,12 +50,12 @@ void Sound() {
         al_set_sample_instance_playmode(levelsoundInstance, ALLEGRO_PLAYMODE_LOOP);
         al_play_sample_instance(levelsoundInstance);
     }
-    if(inputs.at("A") && (GetSystemTime()-lastAttack >=300) ){
+ /*   if(inputs.at("A") && (GetSystemTime()-lastAttack >=300) ){
         PlayAttackSound();
         lastAttack = GetSystemTime();
-    }
+    }*/
 
-*/
+
 }
 
 void PlayAttackSound(){

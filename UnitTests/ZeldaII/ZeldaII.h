@@ -4,6 +4,10 @@
 
 #ifndef CS454_GAME_ENGINE_ZELDAII_H
 #define CS454_GAME_ENGINE_ZELDAII_H
+#include <allegro5/allegro.h>
+#include "allegro5/allegro_image.h"
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_font.h>
 
 #define FRAME_DURATION 1000/60 // 60 FPS
 
@@ -71,6 +75,7 @@
 void ZeldaII_Rendering();
 void ZeldaII_Animations();
 void ZeldaII_Input();
+void ZeldaII_Sound();
 
 /***************************************
  *  Animation Functions               *

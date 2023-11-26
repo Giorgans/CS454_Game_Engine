@@ -15,7 +15,6 @@
 #include "allegro5/allegro_acodec.h"
 
 #include "Engine/Include/rendering.h"
-#include "Engine/Include/input.h"
 #include "Engine/Include/animation.h"
 #include "Engine/Include/sound.h"
 

@@ -5,7 +5,7 @@
 #ifndef CS454_GAME_ENGINE_ZELDAII_H
 #define CS454_GAME_ENGINE_ZELDAII_H
 
-#define FRAME_DURATION 1000/60
+#define FRAME_DURATION 1000/60 // 60 FPS
 
 #define KEY_COLOR al_map_rgb(0,0,1)
 #define EMPTY_TILE 40
@@ -16,7 +16,10 @@
 
 #define Zelda2_AnimationBitmaps "/UnitTests/ZeldaII/Media/AnimationFilmBitmaps/Link"
 #define ZELDAII_ICON_PATH "/UnitTests/ZeldaII/Media/icon.jpg"
-
+#define ZELDA_II_TITLE_SCREEN_MUSIC "/UnitTests/ZeldaII/Media/Sound/01. Title Screen - Prologue.wav"
+#define ZELDA_II_PALACE_INTRO_MUSIC "/UnitTests/ZeldaII/Media/Sound/12. Palace Theme 1.wav"
+#define ZELDA_II_PALACE_NOINTRO_MUSIC "UnitTests/ZeldaII/Media/Sound/13. Palace Theme 1 (No Intro).wav"
+#define ZELDA_II_ATTACK_SOUND "UnitTests/ZeldaII/Media/Sound/attack.wav"
 
 /***************************************
  *  Choosing Starting level macros    *
@@ -61,6 +64,26 @@
 #define PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_X  66 << 4
 #define PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_Y  12 << 4
 
+/***************************************
+ *  Main Loop Functions               *
+ **************************************/
+
+void ZeldaII_Rendering();
+void ZeldaII_Animations();
+void ZeldaII_Input();
+
+/***************************************
+ *  Animation Functions               *
+ **************************************/
+
+void Link_Animations();
+
+/***************************************
+ *  Creating Sprites Functions        *
+ **************************************/
+
+void createLink();
+
 
 /***************************************
  *  Initialization Functions          *
@@ -71,12 +94,6 @@ void InitializeFilms();
 void InitializeAnimators();
 void InitializeInputs();
 
-
-/***************************************
- *  Creating Sprites Functions        *
- **************************************/
-
-void createLink();
 
 
 #endif //CS454_GAME_ENGINE_ZELDAII_H

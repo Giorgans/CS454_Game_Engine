@@ -12,7 +12,6 @@
 #include <vector>
 #include <sstream>
 #include "sprite.h"
-#include "input.h"
 #include "../paths.h"
 /** Definitions for tiles */
 

@@ -21,10 +21,10 @@ public:
         assert(al_init_acodec_addon());
 
         GetGame().SetDone(NotDone);
-        GetGame().SetRender(Rendering);
-        GetGame().SetInput(input);
+        GetGame().SetRender(ZeldaII_Rendering);
+        GetGame().SetInput(ZeldaII_Input);
         GetGame().SetPhysics( Physic);
-        GetGame().SetProgressAnimations(Animations);
+        GetGame().SetProgressAnimations( ZeldaII_Animations);
 
         InitializeBitmaps();
         InitializeFilms();

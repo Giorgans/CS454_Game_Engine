@@ -2,9 +2,9 @@
 // Created by Georgios Zervos on 23/1/23.
 //
 #include "../Include/sound.h"
-#include "../Include/input.h"
 #include "../Include/timing.h"
-
+#include "../paths.h"
+#include <map>
 extern std::map<std::string,bool> inputs;
 
 #define FREQUENCY 44100
@@ -22,13 +22,13 @@ ALLEGRO_VOICE *voice = NULL;
 uint64_t lastAttack=0;
 
 void Sound() {
-    /*
+/*
     if (levelsound == NULL) {
-        levelsound = al_load_sample(level);
+        levelsound = al_load_sample(LEVEL_MUSIC_PATH);
         levelsoundInstance = al_create_sample_instance(levelsound);
     }
     if (AttackSound == NULL) {
-        AttackSound = al_load_sample(attack);
+        AttackSound = al_load_sample(ATTACK_SOUND);
         AttackSoundInstance = al_create_sample_instance(AttackSound);
     }
     if(Levelmixer == NULL)

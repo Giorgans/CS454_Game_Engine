@@ -25,7 +25,7 @@ class AnimationFilm {
     public:
         auto GetBoxes() const { return boxes; }
         int GetTotalFrames() const { return boxes.size(); }
-        ALLEGRO_BITMAP *GetBitmap(){ return bitmap; }
+        ALLEGRO_BITMAP * GetBitmap() const { return bitmap; }
         auto GetID ()  { return id; }
         const Rect& GetFrameBox (byte frameNo) const { assert(boxes.size()>frameNo); return boxes[frameNo]; }
         void DisplayFrame (ALLEGRO_BITMAP *dest, const Point& at, byte frameNo) const;

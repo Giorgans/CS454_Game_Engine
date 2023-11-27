@@ -18,7 +18,7 @@
  *  Macros of paths                   *
  **************************************/
 
-#define Zelda2_AnimationBitmaps "/UnitTests/ZeldaII/Media/AnimationFilmBitmaps/Link"
+#define Zelda2_AnimationBitmaps "/UnitTests/ZeldaII/Media/AnimationFilmBitmaps"
 #define ZELDAII_ICON_PATH "/UnitTests/ZeldaII/Media/icon.jpg"
 #define ZELDA_II_TITLE_SCREEN_MUSIC "/UnitTests/ZeldaII/Media/Sound/01. Title Screen - Prologue.wav"
 #define ZELDA_II_PALACE_INTRO_MUSIC "/UnitTests/ZeldaII/Media/Sound/12. Palace Theme 1.wav"
@@ -44,8 +44,10 @@
 #define LINK_STARTING_POINT_Y                       PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_Y
 
 /***************************************
- *  Player's Moveset macros for lookup *
+ *  File macros for lookup           *
  **************************************/
+
+#define TitleScreen "titlescreen.png"
 
 #define WalkingRight "link.right.png"
 #define WalkingLeft "link.left.png"
@@ -78,10 +80,18 @@ void ZeldaII_Input();
 void ZeldaII_Sound();
 
 /***************************************
+ *  Rendering Functions               *
+ **************************************/
+
+void tittle_screen_rendering();
+void parapa_palace_level_rendering();
+
+/***************************************
  *  Animation Functions               *
  **************************************/
 
 void Link_Animations();
+void TitleScreenAnimations();
 
 /***************************************
  *  Creating Sprites Functions        *
@@ -89,6 +99,18 @@ void Link_Animations();
 
 void createLink();
 
+/***************************************
+ *  Input Functions                    *
+ **************************************/
+
+void TitleScreenInputs();
+void MainGameInputs();
+
+/***************************************
+ *  Sound Functions                   *
+ **************************************/
+
+void PlayAttackSound();
 
 /***************************************
  *  Initialization Functions          *
@@ -98,7 +120,7 @@ void InitializeBitmaps();
 void InitializeFilms();
 void InitializeAnimators();
 void InitializeInputs();
-
+void InitializeSprites();
 
 
 #endif //CS454_GAME_ENGINE_ZELDAII_H

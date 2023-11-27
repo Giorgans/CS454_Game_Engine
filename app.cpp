@@ -23,7 +23,7 @@ public:
         GetGame().SetDone(NotDone);
         GetGame().SetRender(ZeldaII_Rendering);
         GetGame().SetInput(ZeldaII_Input);
-        GetGame().SetPhysics( Physic);
+       // GetGame().SetPhysics( Physic);
         GetGame().SetProgressAnimations( ZeldaII_Animations);
         GetGame().SetSound(ZeldaII_Sound);
 

@@ -5,7 +5,7 @@
 #include "../../../Engine/Include/sprite.h"
 #include "../../../Engine/Include/rendering.h"
 
-extern FrameRangeAnimator *PlayerAnimator;
+extern FrameRangeAnimator *PlayerAnimator,*TitleScreenAnimator;
 extern uint64_t currT;
 extern std::map<std::string,bool> inputs;
 extern TileLayer *terrain,*background;
@@ -15,15 +15,22 @@ extern TileLayer *terrain,*background;
  **************************************/
 
 void ZeldaII_Animations(){
-
-    Link_Animations();
-
+    if(!inputs.at("start")) {
+        TitleScreenAnimations();
+    }
+    else {
+        Link_Animations();
+    }
 }
 
 
 /***************************************
  *  Animation Functions               *
  **************************************/
+
+void TitleScreenAnimations(){
+    TitleScreenAnimator->Progress(currT);
+}
 
 void Link_Animations(){
 

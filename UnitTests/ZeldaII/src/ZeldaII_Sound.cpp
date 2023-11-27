@@ -19,10 +19,9 @@ ALLEGRO_MIXER *Levelmixer = NULL;
 ALLEGRO_MIXER *SFXmixer = NULL;
 ALLEGRO_MIXER *MasterMixer = NULL;
 ALLEGRO_VOICE *voice = NULL;
-uint64_t lastAttack=0;
 
 void ZeldaII_Sound() {
-
+/*
     if (levelsound == NULL) {
         levelsound = al_load_sample(ZELDA_II_PALACE_INTRO_MUSIC);
         levelsoundInstance = al_create_sample_instance(levelsound);
@@ -50,7 +49,7 @@ void ZeldaII_Sound() {
         al_set_sample_instance_playmode(levelsoundInstance, ALLEGRO_PLAYMODE_LOOP);
         al_play_sample_instance(levelsoundInstance);
     }
- /*   if(inputs.at("A") && (GetSystemTime()-lastAttack >=300) ){
+    if(inputs.at("A") && (GetSystemTime()-lastAttack >=300) ){
         PlayAttackSound();
         lastAttack = GetSystemTime();
     }*/

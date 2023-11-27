@@ -124,9 +124,3 @@ void FrameRange_Action (Sprite* sprite, Animator* animator, const FrameRangeAnim
         sprite->Move(anim.GetDx(), anim.GetDy());
     sprite->SetFrame(frameRangeAnimator->GetCurrFrame());
 }
-
-
-
-void InitializeSprites(){
-    createLink();
-}

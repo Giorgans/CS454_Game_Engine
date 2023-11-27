@@ -137,7 +137,6 @@ class Clipper {
 const Clipper MakeTileLayerClipper (TileLayer* layer) ;
 void PrepareSpriteGravityHandler (GridLayer* gridLayer, Sprite* sprite) ;
 void FrameRange_Action (Sprite* sprite, Animator* animator, const FrameRangeAnimation& anim) ;
-void InitializeSprites();
 
 
 #endif //CS454_GAME_ENGINE_SPRITE_H

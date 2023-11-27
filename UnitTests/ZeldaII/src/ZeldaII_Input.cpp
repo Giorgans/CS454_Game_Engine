@@ -5,7 +5,8 @@ extern ALLEGRO_DISPLAY *window;
 extern Rect DisplayArea;
 
 std::map<std::string,bool> inputs;
-ALLEGRO_EVENT_QUEUE* event_queue = al_create_event_queue();
+
+ALLEGRO_EVENT_QUEUE* event_queue;
 ALLEGRO_EVENT event;
 
 void ZeldaII_Input(){
@@ -16,6 +17,9 @@ void ZeldaII_Input(){
 }
 
 void TitleScreenInputs() {
+    if(!event_queue){
+        event_queue = al_create_event_queue();
+    }
     al_register_event_source(event_queue, al_get_keyboard_event_source());
 
     // Check if there's an event and process it

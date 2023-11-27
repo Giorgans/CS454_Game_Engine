@@ -9,6 +9,7 @@ public:
     static const bool Done(){return true;}
 
     void Initialise(void){
+
         assert(al_init());
         assert(al_init_primitives_addon());
         assert(al_install_keyboard());

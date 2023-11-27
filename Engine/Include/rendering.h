@@ -1,7 +1,3 @@
-//
-// Created by Georgios Zervos on 8/12/21.
-//
-
 #ifndef CS454_GAME_ENGINE_RENDERING_H
 #define CS454_GAME_ENGINE_RENDERING_H
 #include <allegro5/allegro.h>
@@ -13,9 +9,13 @@
 #include <sstream>
 #include "sprite.h"
 #include "../paths.h"
-/** Definitions for tiles */
 
 void Rendering();
+
+
+/***************************************
+ *  Generic Rendering Functions       *
+ **************************************/
 
 void BitmapBlit(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point);
 void BitmapBlitScaled(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point);

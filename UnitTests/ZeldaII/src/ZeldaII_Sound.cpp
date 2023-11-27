@@ -1,6 +1,3 @@
-//
-// Created by Georgios Zervos on 23/1/23.
-//
 #include "../ZeldaII.h"
 #include <map>
 #include <allegro5/allegro_audio.h>

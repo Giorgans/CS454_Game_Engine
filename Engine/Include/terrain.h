@@ -1,7 +1,3 @@
-//
-// Created by Georgios Zervos on 18/11/21.
-//
-
 #ifndef CS454_GAME_ENGINE_TERRAIN_H
 #define CS454_GAME_ENGINE_TERRAIN_H
 
@@ -17,11 +13,21 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 
+/***************************************
+ *  Macros for Rendering             *
+ **************************************/
+
 #define BLACK al_map_rgb(0,0,0)
 #define WHITE al_map_rgb(255, 255, 255)
 #define TRANSPARENT al_map_rgba(0,0,0,0)
 #define DISPLAY_W 640
 #define DISPLAY_H 480
+
+
+/***************************************
+ *  Macros for Tile Layer Class       *
+ **************************************/
+
 #define TILESET_WIDTH 16
 #define TILESET_HEIGHT 16
 #define TILE_WIDTH 16
@@ -63,6 +69,10 @@ Dim TileY3 (Index index);
 class TileLayer;
 class GridLayer;
 
+/***************************************
+ *  Tile Layer Class                  *
+ **************************************/
+
 class TileLayer {
 private:
     Index map[MAX_HEIGHT][MAX_WIDTH] ;
@@ -95,8 +105,11 @@ public:
     };
 };
 
+/************************************************
+ *  Macros for Grid Tile and Grid Layer Classes *
+ ***********************************************/
 
-/** Definitions for Grid */
+
 #define GRID_ELEMENT_WIDTH 4
 #define GRID_ELEMENT_HEIGHT 4
 #if TILE_WIDTH % GRID_ELEMENT_WIDTH != 0
@@ -105,6 +118,10 @@ public:
 #if TILE_HEIGHT % GRID_ELEMENT_HEIGHT != 0
 #error "TILE_HEIGHT % GRID_ELEMENT_HEIGHT must be zero!"
 #endif
+
+/***************************************
+ *  Grid Tile and Grid Layer Classes  *
+ **************************************/
 
 class GridTile{
 private:

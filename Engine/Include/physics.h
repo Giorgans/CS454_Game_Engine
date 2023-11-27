@@ -1,13 +1,12 @@
-//
-// Created by Georgios Zervos on 24/11/23.
-//
-
 #ifndef CS454_GAME_ENGINE_PHYSICS_H
 #define CS454_GAME_ENGINE_PHYSICS_H
 #include "terrain.h"
 
 void Physic();
 
+/*****************************************
+ *  Gravity Handler Class and functions *
+ ****************************************/
 
 class GravityHandler {
 public:
@@ -32,6 +31,12 @@ public:
 
 };
 
+//void PrepareSpriteGravityHandler (GridLayer* gridLayer, Sprite* sprite) ;
+
+
+/***************************************
+ *   Motion Quantizer Class           *
+ **************************************/
 
 class MotionQuantizer {
 public:

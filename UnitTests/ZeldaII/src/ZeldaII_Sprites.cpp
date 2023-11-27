@@ -1,6 +1,3 @@
-//
-// Created by Georgios Zervos on 27/11/23.
-//
 
 #include "../../../Engine/Include/sprite.h"
 

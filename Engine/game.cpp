@@ -1,6 +1,3 @@
-//
-// Created by Georgios Zervos on 6/12/21.
-//
 #include "../app.h"
 
 extern std::map<std::string,bool> inputs;

@@ -1,6 +1,3 @@
-//
-// Created by Georgios Zervos on 17/11/21.
-//
 
 #ifndef CS454_SUPER_MARIO_GAME_APP_H
 #define CS454_SUPER_MARIO_GAME_APP_H

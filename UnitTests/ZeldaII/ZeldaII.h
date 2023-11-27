@@ -1,6 +1,3 @@
-//
-// Created by Georgios Zervos on 24/11/23.
-//
 
 #ifndef CS454_GAME_ENGINE_ZELDAII_H
 #define CS454_GAME_ENGINE_ZELDAII_H

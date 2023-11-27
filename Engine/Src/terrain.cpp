@@ -1,8 +1,9 @@
-//
-// Created by Georgios Zervos on 18/11/21.
-//
 #include "../Include/terrain.h"
 #include "../Include/rendering.h"
+
+/**********************************************
+ *  Tile Layer Class Function Implementations *
+ *********************************************/
 
 // Draws the tiles in dpybuffer and blits it in the backbuffer
 void TileLayer::Display(ALLEGRO_BITMAP *dest, const Rect &displayArea){
@@ -24,13 +25,6 @@ void TileLayer::Display(ALLEGRO_BITMAP *dest, const Rect &displayArea){
     }
     BitmapBlitScaled(GetBuffer(),{dpyX,dpyY, viewWin.w,viewWin.h },dest,{0,0});
 }
-
-//Gets {x,y} Position of wanted tile in the tile set
-Dim TileX (byte index)  { return (index % TILESET_WIDTH); }
-Dim TileY (byte index)  { return (index / TILESET_HEIGHT); }
-
-Dim TileX3 (Index index)  { return index >> TILEX_SHIFT ; }
-Dim TileY3 (Index index)  { return index & TILEY_MASK   ; }
 
 
 // Reads csv file and stores the indexes in the tile map
@@ -86,15 +80,11 @@ void TileLayer::Scroll (float dx, float dy){
 
 }
 
-// Draws tile to specific area of a bitmap
-void PutTile (ALLEGRO_BITMAP *dest, Dim x, Dim y, ALLEGRO_BITMAP *tiles, Index tile) {
-    if(tile!=EMPTY_TILE)
-        BitmapBlit(tiles,  { TileX3(tile), TileY3(tile) , TILE_WIDTH, TILE_HEIGHT }, dest,{ x, y });
-}
 
 
-
-/*************************** Grid implemetation  ********************************/
+/************************************************************
+ *  Grid Tile and Grid Layer Class Function Implementations *
+ ***********************************************************/
 
 GridTile::GridTile(bool empty){
     if(empty)
@@ -271,3 +261,23 @@ void GridLayer::FilterGridMotionLeft (const Rect& r, int* dx) {
         }
     }
 }
+
+/***************************************
+ *  Displauing Each Tile from tileset  *
+ **************************************/
+
+void PutTile (ALLEGRO_BITMAP *dest, Dim x, Dim y, ALLEGRO_BITMAP *tiles, Index tile) {
+    if(tile!=EMPTY_TILE)
+        BitmapBlit(tiles,  { TileX3(tile), TileY3(tile) , TILE_WIDTH, TILE_HEIGHT }, dest,{ x, y });
+}
+
+/********************************************************
+ *  Finding the position in pixels for each tile index  *
+ *******************************************************/
+
+//Gets {x,y} Position of wanted tile in the tile set
+Dim TileX (byte index)  { return (index % TILESET_WIDTH); }
+Dim TileY (byte index)  { return (index / TILESET_HEIGHT); }
+
+Dim TileX3 (Index index)  { return index >> TILEX_SHIFT ; }
+Dim TileY3 (Index index)  { return index & TILEY_MASK   ; }

@@ -1,6 +1,3 @@
-//
-// Created by Georgios Zervos on 8/12/21.
-//
 #include "../Include/rendering.h"
 
 

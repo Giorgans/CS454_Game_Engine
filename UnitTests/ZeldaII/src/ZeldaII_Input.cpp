@@ -1,6 +1,3 @@
-//
-// Created by Georgios Zervos on 15/12/21.
-//
 #include "../ZeldaII.h"
 #include "../../../Engine/Include/terrain.h"
 #include <map>

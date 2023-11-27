@@ -1,7 +1,3 @@
-//
-// Created by Georgios Zervos on 26/11/23.
-//
-
 #include "../../../Engine/Include/rendering.h"
 
 ALLEGRO_DISPLAY *window = nullptr;

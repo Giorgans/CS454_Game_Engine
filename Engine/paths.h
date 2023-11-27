@@ -1,6 +1,3 @@
-//
-// Created by Georgios Zervos on 22/11/23.
-//
 
 #ifndef CS454_GAME_ENGINE_PATHS_H
 #define CS454_GAME_ENGINE_PATHS_H

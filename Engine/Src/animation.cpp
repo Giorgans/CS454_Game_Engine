@@ -1,6 +1,3 @@
-//
-// Created by Georgios Zervos on 6/11/22.
-//
 #include "../Include/animation.h"
 #include "../Include/rendering.h"
 

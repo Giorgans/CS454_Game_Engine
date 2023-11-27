@@ -1,10 +1,12 @@
-//
-// Created by Georgios Zervos on 17/11/21.
-//
 #ifndef CS454_GAME_ENGINE_TIMING_H
 #define CS454_GAME_ENGINE_TIMING_H
 
 #include <chrono>
+
+/***************************************
+ *  Main Clock Class                  *
+ **************************************/
+
 
 class SystemClock final {
     private:

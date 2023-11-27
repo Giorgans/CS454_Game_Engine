@@ -1,10 +1,11 @@
-//
-// Created by Georgios Zervos on 17/11/21.
-//
 #include <allegro5/allegro.h>
 #include "../Include/timing.h"
 
 SystemClock SystemClock::Clock;
+
+/**********************************************
+ *  Main Clock Class function implementations *
+ *********************************************/
 
 uint64_t SystemClock::milli_secs () const {
     return std::chrono::duration_cast<std::chrono::milliseconds>

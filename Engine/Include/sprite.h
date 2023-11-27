@@ -1,7 +1,3 @@
-//
-// Created by Georgios Zervos on 7/11/22.
-//
-
 #ifndef CS454_GAME_ENGINE_SPRITE_H
 #define CS454_GAME_ENGINE_SPRITE_H
 #include <vector>
@@ -9,6 +5,10 @@
 #include "physics.h"
 
 class Clipper;
+
+/***************************************
+ *  Sprite Class                      *
+ **************************************/
 
 class Sprite {
 public:
@@ -73,7 +73,9 @@ public:
     }
 };
 
-
+/*******************************************
+ * Cliping Class and functions for Sprites *
+ ******************************************/
 
 template <class T> bool clip_rect(
         T  x,  T  y,  T  w,  T  h,
@@ -87,7 +89,35 @@ template <class T> bool clip_rect(
 
 bool clip_r (const Rect& r, const Rect& area, Rect* result) ;
 
+template <typename Tnum> int number_sign(Tnum x) {
+    return x > 0 ? 1 : x < 0 ? -1 : 0;
+}
 
+
+// generic clipper assuming any terrain-based view // and any bitmap-based display area
+class Clipper {
+public:
+    using View = std::function<const Rect&(void)>;
+private:
+    View view;
+public:
+    Clipper& SetView(const View & f) { view = f; return *this; }
+    bool Clip (
+            const Rect& r,
+            const Rect& dpyArea,
+            Point* dpyPos,
+            Rect* clippedBox
+    ) const;
+    Clipper() = default;
+    Clipper(const Clipper&) = default;
+};
+
+const Clipper MakeTileLayerClipper (TileLayer* layer) ;
+
+
+/***************************************
+ *  Sprite Manager Singleton          *
+ **************************************/
 
 
 class SpriteManager  {
@@ -97,7 +127,7 @@ class SpriteManager  {
     private:
         SpriteList dpyList;
         TypeLists types;
-        static SpriteManager singleton;
+        static SpriteManager Manager;
     public:
         void Add (Sprite* s) {
             dpyList.push_back(s);
@@ -105,37 +135,14 @@ class SpriteManager  {
         void Remove (Sprite* s);
         SpriteList GetDisplayList() { return dpyList; }
         auto GetTypeList(const std::string& typeId) -> const SpriteList& { return types[typeId]; }
-        static auto GetSingleton()-> SpriteManager&{ return singleton; }
-        static auto GetSingletonConst() -> const SpriteManager& { return singleton; }
+        static auto GetSingleton()-> SpriteManager&{ return Manager; }
+        static auto GetSingletonConst() -> const SpriteManager& { return Manager; }
         SpriteManager() {};
 
 };
 
-template <typename Tnum> int number_sign(Tnum x) {
-    return x > 0 ? 1 : x < 0 ? -1 : 0;
-}
 
 
-// generic clipper assuming any terrain-based view // and any bitmap-based display area
-class Clipper {
-    public:
-        using View = std::function<const Rect&(void)>;
-    private:
-        View view;
-    public:
-        Clipper& SetView(const View & f) { view = f; return *this; }
-        bool Clip (
-                const Rect& r,
-                const Rect& dpyArea,
-                Point* dpyPos,
-                Rect* clippedBox
-        ) const;
-        Clipper() = default;
-        Clipper(const Clipper&) = default;
-};
-
-const Clipper MakeTileLayerClipper (TileLayer* layer) ;
-void PrepareSpriteGravityHandler (GridLayer* gridLayer, Sprite* sprite) ;
 void FrameRange_Action (Sprite* sprite, Animator* animator, const FrameRangeAnimation& anim) ;
 
 

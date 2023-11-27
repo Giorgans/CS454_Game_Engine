@@ -1,7 +1,3 @@
-//
-// Created by Georgios Zervos on 6/11/22.
-//
-
 #ifndef CS454_GAME_ENGINE_ANIMATION_H
 #define CS454_GAME_ENGINE_ANIMATION_H
 #include <vector>
@@ -16,6 +12,10 @@
 void setgametime();
 
 void Animations();
+
+/***************************************
+ *  Animation Film Class              *
+ **************************************/
 
 class AnimationFilm {
     private:
@@ -39,9 +39,10 @@ class AnimationFilm {
         };
 };
 
-/**
- * Loads the bitmaps to the Animation Film Holder
- */
+/***************************************
+ *  Singleton for Loading Bitmaps      *
+ **************************************/
+
 class BitmapLoader  {
     private:
         using Bitmaps = std::map<std::string,ALLEGRO_BITMAP*>;
@@ -69,9 +70,10 @@ class BitmapLoader  {
         ~BitmapLoader() { CleanUp(); }
 };
 
-/**
- * Holds all the Animation Films
- */
+/******************************************
+ *  Singleton for Holding Animation Films *
+ *****************************************/
+
 class AnimationFilmHolder {
     public:
         using Parser = std::function<bool (std::list<AnimationFilm>& output, const std::string& input)>;
@@ -104,9 +106,9 @@ class AnimationFilmHolder {
         ~AnimationFilmHolder() { CleanUp(); }
 };
 
-/***************************
- * Animation Categories
- ***************************/
+/***************************************
+ *  Animation Type Classes            *
+ **************************************/
 
 class Animation  {
     protected:
@@ -290,9 +292,9 @@ class TickAnimation : public Animation {
         }
 };
 
-/***************************
- * Animator for each Category
- ***************************/
+/***************************************
+ *  Animator superclass and its Types *
+ **************************************/
 
 typedef uint64_t timestamp_t;
 enum animatorstate_t {
@@ -397,6 +399,10 @@ class TickAnimator : public Animator {
         TickAnimator () = default;
 };
 
+/***************************************
+ *  Animator Manager Singleton        *
+ **************************************/
+
 class AnimatorManager {
     private:
         std::set<Animator*> running, suspended;
@@ -424,21 +430,21 @@ class AnimatorManager {
                 a->Progress(currTime);
         }
         Animator* GetAnimatorByID(std::string id) {
-        // Search in suspended Animators
-        for (auto* a : suspended) {
-            if (a->GetID() == id)
-                return a;
+            // Search in suspended Animators
+            for (auto* a : suspended) {
+                if (a->GetID() == id)
+                    return a;
+            }
+            // Search in running Animators
+            for (auto* a : running) {
+                if (a->GetID() == id)
+                    return a;
+            }
+            return nullptr; // Animator not found
         }
-        // Search in running Animators
-        for (auto* a : running) {
-            if (a->GetID() == id)
-                return a;
-        }
-        return nullptr; // Animator not found
-    }
 
 
-    static auto GetManager() { return Manager; }
+        static auto GetManager() { return Manager; }
         AnimatorManager() {};
 
 };

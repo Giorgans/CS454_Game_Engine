@@ -1,6 +1,3 @@
-//
-// Created by Georgios Zervos on 26/11/23.
-//
 #include "../ZeldaII.h"
 #include "../../../Engine/Include/sprite.h"
 #include "../../../Engine/Include/rendering.h"

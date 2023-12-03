@@ -1,6 +1,5 @@
 #include "../app.h"
 
-extern std::map<std::string,bool> inputs;
 void app::Game::MainLoop() {
     while (!IsFinished())
         MainLoopIteration();

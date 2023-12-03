@@ -1,8 +1,8 @@
 #include "../ZeldaII.h"
+#include <iostream>
 #include <map>
 #include <allegro5/allegro_audio.h>
 
-extern std::map<std::string,bool> inputs;
 
 #define FREQUENCY 44100
 #define DEPTH ALLEGRO_AUDIO_DEPTH_FLOAT32
@@ -18,7 +18,6 @@ ALLEGRO_MIXER *MasterMixer = NULL;
 ALLEGRO_VOICE *voice = NULL;
 
 void ZeldaII_Sound() {
-/*
     if (levelsound == NULL) {
         levelsound = al_load_sample(ZELDA_II_PALACE_INTRO_MUSIC);
         levelsoundInstance = al_create_sample_instance(levelsound);
@@ -46,13 +45,17 @@ void ZeldaII_Sound() {
         al_set_sample_instance_playmode(levelsoundInstance, ALLEGRO_PLAYMODE_LOOP);
         al_play_sample_instance(levelsoundInstance);
     }
-    if(inputs.at("A") && (GetSystemTime()-lastAttack >=300) ){
+
+    if(inputs.at("A")){
         PlayAttackSound();
-        lastAttack = GetSystemTime();
-    }*/
+    }
+
+
 
 
 }
+
+void TitleScreenSound(){}
 
 void PlayAttackSound(){
     al_set_sample(AttackSoundInstance, AttackSound);

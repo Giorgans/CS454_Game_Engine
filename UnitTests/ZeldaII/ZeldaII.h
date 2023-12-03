@@ -6,6 +6,9 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 
+#include <map>
+extern std::map<std::string,bool> inputs;
+
 #define FRAME_DURATION 1000/60 // 60 FPS
 
 #define KEY_COLOR al_map_rgb(0,0,1)

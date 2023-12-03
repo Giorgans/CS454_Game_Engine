@@ -3,9 +3,7 @@
 #include <map>
 extern ALLEGRO_DISPLAY *window;
 extern Rect DisplayArea;
-
 std::map<std::string,bool> inputs;
-
 ALLEGRO_EVENT_QUEUE* event_queue;
 ALLEGRO_EVENT event;
 

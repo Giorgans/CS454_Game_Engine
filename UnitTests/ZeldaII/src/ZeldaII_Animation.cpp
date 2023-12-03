@@ -4,7 +4,6 @@
 
 extern FrameRangeAnimator *PlayerAnimator,*TitleScreenAnimator;
 extern uint64_t currT;
-extern std::map<std::string,bool> inputs;
 extern TileLayer *terrain,*background;
 
 /***************************************

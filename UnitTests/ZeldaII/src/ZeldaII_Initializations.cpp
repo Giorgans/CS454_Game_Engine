@@ -4,8 +4,6 @@
 #include <filesystem>
 extern FrameRangeAnimator *PlayerAnimator;
 extern uint64_t currT;
-extern std::map<std::string,bool> inputs;
-
 
 
 /***************************************

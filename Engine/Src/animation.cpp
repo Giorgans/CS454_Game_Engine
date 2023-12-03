@@ -6,7 +6,6 @@ AnimationFilmHolder  AnimationFilmHolder::holder ;
 AnimatorManager AnimatorManager::Manager  ;
 BitmapLoader BitmapLoader::Loader  ;
 extern FrameRangeAnimator *PlayerAnimator;
-extern std::map<std::string,bool> inputs;
 
 uint64_t currT = 0;
 void setgametime() { currT = GetSystemTime (); }

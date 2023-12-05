@@ -12,16 +12,24 @@ ALLEGRO_SAMPLE *levelsound = nullptr;
 ALLEGRO_SAMPLE_INSTANCE *levelsoundInstance = nullptr;
 ALLEGRO_SAMPLE *AttackSound = nullptr;
 ALLEGRO_SAMPLE_INSTANCE *AttackSoundInstance = nullptr;
+ALLEGRO_SAMPLE *TitleSound = nullptr;
+ALLEGRO_SAMPLE_INSTANCE *TitleSoundInstance = nullptr;
 
 ALLEGRO_MIXER *Levelmixer = nullptr;
 ALLEGRO_MIXER *SFXmixer = nullptr;
 ALLEGRO_MIXER *MasterMixer = nullptr;
 ALLEGRO_VOICE *voice = nullptr;
 
+bool PlayedOnce=false;
+
 void ZeldaII_Sound() {
     if (levelsound == nullptr) {
-        levelsound = al_load_sample(ZELDA_II_PALACE_INTRO_MUSIC);
+        levelsound = al_load_sample(ZELDA_II_PALACE_LEVEL_MUSIC);
         levelsoundInstance = al_create_sample_instance(levelsound);
+    }
+    if (TitleSound == nullptr) {
+        TitleSound = al_load_sample(TITLE_MUSIC_PATH);
+        TitleSoundInstance = al_create_sample_instance(TitleSound);
     }
     if (AttackSound == nullptr) {
         AttackSound = al_load_sample(ATTACK_SOUND);
@@ -51,12 +59,30 @@ void ZeldaII_Sound() {
         PlayAttackSound();
     }
 
+    if(!inputs.at("start") && !PlayedOnce){
+        PlayTitleScreenSound();
+        PlayedOnce= true;
+    }
 
+    if(inputs.at("start")){
+    }
 
 
 }
 
-void TitleScreenSound(){}
+void PlayTitleScreenSound(){
+    al_set_sample(TitleSoundInstance, TitleSound);
+    al_attach_sample_instance_to_mixer(TitleSoundInstance, Levelmixer);
+    al_set_sample_instance_playmode(TitleSoundInstance, ALLEGRO_PLAYMODE_LOOP);
+    al_play_sample_instance(TitleSoundInstance);
+}
+
+void PlayLevelSound(){
+    al_set_sample(TitleSoundInstance, TitleSound);
+    al_attach_sample_instance_to_mixer(TitleSoundInstance, Levelmixer);
+    al_set_sample_instance_playmode(TitleSoundInstance, ALLEGRO_PLAYMODE_LOOP);
+    al_play_sample_instance(TitleSoundInstance);
+}
 
 void PlayAttackSound(){
     al_set_sample(AttackSoundInstance, AttackSound);

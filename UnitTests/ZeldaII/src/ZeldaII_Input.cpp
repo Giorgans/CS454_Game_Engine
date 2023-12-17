@@ -5,10 +5,16 @@ extern ALLEGRO_DISPLAY *window;
 extern Rect DisplayArea;
 
 std::map<std::string,bool> inputs;
-ALLEGRO_EVENT_QUEUE* event_queue = al_create_event_queue();
-ALLEGRO_EVENT event;
+ALLEGRO_EVENT_QUEUE* event_queue = nullptr;
 
 void ZeldaII_Input(){
+    if(!event_queue) {
+        event_queue = al_create_event_queue();
+        al_register_event_source(event_queue, al_get_keyboard_event_source());
+        al_register_event_source(event_queue, al_get_keyboard_event_source());
+        al_register_event_source(event_queue, al_get_display_event_source(window));
+    }
+
     if(!inputs.at("start"))
         TitleScreenInputs();
     else
@@ -16,7 +22,7 @@ void ZeldaII_Input(){
 }
 
 void TitleScreenInputs() {
-    al_register_event_source(event_queue, al_get_keyboard_event_source());
+    ALLEGRO_EVENT event;
 
     // Check if there's an event and process it
     if (al_get_next_event(event_queue, &event)) {
@@ -31,7 +37,8 @@ void TitleScreenInputs() {
 }
 
 void MainGameInputs(){
-    event_queue = al_create_event_queue();
+    ALLEGRO_EVENT event;
+
     al_register_event_source(event_queue, al_get_keyboard_event_source());
     al_register_event_source(event_queue, al_get_display_event_source(window));
 

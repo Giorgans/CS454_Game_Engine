@@ -14,6 +14,10 @@ extern TileLayer *terrain,*background;
 void ZeldaII_Animations(){
     if(!inputs.at("start")) {
         TitleScreenAnimations();
+
+        std::cout << "test";
+        // TEST TEST TEST
+
     }
     else {
         Link_Animations();

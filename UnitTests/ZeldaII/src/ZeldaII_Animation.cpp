@@ -2,38 +2,84 @@
 #include "../../../Engine/Include/sprite.h"
 #include "../../../Engine/Include/rendering.h"
 
-extern FrameRangeAnimator *PlayerAnimator,*TitleScreenAnimator;
 extern uint64_t currT;
 extern std::map<std::string,bool> inputs;
 extern TileLayer *terrain,*background;
-
-/***************************************
- *  Main Loop Animation Function      *
- **************************************/
-
-void ZeldaII_Animations(){
-    if(!inputs.at("start")) {
-        TitleScreenAnimations();
-    }
-    else {
-        Link_Animations();
-    }
-}
 
 
 /***************************************
  *  Animation Functions               *
  **************************************/
 
-void TitleScreenAnimations(){
-    TitleScreenAnimator->Progress(currT);
+void TittleScreen_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim);
+void TittleScreen_Animations_OnFinish(Animator *animator);
+
+void Link_Animations_OnStart(Animator *animator);
+void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim);
+void Link_Animations_OnFinish(Animator *animator);
+
+void InitializeAnimations(){
+
+    FrameRangeAnimation *TitleScreenAnimation =  new FrameRangeAnimation("TitleScreen",0,AnimationFilmHolder::GetHolder().GetFilm(TitleScreen)->GetTotalFrames()-1,0,0,0,1000/3);
+    FrameRangeAnimation *WalkingAnimation = new  FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,4,0,FRAME_DURATION);
+
+    auto *TitleScreenAnimator = new FrameRangeAnimator("TitleScreenAnimator");
+    auto *PlayerAnimator = new FrameRangeAnimator("PlayerAnimator");
+
+    auto titles = SpriteManager::GetSingleton().GetDisplayList().at(0);
+    auto Link = SpriteManager::GetSingleton().GetDisplayList().at(1);
+
+    TitleScreenAnimator->SetOnAction(
+            [titles,TitleScreenAnimator, TitleScreenAnimation](Animator *animator,const Animation &anim) {
+                TittleScreen_Animations_OnAction(titles,TitleScreenAnimator, *TitleScreenAnimation);
+            }
+    );
+
+    TitleScreenAnimator->SetOnFinish([PlayerAnimator](Animator *animator) {TittleScreen_Animations_OnFinish(PlayerAnimator);});
+
+
+    PlayerAnimator->SetOnAction(
+            [Link,PlayerAnimator, WalkingAnimation](Animator *animator,const Animation &anim) {
+                Link_Animations_OnAction(Link,PlayerAnimator, *WalkingAnimation);
+            }
+    );
+
+
+
+
+    TitleScreenAnimator->Start(TitleScreenAnimation,currT);
+
 }
 
-void Link_Animations(){
+void TittleScreen_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim){
+    auto* frameRangeAnimator = (FrameRangeAnimator*) animator;
+    sprite->SetFrame(frameRangeAnimator->GetCurrFrame());
+    if(inputs.at("start"))
+        frameRangeAnimator->Stop();
+}
 
-    Sprite * Player =  SpriteManager::GetSingleton().GetDisplayList().at(0);
-    auto *AttackRightAnimation = new FrameRangeAnimation("AttackRight",0,AnimationFilmHolder::GetHolder().GetFilm(AttackRight)->GetTotalFrames()-1,0,0,0,1000/3);
-    auto *WalkingAnimation = new FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,4,0,1000/10);
+void TittleScreen_Animations_OnFinish(Animator *animator){
+    auto *WalkingAnimation = new FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,4,0,FRAME_DURATION);
+
+    auto *PlayerAnimator = (FrameRangeAnimator*) animator;
+
+    if (PlayerAnimator != nullptr) {
+        PlayerAnimator->Start(WalkingAnimation, GetSystemTime());
+        auto link = SpriteManager::GetSingleton().GetDisplayList().at(0);
+        link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
+    } else {
+        assert(true);
+    }
+}
+
+
+void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim){
+
+    auto *AttackAnimation = new FrameRangeAnimation("AttackRight",0,AnimationFilmHolder::GetHolder().GetFilm(AttackRight)->GetTotalFrames()-1,0,0,0,1000/3);
+    auto *WalkingAnimation = new FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,4,0,FRAME_DURATION);
+
+    Sprite * Player =  SpriteManager::GetSingleton().GetDisplayList().at(1);
+    auto *PlayerAnimator = (FrameRangeAnimator*) animator;
 
     if(inputs.at("locked")){
         if(Player->GetFilm()->GetID() == AttackRight || Player->GetFilm()->GetID() == AttackLeft ){
@@ -47,12 +93,17 @@ void Link_Animations(){
                 if (Player->GetFilm()->GetID() == AttackRight) {
                     Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
 
-                } else if (Player->GetFilm()->GetID() == AttackLeft) {
+                }
+                else if (Player->GetFilm()->GetID() == AttackLeft) {
                     Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
                 }
 
                 PlayerAnimator->Start(WalkingAnimation, currT);
-                FrameRange_Action(Player, PlayerAnimator, *PlayerAnimator->GetAnim());
+                PlayerAnimator->SetOnAction(
+                        [Player,PlayerAnimator, WalkingAnimation](Animator *animator,const Animation &anim) {
+                            Link_Animations_OnAction(Player,PlayerAnimator, *WalkingAnimation);
+                        }
+                );
             }
         }
     }
@@ -144,12 +195,14 @@ void Link_Animations(){
                 Player->SetFilm(AnimationFilmHolder::GetHolder().Load(AttackLeft));
             }
             inputs.at("A") = false;
-            PlayerAnimator->Start(AttackRightAnimation, currT);
-            PlayerAnimator->Progress(currT);
+            PlayerAnimator->Start(AttackAnimation, currT);
             Player->SetFrame(0);
 
         }
     }
+
+
+
 }
 
 

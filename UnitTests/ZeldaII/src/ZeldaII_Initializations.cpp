@@ -2,7 +2,6 @@
 #include "../../../Engine/Include/sprite.h"
 #include "../../../Engine/Include/rendering.h"
 #include <filesystem>
-extern FrameRangeAnimator *PlayerAnimator;
 extern uint64_t currT;
 extern std::map<std::string,bool> inputs;
 
@@ -57,24 +56,9 @@ void InitializeFilms(){
     }
 }
 
-FrameRangeAnimator *PlayerAnimator = new FrameRangeAnimator("PlayerAnimator");
-FrameRangeAnimator *TitleScreenAnimator = new FrameRangeAnimator("TitleScreenAnimator");
-
-void InitializeAnimators(){
-    auto *WalkingAnimation = new FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,4,0,FRAME_DURATION);
-    auto *TitleScreenAnimation = new FrameRangeAnimation("TitleScreen",0,AnimationFilmHolder::GetHolder().GetFilm(TitleScreen)->GetTotalFrames()-1,0,0,0,1000/3);
-    TitleScreenAnimator->Start(TitleScreenAnimation,currT);
-
-
-    PlayerAnimator->Start(WalkingAnimation, GetSystemTime());
-
-    auto link = SpriteManager::GetSingleton().GetDisplayList().at(0);
-    link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
-    PlayerAnimator->SetOnAction([link](Animator* animator, const Animation& anim) {} );
-
-}
 
 void InitializeSprites(){
+    createTittleScreen();
     createLink();
 }
 

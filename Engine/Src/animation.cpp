@@ -13,7 +13,7 @@ void setgametime() { currT = GetSystemTime (); }
 uint64_t getgametime(){ return currT; }
 
 void Animations(){
-
+    AnimatorManager::GetManager().Progress(currT);
 }
 
 

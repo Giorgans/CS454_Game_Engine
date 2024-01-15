@@ -327,6 +327,7 @@ class Animator {
         bool HasFinished() const { return state != ANIMATOR_RUNNING; }
         timestamp_t GetLastTime() {return lastTime;}
         virtual void TimeShift(timestamp_t offset);
+
         virtual void Progress(timestamp_t currTime) = 0;
         template<typename Tfunc> void SetOnFinish(const Tfunc &f) { onFinish = f; }
         template<typename Tfunc> void SetOnStart(const Tfunc &f) { onStart = f; }

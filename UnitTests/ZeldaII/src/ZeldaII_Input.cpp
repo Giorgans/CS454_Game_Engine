@@ -19,6 +19,7 @@ void ZeldaII_Input(){
         TitleScreenInputs();
     else
         MainGameInputs();
+
 }
 
 void TitleScreenInputs() {
@@ -70,6 +71,7 @@ void MainGameInputs(){
 
         if (event.keyboard.keycode == ALLEGRO_KEY_G)
             inputs.at("G") = true;
+
         if (event.keyboard.keycode == ALLEGRO_KEY_ENTER)
             inputs.at("start") = true;
 

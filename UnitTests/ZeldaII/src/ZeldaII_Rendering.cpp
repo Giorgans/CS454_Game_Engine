@@ -20,30 +20,28 @@ void ZeldaII_Rendering() {
 }
 
 void tittle_screen_rendering(){
+
+    ALLEGRO_BITMAP *tempBuffer;
     if(window == nullptr){
         window = al_create_display(DISPLAY_W,DISPLAY_H);
         al_set_display_icon(window, al_load_bitmap(ICON_FILE_PATH));
     }
-    if(titlescreen == nullptr){
-        titlescreen = al_create_bitmap(DISPLAY_W,DISPLAY_H);
-    }
-    TitleScreenAnimations();
-    auto frame = TitleScreenAnimator->GetCurrFrame();
-    Rect framebox = AnimationFilmHolder::GetHolder().GetFilm(TitleScreen)->GetFrameBox(frame);
-    
-    al_set_target_bitmap(titlescreen);
-    BitmapBlit(AnimationFilmHolder::GetHolder().GetFilm(TitleScreen)->GetBitmap(),framebox,titlescreen,{0,0});
-    al_unlock_bitmap(titlescreen);
+    if (background == nullptr)
+        background = new TileLayer(MAX_HEIGHT, MAX_WIDTH, al_load_bitmap(TILESET_FILE_PATH), BACKGROUND_CSV_FILE_PATH);
+    if (terrain == nullptr)
+        terrain = new TileLayer(MAX_HEIGHT, MAX_WIDTH, al_load_bitmap(TILESET_FILE_PATH), TERRAIN_CSV_FILE_PATH);
 
     al_set_target_backbuffer(window);
-    al_clear_to_color(BLACK);
-    al_draw_scaled_bitmap(titlescreen,0,0,
-                          al_get_bitmap_width(titlescreen),
-                          al_get_bitmap_height(titlescreen),0,0,
-                          DISPLAY_W*2.5,
-                          DISPLAY_H*2.1,0);
+    al_clear_to_color(KEY_COLOR);
+    for(auto i : SpriteManager::GetSingleton().GetDisplayList()){
+        if(i->GetTypeId() == "TitleScreen")
+            i->Display(al_get_backbuffer(window),DisplayArea,MakeTileLayerClipper(terrain));
+    }
+    tempBuffer = al_clone_bitmap(al_get_backbuffer(window));
+    al_clear_to_color(KEY_COLOR);
+    al_draw_scaled_bitmap(tempBuffer,0,0,al_get_bitmap_width(tempBuffer), al_get_bitmap_height(tempBuffer),0,0,
+                          al_get_bitmap_width(tempBuffer)*2.4, al_get_bitmap_height(tempBuffer)*2.4,0);
     al_flip_display();
-    al_clear_to_color(BLACK);
     al_unlock_bitmap(al_get_backbuffer(window));
 }
 

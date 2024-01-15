@@ -94,6 +94,7 @@ void TitleScreenAnimations();
  *  Creating Sprites Functions        *
  **************************************/
 
+void createTittleScreen();
 void createLink();
 
 /***************************************
@@ -115,7 +116,7 @@ void PlayAttackSound();
 
 void InitializeBitmaps();
 void InitializeFilms();
-void InitializeAnimators();
+void InitializeAnimations();
 void InitializeInputs();
 void InitializeSprites();
 

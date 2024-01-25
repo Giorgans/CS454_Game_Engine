@@ -6,7 +6,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 
-#define FRAME_DURATION 1000/60 // 60 FPS
+#define FRAME_DURATION 1000/14
 
 #define KEY_COLOR al_map_rgb(0,0,1)
 #define EMPTY_TILE 40

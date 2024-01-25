@@ -365,6 +365,13 @@ class FrameRangeAnimator : public Animator {
         unsigned GetCurrFrame() const { return currFrame; }
         unsigned GetCurrRep() const { return currRep; }
         FrameRangeAnimation *GetAnim(){return anim;}
+        void SetAnim(FrameRangeAnimation *a, timestamp_t t){
+            anim = a;
+            lastTime = t;
+            state = ANIMATOR_RUNNING;
+            currRep = 0;
+
+        }
         void Start(FrameRangeAnimation *a, timestamp_t t) {
             anim = a;
             lastTime = t;
@@ -404,6 +411,7 @@ class TickAnimator : public Animator {
  *  Animator Manager Singleton        *
  **************************************/
 
+
 class AnimatorManager {
     private:
         std::set<Animator*> running, suspended;
@@ -430,22 +438,9 @@ class AnimatorManager {
             for (auto* a : copied)
                 a->Progress(currTime);
         }
-        Animator* GetAnimatorByID(std::string id) {
-            // Search in suspended Animators
-            for (auto* a : suspended) {
-                if (a->GetID() == id)
-                    return a;
-            }
-            // Search in running Animators
-            for (auto* a : running) {
-                if (a->GetID() == id)
-                    return a;
-            }
-            return nullptr; // Animator not found
-        }
 
 
-        static auto GetManager() { return Manager; }
+        static auto GetManager() -> AnimatorManager & { return Manager; }
         AnimatorManager() {};
 
 };

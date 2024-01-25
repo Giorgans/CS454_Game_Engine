@@ -13,7 +13,9 @@ void setgametime() { currT = GetSystemTime (); }
 uint64_t getgametime(){ return currT; }
 
 void Animations(){
-    AnimatorManager::GetManager().Progress(currT);
+    AnimatorManager manager = AnimatorManager::GetManager();
+
+    manager.Progress(currT);
 }
 
 
@@ -76,7 +78,7 @@ Animator::~Animator(){
 void FrameRangeAnimator::Progress (timestamp_t currTime) {
     while (currTime > lastTime && (currTime - lastTime) >= anim->GetDelay()) {
         if (currFrame == anim->GetEndFrame()) {
-            assert(anim->IsForever() || currRep < anim->GetReps());
+            assert(anim->IsForever() || (currRep && currRep < anim->GetReps()));
             currFrame = anim->GetStartFrame(); // flip to start
         }
         else
@@ -93,6 +95,7 @@ void FrameRangeAnimator::Progress (timestamp_t currTime) {
             }
     }
 }
+
 
 void TickAnimator::Progress (timestamp_t currTime) {
     if (!anim->IsDiscrete()) { // no discrete fires in every loop!

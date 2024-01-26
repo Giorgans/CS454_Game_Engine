@@ -108,10 +108,3 @@ void MotionQuantizer::Move (const Rect& r, int* dx, int* dy) {
         } while (*dx || *dy);
 };
 
-
-void FrameRange_Action (Sprite* sprite, Animator* animator, const FrameRangeAnimation& anim) {
-    auto* frameRangeAnimator = (FrameRangeAnimator*) animator;
-    if (frameRangeAnimator->GetCurrFrame() != anim.GetStartFrame() || frameRangeAnimator->GetCurrRep())
-        sprite->Move(anim.GetDx(), anim.GetDy());
-    sprite->SetFrame(frameRangeAnimator->GetCurrFrame());
-}

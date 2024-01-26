@@ -48,12 +48,16 @@
 
 #define WalkingRight "link.right.png"
 #define WalkingLeft "link.left.png"
-#define WalkingUp "" // For top-down 2D games
-#define WalkingDown ""  // For top-down 2D games
 #define DownLeft "link.DownAttack.left.png"
 #define DownRight "link.DownAttack.right.png"
 #define AttackLeft "link.attack.left.png"
 #define AttackRight "link.attack.right.png"
+#define JumpRight "link.jump.right.png"
+#define JumpLeft "link.jump.left.png"
+#define JumpAttackUpRight "link.jump.attack.up.right.png"
+#define JumpAttackUpLeft "link.jump.attack.up.left.png"
+#define JumpAttackDownRight "link.jump.attack.down.right.png"
+#define JumpAttackDownLeft "link.jump.attack.down.left.png"
 
 /***************************************
  *  Parapa Palace Level Macros         *

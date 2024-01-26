@@ -13,7 +13,6 @@ extern TileLayer *terrain,*background;
 void TittleScreen_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim);
 void TittleScreen_Animations_OnFinish(Animator *animator);
 
-void Link_Animations_OnStart(Animator *animator);
 void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim);
 void Link_Animations_OnFinish(Animator *animator);
 
@@ -93,6 +92,10 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
     auto isAttackLeft = !inputs["Down"] && !inputs["Right"] && inputs["Left"] && inputs["A"] && !inputs["S"];
     auto isJumpRight = !inputs["Down"] && inputs["Right"] && !inputs["Left"] && !inputs["A"] && inputs["S"];
     auto isJumpLeft = !inputs["Down"] && !inputs["Right"] && inputs["Left"] && !inputs["A"] && inputs["S"];
+    auto isJumpAttackUpRight = inputs["Up"] && !inputs["Down"] && inputs["Right"] && !inputs["Left"] && !inputs["A"] && inputs["S"];
+    auto isJumpAttackUpLeft = inputs["Up"] && !inputs["Down"] && !inputs["Right"] && inputs["Left"] && !inputs["A"] && inputs["S"];
+    auto isJumpAttackDownRight = inputs["Up"] && !inputs["Down"] && inputs["Right"] && !inputs["Left"] && !inputs["A"] && inputs["S"];
+    auto isJumpAttackDownLeft = !inputs["Up"] && inputs["Down"] && !inputs["Right"] && inputs["Left"] && !inputs["A"] && inputs["S"];
 
 
     Sprite * Player =  sprite;
@@ -196,8 +199,39 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
                 Player->SetFrame(0);
             }
             inputs["locked"] = true;
+        }
+
+        if (isAttackRight) {
+            if (PlayerAnimator->GetAnim() != AttackAnimation) {
+                PlayerAnimator->SetAnim(AttackAnimation, GetGameTime());
+                Player->SetFrame(0);
+            }
+
+            Player->SetFilm(AnimationFilmHolder::GetHolder().Load(AttackRight));
+            Player->SetFrame(0);
+            inputs["locked"] = true;
+        }
+
+        if (isAttackLeft) {
+            if (PlayerAnimator->GetAnim() != AttackAnimation) {
+                PlayerAnimator->SetAnim(AttackAnimation, GetGameTime());
+                Player->SetFrame(0);
+            }
+
+            Player->SetFilm(AnimationFilmHolder::GetHolder().Load(AttackLeft));
+            Player->SetFrame(0);
+            inputs["locked"] = true;
+        }
+    /*
+        if(isJumpRight) {
+            if (PlayerAnimator->GetAnim() != JumpAnimation) {
+                PlayerAnimator->SetAnim(JumpAnimation, GetGameTime());
+                Player->SetFrame(0);
+            }
 
         }
+        */
+
 
         if (isStanding) {
             if (PlayerAnimator->GetAnim() != StandingAnimation) {

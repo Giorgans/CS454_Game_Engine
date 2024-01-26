@@ -1,3 +1,0 @@
-UserPath.h
-CMakeLists.txt
-/cmake-build-debug

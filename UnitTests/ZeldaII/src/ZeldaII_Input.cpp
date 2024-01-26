@@ -38,65 +38,20 @@ void TitleScreenInputs() {
 }
 
 void MainGameInputs(){
-    ALLEGRO_EVENT event;
+    ALLEGRO_KEYBOARD_STATE keyboardState;
+    al_get_keyboard_state(&keyboardState);
 
-    al_register_event_source(event_queue, al_get_keyboard_event_source());
-    al_register_event_source(event_queue, al_get_display_event_source(window));
+    inputs["Right"] = al_key_down(&keyboardState, ALLEGRO_KEY_RIGHT);
+    inputs["Left"] = al_key_down(&keyboardState, ALLEGRO_KEY_LEFT);
+    inputs["Down"] = al_key_down(&keyboardState, ALLEGRO_KEY_DOWN);
+    inputs["A"] = al_key_down(&keyboardState, ALLEGRO_KEY_A);
+    inputs["G"] = al_key_down(&keyboardState, ALLEGRO_KEY_G);
 
-    if(!inputs.at("locked") )
-        al_wait_for_event(event_queue, &event);
-
-    if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-        inputs.at("exit") = true;
-
-    if(event.type == ALLEGRO_EVENT_KEY_DOWN) {
-        if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
-            inputs.at("exit") = true;
-
-        if (event.keyboard.keycode == ALLEGRO_KEY_COMMAND)
-            if (event.keyboard.keycode == ALLEGRO_KEY_Q)
-                inputs.at("exit") = true;
-
-        if (event.keyboard.keycode == ALLEGRO_KEY_DOWN)
-            inputs.at("Down") = true;
-
-        if(event.keyboard.keycode == ALLEGRO_KEY_A)
-            inputs.at("A") = true;
-
-        if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT)
-            inputs.at("Right") = true;
-
-        if (event.keyboard.keycode == ALLEGRO_KEY_LEFT)
-            inputs.at("Left") = true;
-
-        if (event.keyboard.keycode == ALLEGRO_KEY_G)
-            inputs.at("G") = true;
-
-        if (event.keyboard.keycode == ALLEGRO_KEY_ENTER)
-            inputs.at("start") = true;
-
-        if (event.keyboard.keycode == ALLEGRO_KEY_Z) {}
-
-    }
-    if(event.type == ALLEGRO_EVENT_KEY_UP) {
-        if (event.keyboard.keycode == ALLEGRO_KEY_DOWN)
-            inputs.at("Down") = false;
-
-        if (event.keyboard.keycode == ALLEGRO_KEY_A)
-            inputs.at("A") = false;
-
-        if (event.keyboard.keycode == ALLEGRO_KEY_G)
-            inputs.at("G") = false;
-
-        if(event.keyboard.keycode == ALLEGRO_KEY_RIGHT)
-            inputs.at("Right") = false;
-
-        if(event.keyboard.keycode == ALLEGRO_KEY_LEFT)
-            inputs.at("Left") = false;
-    }
-    else{}
+    if(al_key_down(&keyboardState, ALLEGRO_KEY_ESCAPE))
+        inputs["exit"] = true;
 
 }
+
 void InitializeInputs(){
     inputs.insert(std::pair<std::string ,bool>("Down",false));
     inputs.insert(std::pair<std::string ,bool>("Left",false));

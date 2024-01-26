@@ -5,17 +5,15 @@
 AnimationFilmHolder  AnimationFilmHolder::holder ;
 AnimatorManager AnimatorManager::Manager  ;
 BitmapLoader BitmapLoader::Loader  ;
-extern FrameRangeAnimator *PlayerAnimator;
 extern std::map<std::string,bool> inputs;
 
-uint64_t currT = 0;
-void setgametime() { currT = GetSystemTime (); }
-uint64_t getgametime(){ return currT; }
+uint64_t GameTime = 0;
+void SetGameTime() { GameTime = GetSystemTime (); }
+uint64_t GetGameTime(){ return GameTime; }
 
 void Animations(){
     AnimatorManager manager = AnimatorManager::GetManager();
-
-    manager.Progress(currT);
+    manager.Progress(GetGameTime());
 }
 
 
@@ -80,22 +78,24 @@ void FrameRangeAnimator::Progress (timestamp_t currTime) {
         if (currFrame == anim->GetEndFrame()) {
             assert(anim->IsForever() || (currRep && currRep < anim->GetReps()));
             currFrame = anim->GetStartFrame(); // flip to start
-        }
-        else
+        } else
             ++currFrame;
 
         lastTime += anim->GetDelay();
         NotifyAction(*anim);
 
-        if (currFrame == anim->GetEndFrame())
+        if (currFrame == anim->GetEndFrame()) {
             if (!anim->IsForever() && ++currRep == anim->GetReps()) {
                 state = ANIMATOR_FINISHED;
                 NotifyStopped();
                 return;
             }
+        }
+        if (currFrame > anim->GetEndFrame()) {
+            currFrame = anim->GetStartFrame(); // flip to start
+        }
     }
 }
-
 
 void TickAnimator::Progress (timestamp_t currTime) {
     if (!anim->IsDiscrete()) { // no discrete fires in every loop!

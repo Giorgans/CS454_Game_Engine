@@ -9,8 +9,8 @@
 #include "timing.h"
 #include "../paths.h"
 
-void setgametime();
-
+void SetGameTime();
+uint64_t GetGameTime();
 void Animations();
 
 /***************************************

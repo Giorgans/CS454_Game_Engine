@@ -8,7 +8,7 @@ void app::Game::MainLoop() {
 
 
 void app::Game::MainLoopIteration() {
-    setgametime();
+    SetGameTime();
     Sound();
     Render();
     Input();

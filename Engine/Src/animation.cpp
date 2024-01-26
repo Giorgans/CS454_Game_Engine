@@ -5,14 +5,15 @@
 AnimationFilmHolder  AnimationFilmHolder::holder ;
 AnimatorManager AnimatorManager::Manager  ;
 BitmapLoader BitmapLoader::Loader  ;
-extern FrameRangeAnimator *PlayerAnimator;
+extern std::map<std::string,bool> inputs;
 
-uint64_t currT = 0;
-void setgametime() { currT = GetSystemTime (); }
-uint64_t getgametime(){ return currT; }
+uint64_t GameTime = 0;
+void SetGameTime() { GameTime = GetSystemTime (); }
+uint64_t GetGameTime(){ return GameTime; }
 
 void Animations(){
-
+    AnimatorManager manager = AnimatorManager::GetManager();
+    manager.Progress(GetGameTime());
 }
 
 
@@ -75,21 +76,24 @@ Animator::~Animator(){
 void FrameRangeAnimator::Progress (timestamp_t currTime) {
     while (currTime > lastTime && (currTime - lastTime) >= anim->GetDelay()) {
         if (currFrame == anim->GetEndFrame()) {
-            assert(anim->IsForever() || currRep < anim->GetReps());
+            assert(anim->IsForever() || (currRep && currRep < anim->GetReps()));
             currFrame = anim->GetStartFrame(); // flip to start
-        }
-        else
+        } else
             ++currFrame;
 
         lastTime += anim->GetDelay();
         NotifyAction(*anim);
 
-        if (currFrame == anim->GetEndFrame())
+        if (currFrame == anim->GetEndFrame()) {
             if (!anim->IsForever() && ++currRep == anim->GetReps()) {
                 state = ANIMATOR_FINISHED;
                 NotifyStopped();
                 return;
             }
+        }
+        if (currFrame > anim->GetEndFrame()) {
+            currFrame = anim->GetStartFrame(); // flip to start
+        }
     }
 }
 

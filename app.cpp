@@ -22,14 +22,14 @@ public:
         GetGame().SetRender(ZeldaII_Rendering);
         GetGame().SetInput(ZeldaII_Input);
        // GetGame().SetPhysics( Physic);
-        GetGame().SetProgressAnimations( ZeldaII_Animations);
+        GetGame().SetProgressAnimations(Animations);
         GetGame().SetSound(ZeldaII_Sound);
 
+        InitializeInputs();
         InitializeBitmaps();
         InitializeFilms();
         InitializeSprites();
-        InitializeAnimators();
-        InitializeInputs();
+        InitializeAnimations();
     }
     void Load(void){  }
     void Clear(void){  }

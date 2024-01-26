@@ -6,10 +6,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 
-#include <map>
-extern std::map<std::string,bool> inputs;
-
-#define FRAME_DURATION (1000/60) // 60 FPS
+#define FRAME_DURATION 1000/14
 
 #define KEY_COLOR al_map_rgb(0,0,1)
 #define EMPTY_TILE 40
@@ -21,9 +18,9 @@ extern std::map<std::string,bool> inputs;
 #define Zelda2_AnimationBitmaps "/UnitTests/ZeldaII/Media/AnimationFilmBitmaps"
 #define ZELDAII_ICON_PATH "/UnitTests/ZeldaII/Media/icon.jpg"
 #define ZELDA_II_TITLE_SCREEN_MUSIC "/UnitTests/ZeldaII/Media/Sound/01. Title Screen - Prologue.wav"
-#define ZELDA_II_PALACE_LEVEL_MUSIC "/UnitTests/ZeldaII/Media/Sound/12. Palace Theme 1.wav"
+#define ZELDA_II_PALACE_INTRO_MUSIC "/UnitTests/ZeldaII/Media/Sound/12. Palace Theme 1.wav"
 #define ZELDA_II_PALACE_NOINTRO_MUSIC "UnitTests/ZeldaII/Media/Sound/13. Palace Theme 1 (No Intro).wav"
-#define ZELDA_II_ATTACK_SOUND "/UnitTests/ZeldaII/Media/Sound/attack.wav"
+#define ZELDA_II_ATTACK_SOUND "UnitTests/ZeldaII/Media/Sound/attack.wav"
 
 /***************************************
  *  Choosing Starting level macros    *
@@ -51,12 +48,16 @@ extern std::map<std::string,bool> inputs;
 
 #define WalkingRight "link.right.png"
 #define WalkingLeft "link.left.png"
-#define WalkingUp "" // For top-down 2D games
-#define WalkingDown ""  // For top-down 2D games
 #define DownLeft "link.DownAttack.left.png"
 #define DownRight "link.DownAttack.right.png"
 #define AttackLeft "link.attack.left.png"
 #define AttackRight "link.attack.right.png"
+#define JumpRight "link.jump.right.png"
+#define JumpLeft "link.jump.left.png"
+#define JumpAttackUpRight "link.jump.attack.up.right.png"
+#define JumpAttackUpLeft "link.jump.attack.up.left.png"
+#define JumpAttackDownRight "link.jump.attack.down.right.png"
+#define JumpAttackDownLeft "link.jump.attack.down.left.png"
 
 /***************************************
  *  Parapa Palace Level Macros         *
@@ -97,6 +98,7 @@ void TitleScreenAnimations();
  *  Creating Sprites Functions        *
  **************************************/
 
+void createTittleScreen();
 void createLink();
 
 /***************************************
@@ -111,8 +113,6 @@ void MainGameInputs();
  **************************************/
 
 void PlayAttackSound();
-void PlayTitleScreenSound();
-void PlayLevelSound();
 
 /***************************************
  *  Initialization Functions          *
@@ -120,7 +120,7 @@ void PlayLevelSound();
 
 void InitializeBitmaps();
 void InitializeFilms();
-void InitializeAnimators();
+void InitializeAnimations();
 void InitializeInputs();
 void InitializeSprites();
 

@@ -143,7 +143,6 @@ class SpriteManager  {
 
 
 
-void FrameRange_Action (Sprite* sprite, Animator* animator, const FrameRangeAnimation& anim) ;
 
 
 #endif //CS454_GAME_ENGINE_SPRITE_H

@@ -23,7 +23,7 @@ extern std::map<std::string,bool> inputs;
 #define ZELDA_II_TITLE_SCREEN_MUSIC "/UnitTests/ZeldaII/Media/Sound/01. Title Screen - Prologue.wav"
 #define ZELDA_II_PALACE_LEVEL_MUSIC "/UnitTests/ZeldaII/Media/Sound/12. Palace Theme 1.wav"
 #define ZELDA_II_PALACE_NOINTRO_MUSIC "UnitTests/ZeldaII/Media/Sound/13. Palace Theme 1 (No Intro).wav"
-#define ZELDA_II_ATTACK_SOUND "UnitTests/ZeldaII/Media/Sound/attack.wav"
+#define ZELDA_II_ATTACK_SOUND "/UnitTests/ZeldaII/Media/Sound/attack.wav"
 
 /***************************************
  *  Choosing Starting level macros    *
@@ -112,6 +112,7 @@ void MainGameInputs();
 
 void PlayAttackSound();
 void PlayTitleScreenSound();
+void PlayLevelSound();
 
 /***************************************
  *  Initialization Functions          *

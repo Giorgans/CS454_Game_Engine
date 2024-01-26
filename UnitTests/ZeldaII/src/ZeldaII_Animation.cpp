@@ -79,7 +79,7 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
     auto *StandingAnimation = new FrameRangeAnimation("Standing",0,0,0,0,0,FRAME_DURATION);
     auto *WalkingAnimation = new  FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,4,0,FRAME_DURATION);
     auto *AttackAnimation = new  FrameRangeAnimation("Attack",0,AnimationFilmHolder::GetHolder().GetFilm(AttackRight)->GetTotalFrames()-1,0,0,0,1000/6);
-    auto *JumpAnimation = new  FrameRangeAnimation("Jump",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,1,2,2,FRAME_DURATION);
+    auto *JumpAnimation = new  FrameRangeAnimation("Jump",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,2,2,FRAME_DURATION);
 
     /*** Questions ***/
     auto isDown = inputs["Down"] && !inputs["Right"] && !inputs["Left"] && !inputs["A"] && !inputs["S"];
@@ -112,6 +112,34 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
 
             }
         }
+
+        if (Player->GetFilm()->GetID() == JumpRight || Player->GetFilm()->GetID() == JumpLeft) {
+
+            Player->SetFrame(PlayerAnimator->GetCurrFrame());
+            int dx = PlayerAnimator->GetAnim()->GetDx();
+            int dy = PlayerAnimator->GetAnim()->GetDy();
+
+            if(Player->GetFrame()<=1)
+                dy = -dy;
+
+            if(Player->GetFilm()->GetID() == JumpLeft)
+                dx = -dx;
+
+            terrain->GetGrid()->FilterGridMotion(Player->GetBox(), &dx, &dy);
+
+            Player->SetHasDirectMotion(true).Move(dx, dy).SetHasDirectMotion(false);
+
+            if(Player->GetFrame()==AttackAnimation->GetEndFrame()) {
+                inputs["locked"] = false;
+                if(Player->GetFilm()->GetID() == JumpRight)
+                    Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
+                if(Player->GetFilm()->GetID() == JumpLeft)
+                    Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
+
+            }
+
+        }
+
 
     }
     else{
@@ -155,7 +183,8 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
             }
 
             int dx = PlayerAnimator->GetAnim()->GetDx();
-            terrain->GetGrid()->FilterGridMotionRight(Player->GetBox(), &dx);
+            int dy = 0;
+            terrain->GetGrid()->FilterGridMotion(Player->GetBox(), &dx, &dy);
             Player->SetHasDirectMotion(true).Move(dx, 0).SetHasDirectMotion(false);
             Player->SetFrame(PlayerAnimator->GetCurrFrame());
         }
@@ -177,7 +206,8 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
             }
 
             int dx = -PlayerAnimator->GetAnim()->GetDx();
-            terrain->GetGrid()->FilterGridMotionLeft(Player->GetBox(), &dx);
+            int dy = 0;
+            terrain->GetGrid()->FilterGridMotion(Player->GetBox(), &dx,&dy);
             Player->SetHasDirectMotion(true).Move(dx, 0).SetHasDirectMotion(false);
             Player->SetFrame(PlayerAnimator->GetCurrFrame());
         }
@@ -222,15 +252,27 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
             Player->SetFrame(0);
             inputs["locked"] = true;
         }
-    /*
+
         if(isJumpRight) {
             if (PlayerAnimator->GetAnim() != JumpAnimation) {
                 PlayerAnimator->SetAnim(JumpAnimation, GetGameTime());
                 Player->SetFrame(0);
             }
-
+            Player->SetFilm(AnimationFilmHolder::GetHolder().Load(JumpRight));
+            Player->SetFrame(0);
+            inputs["locked"] = true;
         }
-        */
+
+        if(isJumpLeft) {
+            if (PlayerAnimator->GetAnim() != JumpAnimation) {
+                PlayerAnimator->SetAnim(JumpAnimation, GetGameTime());
+                Player->SetFrame(0);
+            }
+            Player->SetFilm(AnimationFilmHolder::GetHolder().Load(JumpLeft));
+            Player->SetFrame(0);
+            inputs["locked"] = true;
+        }
+
 
 
         if (isStanding) {

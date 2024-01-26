@@ -52,7 +52,7 @@
 #define MUL_GRID_ELEMENT_WIDTH(i) ((i)<<2)
 #define MUL_GRID_ELEMENT_HEIGHT(i) ((i)<<2)
 #define MAX_PIXEL_WIDTH MUL_TILE_WIDTH(MAX_WIDTH)
-#define MAX_PIXEL_HEIGHT MUL_TILE_HEIGHT(MAX_HEIGHT
+#define MAX_PIXEL_HEIGHT MUL_TILE_HEIGHT(MAX_HEIGHT)
 
 typedef unsigned short Dim;
 struct Rect { int x, y, w, h; };
@@ -147,14 +147,12 @@ private:
     void Allocate() {
         this->dpyBuffer = al_create_bitmap((MAX_WIDTH + 2) * TILE_WIDTH, (MAX_HEIGHT + 2) * TILE_HEIGHT);
     }
-    // inside the private section
-
-    //void     FilterGridMotionDown (const Rect& r, int* dy) const;
-    void     FilterGridMotionUp (const Rect& r, int* dy) ;
-
-public:
     void     FilterGridMotionRight (const Rect& r, int* dx) ;
     void     FilterGridMotionLeft (const Rect& r, int* dx) ;
+    void     FilterGridMotionUp (const Rect& r, int* dy) ;
+    void     FilterGridMotionDown (const Rect& r, int* dy);
+
+public:
 
     bool CanPassGridTile (Dim col, Dim row) const // i.e. checks if flags set
     { return GridMap[row][col]->isTileAssumedEmpty(); }

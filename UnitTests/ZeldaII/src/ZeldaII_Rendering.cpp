@@ -3,7 +3,7 @@
 ALLEGRO_DISPLAY *window = nullptr;
 Rect DisplayArea {0,0,DISPLAY_W*2,DISPLAY_H*2};
 extern std::map<std::string,bool> inputs;
-TileLayer *background= nullptr,*terrain=nullptr,*titlescr= nullptr;
+TileLayer *background=nullptr,*terrain=nullptr;
 
 /***************************************
  *  Main Loop Rendering Function      *

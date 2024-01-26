@@ -2,7 +2,6 @@
 #include "../../../Engine/Include/sprite.h"
 #include "../../../Engine/Include/rendering.h"
 
-extern uint64_t GameTime;
 extern std::map<std::string,bool> inputs;
 extern TileLayer *terrain,*background;
 
@@ -17,12 +16,6 @@ void TittleScreen_Animations_OnFinish(Animator *animator);
 void Link_Animations_OnStart(Animator *animator);
 void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim);
 void Link_Animations_OnFinish(Animator *animator);
-
-void ZeldaII_Animations(){
-    AnimatorManager manager = AnimatorManager::GetManager();
-    manager.Progress(GameTime);
-
-}
 
 void InitializeAnimations(){
 
@@ -44,7 +37,6 @@ void InitializeAnimations(){
 
     TitleScreenAnimator->SetOnFinish([PlayerAnimator](Animator *animator) {TittleScreen_Animations_OnFinish(PlayerAnimator);});
 
-
     PlayerAnimator->SetOnAction(
             [Link,PlayerAnimator, WalkingAnimation](Animator *animator,const Animation &anim) {
                 Link_Animations_OnAction(Link,PlayerAnimator, *WalkingAnimation);
@@ -53,9 +45,6 @@ void InitializeAnimations(){
 
     PlayerAnimator->SetOnFinish([PlayerAnimator](Animator *animator) {Link_Animations_OnFinish(PlayerAnimator);});
 
-
-
-
     TitleScreenAnimator->Start(TitleScreenAnimation,GetGameTime());
 
 }
@@ -63,7 +52,7 @@ void InitializeAnimations(){
 void TittleScreen_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim){
     auto* frameRangeAnimator = (FrameRangeAnimator*) animator;
     sprite->SetFrame(frameRangeAnimator->GetCurrFrame());
-    if(inputs.at("start")) {
+    if(inputs["start"]) {
         auto titlescr = SpriteManager::GetSingleton().GetDisplayList().at(0);
         titlescr->SetVisibility(false);
         auto link = SpriteManager::GetSingleton().GetDisplayList().at(1);
@@ -78,11 +67,11 @@ void TittleScreen_Animations_OnFinish(Animator *animator){
 
     auto *PlayerAnimator = (FrameRangeAnimator*) animator;
 
-    if (PlayerAnimator != nullptr) {
+    if (PlayerAnimator != nullptr)
         PlayerAnimator->Start(StandingAnimation, GetGameTime());
-    } else {
+    else
         assert(true);
-    }
+
 }
 
 
@@ -90,18 +79,41 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
     /*** Animations ***/
     auto *StandingAnimation = new FrameRangeAnimation("Standing",0,0,0,0,0,FRAME_DURATION);
     auto *WalkingAnimation = new  FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,4,0,FRAME_DURATION);
+    auto *AttackAnimation = new  FrameRangeAnimation("Attack",0,AnimationFilmHolder::GetHolder().GetFilm(AttackRight)->GetTotalFrames()-1,0,0,0,1000/6);
+    auto *JumpAnimation = new  FrameRangeAnimation("Jump",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,1,2,2,FRAME_DURATION);
 
     /*** Questions ***/
-    auto isMovingDown = inputs["Down"] && !inputs["Right"] && !inputs["Left"];
-    auto isMovingRight = !inputs["Down"] && inputs["Right"] && !inputs["Left"];
-    auto isMovingLeft = !inputs["Down"] && !inputs["Right"] && inputs["Left"];
-    auto isStanding = !inputs["Down"] && !inputs["Right"] && !inputs["Left"];
+    auto isDown = inputs["Down"] && !inputs["Right"] && !inputs["Left"] && !inputs["A"] && !inputs["S"];
+    auto isMovingRight = !inputs["Down"] && inputs["Right"] && !inputs["Left"] && !inputs["A"] && !inputs["S"];
+    auto isMovingLeft = !inputs["Down"] && !inputs["Right"] && inputs["Left"] && !inputs["A"] && !inputs["S"];
+    auto isStanding = !inputs["Down"] && !inputs["Right"] && !inputs["Left"] && !inputs["A"] && !inputs["S"];
+    auto isDownAttack = inputs["Down"] && !inputs["Right"] && !inputs["Left"] && inputs["A"] && !inputs["S"];
+    auto isAttack = !inputs["Down"] && !inputs["Right"] && !inputs["Left"] && inputs["A"] && !inputs["S"];
+    auto isAttackRight = !inputs["Down"] && inputs["Right"] && !inputs["Left"] && inputs["A"] && !inputs["S"];
+    auto isAttackLeft = !inputs["Down"] && !inputs["Right"] && inputs["Left"] && inputs["A"] && !inputs["S"];
+    auto isJumpRight = !inputs["Down"] && inputs["Right"] && !inputs["Left"] && !inputs["A"] && inputs["S"];
+    auto isJumpLeft = !inputs["Down"] && !inputs["Right"] && inputs["Left"] && !inputs["A"] && inputs["S"];
+
 
     Sprite * Player =  sprite;
     auto *PlayerAnimator = (FrameRangeAnimator*) animator;
+    if(inputs["locked"]){
+        if (Player->GetFilm()->GetID() == AttackRight || Player->GetFilm()->GetID() == AttackLeft){
+            Player->SetFrame(PlayerAnimator->GetCurrFrame());
+            if(Player->GetFrame()==AttackAnimation->GetEndFrame()) {
+                inputs["locked"] = false;
+                if(Player->GetFilm()->GetID() == AttackRight)
+                    Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
+                if(Player->GetFilm()->GetID() == AttackLeft)
+                    Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
 
-        if (isMovingDown) {
-            PlayerAnimator->SetAnim(StandingAnimation,GetGameTime());
+            }
+        }
+
+    }
+    else{
+        if (isDown) {
+            PlayerAnimator->SetAnim(StandingAnimation, GetGameTime());
             if (Player->GetFilm()->GetID() == WalkingLeft)
                 Player->SetFilm(AnimationFilmHolder::GetHolder().Load(DownLeft));
 
@@ -110,19 +122,28 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
 
             Player->SetFrame(0);
         }
-         if (inputs["Down"] && inputs["A"])
-            Player->SetFrame(1);
 
-         if (isMovingRight) {
+        if (isDownAttack) {
+            PlayerAnimator->SetAnim(StandingAnimation, GetGameTime());
+            if (Player->GetFilm()->GetID() == WalkingLeft)
+                Player->SetFilm(AnimationFilmHolder::GetHolder().Load(DownLeft));
+
+            if (Player->GetFilm()->GetID() == WalkingRight)
+                Player->SetFilm(AnimationFilmHolder::GetHolder().Load(DownRight));
+
+            Player->SetFrame(1);
+        }
+
+        if (isMovingRight) {
 
             if (Player->GetFilm()->GetID() != WalkingRight) {
                 Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
                 Player->SetFrame(0);
             }
-             if(PlayerAnimator->GetAnim() != WalkingAnimation) {
-                 PlayerAnimator->SetAnim(WalkingAnimation, GetGameTime());
-                 Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
-             }
+            if (PlayerAnimator->GetAnim() != WalkingAnimation) {
+                PlayerAnimator->SetAnim(WalkingAnimation, GetGameTime());
+                Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
+            }
 
             if (((terrain->GetViewWindow().x + terrain->GetViewWindow().w) - (terrain->GetViewWindow().x / 2)) <=
                 Player->GetBox().x) {
@@ -136,15 +157,15 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
             Player->SetFrame(PlayerAnimator->GetCurrFrame());
         }
 
-         if (isMovingLeft) {
+        if (isMovingLeft) {
             if (Player->GetFilm()->GetID() != WalkingLeft) {
                 Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
                 Player->SetFrame(0);
             }
-             if(PlayerAnimator->GetAnim() != WalkingAnimation) {
-                 PlayerAnimator->SetAnim(WalkingAnimation, GetGameTime());
-                 Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
-             }
+            if (PlayerAnimator->GetAnim() != WalkingAnimation) {
+                PlayerAnimator->SetAnim(WalkingAnimation, GetGameTime());
+                Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
+            }
 
             if (((terrain->GetViewWindow().x - 4) >= 0) &&
                 ((terrain->GetViewWindow().x + terrain->GetViewWindow().w / 2)) <= Player->GetBox().x) {
@@ -158,23 +179,42 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
             Player->SetFrame(PlayerAnimator->GetCurrFrame());
         }
 
-         if(isStanding) {
-             if(PlayerAnimator->GetAnim() != StandingAnimation) {
-                 PlayerAnimator->SetAnim(StandingAnimation, GetGameTime());
-                 Player->SetFrame(0);
-             }
-             if (Player->GetFilm()->GetID() == DownLeft) {
-                 Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
-                 Player->SetFrame(0);
-             }
-             if (Player->GetFilm()->GetID() == DownRight) {
-                 Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
-                 Player->SetFrame(0);
-             }
 
-         }
+        if (isAttack) {
+            if (PlayerAnimator->GetAnim() != AttackAnimation) {
+                PlayerAnimator->SetAnim(AttackAnimation, GetGameTime());
+                Player->SetFrame(0);
+            }
 
+            if (Player->GetFilm()->GetID() == WalkingLeft) {
+                Player->SetFilm(AnimationFilmHolder::GetHolder().Load(AttackLeft));
+                Player->SetFrame(0);
+            }
 
+            if (Player->GetFilm()->GetID() == WalkingRight) {
+                Player->SetFilm(AnimationFilmHolder::GetHolder().Load(AttackRight));
+                Player->SetFrame(0);
+            }
+            inputs["locked"] = true;
+
+        }
+
+        if (isStanding) {
+            if (PlayerAnimator->GetAnim() != StandingAnimation) {
+                PlayerAnimator->SetAnim(StandingAnimation, GetGameTime());
+                Player->SetFrame(0);
+            }
+            if (Player->GetFilm()->GetID() == DownLeft || Player->GetFilm()->GetID() == AttackLeft) {
+                Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
+                Player->SetFrame(0);
+            }
+            if (Player->GetFilm()->GetID() == DownRight || Player->GetFilm()->GetID() == AttackRight) {
+                Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
+                Player->SetFrame(0);
+            }
+
+        }
+    }
 
 
 }

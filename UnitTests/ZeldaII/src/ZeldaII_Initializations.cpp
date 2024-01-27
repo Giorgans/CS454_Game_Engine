@@ -1,9 +1,9 @@
 #include "../ZeldaII.h"
 #include "../../../Engine/Include/sprite.h"
+#include "../../../Engine/Include/sound.h"
 #include "../../../Engine/Include/rendering.h"
 #include <filesystem>
 extern uint64_t GameTime;
-extern std::map<std::string,bool> inputs;
 
 
 
@@ -60,5 +60,9 @@ void InitializeFilms(){
 void InitializeSprites(){
     createTittleScreen();
     createLink();
+}
+
+void InitializeSounds(){
+    LoadSounds();
 }
 

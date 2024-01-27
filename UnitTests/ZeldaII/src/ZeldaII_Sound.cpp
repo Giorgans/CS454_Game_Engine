@@ -47,8 +47,14 @@ void LoadSounds(){
 
 void ZeldaII_Sound() {
 
-    if(inputs.at("A") && (GetGameTime() - LastTime)>(1000/6)/5){
+    if(inputs.at("A") && inputs.at("Down") && (GetGameTime() - LastTime)>(1000/6)){
         LastTime = GetGameTime();
+        soundManager.stopSound("attack");
+        soundManager.playSound("attack",false);
+    }
+    if(inputs.at("A") && (GetGameTime() - LastTime)>((1000/6)*3)){
+        LastTime = GetGameTime();
+        soundManager.stopSound("attack");
         soundManager.playSound("attack",false);
     }
 

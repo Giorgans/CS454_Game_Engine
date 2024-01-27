@@ -41,8 +41,8 @@ void LoadSounds(){
         soundManager.loadSound(SoundManager::SFX,"attack",ATTACK_SOUND);
     }
 
-    soundManager.setVolume(SoundManager::SFX,0.8);
-    soundManager.setVolume(SoundManager::LEVEL,0.3);
+    soundManager.setVolume(SoundManager::SFX,0);
+    soundManager.setVolume(SoundManager::LEVEL,0);
 
 }
 

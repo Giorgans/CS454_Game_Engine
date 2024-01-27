@@ -50,7 +50,7 @@ extern std::map<std::string,bool> inputs;
  **************************************/
 
 #define TitleScreen "titlescreen.png"
-
+/* Link's Animations */
 #define WalkingRight "link.right.png"
 #define WalkingLeft "link.left.png"
 #define DownLeft "link.DownAttack.left.png"
@@ -64,6 +64,16 @@ extern std::map<std::string,bool> inputs;
 #define JumpAttackDownRight "link.jump.attack.down.right.png"
 #define JumpAttackDownLeft "link.jump.attack.down.left.png"
 
+/* Enemies Animations */
+#define Bot "bot.png"
+#define Bubble "bubble.png"
+#define StalfosWalkingLeft "stalfos.left.png"
+#define StalfosWalkingRight "stalfos.right.png"
+#define StalfosAttackLeft "stalfos.attack.left.png"
+#define StalfosAttackRight "stalfos.attack.right.png"
+#define StalfosJumpLeft "stalfos.jump.left.png"
+#define StalfosJumpRight "stalfos.jump.right.png"
+
 /***************************************
  *  Parapa Palace Level Macros         *
 ***************************************/
@@ -74,7 +84,7 @@ extern std::map<std::string,bool> inputs;
 #define PARAPA_PALACE_LEVEL_STARTING_POINT_X 64 << 4
 #define PARAPA_PALACE_LEVEL_STARTING_POINT_Y 3 << 4
 #define PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_X  66 << 4
-#define PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_Y  10 << 4
+#define PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_Y  12 << 4
 
 /***************************************
  *  Main Loop Functions               *

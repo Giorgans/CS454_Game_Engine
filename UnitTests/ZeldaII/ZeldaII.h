@@ -120,6 +120,7 @@ void MainGameInputs();
 void PlayAttackSound();
 void PlayTitleScreenSound();
 void PlayLevelSound();
+void LoadSounds();
 
 /***************************************
  *  Initialization Functions          *
@@ -130,6 +131,7 @@ void InitializeFilms();
 void InitializeAnimations();
 void InitializeInputs();
 void InitializeSprites();
+void InitializeSounds();
 
 
 #endif //CS454_GAME_ENGINE_ZELDAII_H

@@ -30,6 +30,7 @@ public:
         InitializeFilms();
         InitializeSprites();
         InitializeAnimations();
+        InitializeSounds();
     }
     void Load(void){  }
     void Clear(void){  }

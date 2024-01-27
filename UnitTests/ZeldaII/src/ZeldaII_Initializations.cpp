@@ -37,7 +37,6 @@ void InitializeFilms(){
                 frames = int(al_get_bitmap_width(bitmap) / 32);
                 width = 32;
                 height = 32;
-
             }
             else if(f.path().filename() == Door){
                 frames = int(al_get_bitmap_width(bitmap) / 8);
@@ -58,6 +57,11 @@ void InitializeFilms(){
                 frames = int(al_get_bitmap_width(bitmap) / 16);
                 width = 16;
                 height = 16;
+            }
+            else if(f.path().filename() == StalfosAttackLeft || f.path().filename() == StalfosAttackRight) {
+                frames = int(al_get_bitmap_width(bitmap) / 32);
+                width = 32;
+                height = 32;
             }
             else {
                 frames = int(al_get_bitmap_width(bitmap) / 16);
@@ -80,6 +84,7 @@ void InitializeFilms(){
 void InitializeSprites(){
     createTittleScreen();
     createLink();
+    createEnemiesAndObjects();
 }
 
 void InitializeSounds(){

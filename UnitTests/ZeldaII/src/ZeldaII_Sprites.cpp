@@ -25,3 +25,32 @@ void createLink() {
     SpriteManager::GetSingleton().Add(Link);
 }
 
+void createEnemiesAndObjects(){
+    std::string csv_value,line;
+    Dim col=0,row=0;
+    std::ifstream file;
+    file.open(OBJECTS_CSV_FILE_PATH);
+    if(!file.is_open()) assert(true);
+    while(std::getline(file, line))
+    {
+        std::stringstream str(line);
+        while(getline(str, csv_value, ',')){
+            int i = std::stoi(csv_value);
+            if(i == ELEVATOR_TILE){
+                auto elevator = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row),AnimationFilmHolder::GetHolder().Load(Elevator),"Object");
+                elevator->SetFrame(0);
+                elevator->SetVisibility(true);
+                elevator->SetZorder(0);
+                elevator->GetGravityHandler().gravityAddicted = false;
+                SpriteManager::GetSingleton().Add(elevator);
+            }
+
+            //
+            col++;
+        }
+        row++;
+        col=0;
+    }
+
+}
+

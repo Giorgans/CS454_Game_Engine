@@ -21,6 +21,7 @@ void createLink() {
     Link->SetFrame(0);
     Link->SetVisibility(true);
     Link->SetZorder(0);
+    Link->GetGravityHandler().gravityAddicted = true;
     SpriteManager::GetSingleton().Add(Link);
 }
 

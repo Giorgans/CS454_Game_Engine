@@ -179,13 +179,13 @@ void GridLayer::FilterGridMotionDown (const Rect& r, int* dy)  {
         auto currRow = DIV_TILE_HEIGHT(y2);
 
         if (newRow != currRow) {
-            assert(newRow - 1 == currRow); // we really move right
-            auto startCol = DIV_TILE_WIDTH(r.y);
-            auto endCol = DIV_TILE_WIDTH(r.y + r.h - 1);
+            assert(newRow - 1 == currRow); // we really move down
+            auto startCol = DIV_TILE_WIDTH(r.x);
+            auto endCol = DIV_TILE_WIDTH(r.x + r.w - 1);
 
             for (auto col = startCol; col <= endCol; ++col) {
-                if (!GetGridTile(col, newRow)->isTileAssumedEmpty()) {
-                    *dy = DIV_TILE_HEIGHT(newRow) - 1 - y2 ;
+                if (!GetGridTile(newRow, col)->isTileAssumedEmpty()) {
+                    *dy = MUL_TILE_HEIGHT(newRow) -1  - y2 ;
                     break;
                 }
 
@@ -223,25 +223,29 @@ void GridLayer::FilterGridMotionRight (const Rect& r, int* dx) {
 
 
 void GridLayer::FilterGridMotionUp (const Rect& r, int* dy) {
-    auto y1_next = r.y + *dy;
-    if (y1_next < 0)
-        *dy = -r.y;
+    auto y2 = r.y ;
+    auto y2_next = y2 + *dy;
+    if (y2_next >= MAX_PIXEL_HEIGHT)
+        *dy = (MAX_PIXEL_HEIGHT - 1) - y2;
     else {
-        auto newRow = DIV_GRID_ELEMENT_HEIGHT(y1_next);
-        auto currRow = DIV_GRID_ELEMENT_HEIGHT(r.y);
+
+        auto newRow = DIV_TILE_HEIGHT(y2_next) ;
+        auto currRow = DIV_TILE_HEIGHT(y2);
+
         if (newRow != currRow) {
-            assert(newRow + 1 == currRow); // we really move left
-            auto startCol = DIV_GRID_ELEMENT_WIDTH(r.x);
-            auto endCol = DIV_GRID_ELEMENT_HEIGHT(r.x + r.w - 1);
+            assert(newRow + 1 == currRow); // we really move up
+            auto startCol = DIV_TILE_WIDTH(r.x);
+            auto endCol = DIV_TILE_WIDTH(r.x + r.w - 1);
+
             for (auto col = startCol; col <= endCol; ++col) {
-                if (!CanPassGridTile(col, newRow)) {
-                    *dy = MUL_GRID_ELEMENT_HEIGHT(currRow) - r.y;
+                if (!GetGridTile(newRow, col)->isTileAssumedEmpty()) {
+                    *dy = MUL_TILE_HEIGHT(currRow) - r.y ;
                     break;
                 }
+
             }
         }
     }
-
 }
 
 

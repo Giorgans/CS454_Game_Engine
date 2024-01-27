@@ -20,9 +20,9 @@ public:
         GetGame().SetDone(NotDone);
         GetGame().SetRender(ZeldaII_Rendering);
         GetGame().SetInput(ZeldaII_Input);
-       // GetGame().SetPhysics( Physic);
         GetGame().SetProgressAnimations(Animations);
         GetGame().SetSound(ZeldaII_Sound);
+       // GetGame().SetPhysics( ZeldaII_Physics);
 
         InitializeInputs();
         InitializeBitmaps();

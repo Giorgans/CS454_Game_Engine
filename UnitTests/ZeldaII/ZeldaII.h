@@ -69,7 +69,7 @@
 #define PARAPA_PALACE_LEVEL_STARTING_POINT_X 64 << 4
 #define PARAPA_PALACE_LEVEL_STARTING_POINT_Y 3 << 4
 #define PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_X  66 << 4
-#define PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_Y  12 << 4
+#define PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_Y  10 << 4
 
 /***************************************
  *  Main Loop Functions               *
@@ -79,6 +79,7 @@ void ZeldaII_Rendering();
 void ZeldaII_Animations();
 void ZeldaII_Input();
 void ZeldaII_Sound();
+void ZeldaII_Physics();
 
 /***************************************
  *  Rendering Functions               *
@@ -91,8 +92,6 @@ void parapa_palace_level_rendering();
  *  Animation Functions               *
  **************************************/
 
-void Link_Animations();
-void TitleScreenAnimations();
 
 /***************************************
  *  Creating Sprites Functions        *

@@ -57,7 +57,7 @@ public:
     bool IsVisible() const { return isVisible; }
     bool CollisionCheck(const Sprite* s) const;
     GravityHandler& GetGravityHandler (void){ return gravity; }
-    Sprite& SetHasDirectMotion (bool v) { directMotion = true; return *this; }
+    Sprite& SetHasDirectMotion (bool v) { directMotion = v; return *this; }
     bool GetHasDirectMotion (void) const { return directMotion; }
     AnimationFilm *GetFilm(){return currFilm;}
     void SetFilm(AnimationFilm *film)  {

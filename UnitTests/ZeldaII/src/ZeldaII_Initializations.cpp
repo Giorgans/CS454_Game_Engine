@@ -12,7 +12,6 @@ extern std::map<std::string,bool> inputs;
  **************************************/
 
 void InitializeBitmaps(){
-
     for (auto const& f : std::filesystem::recursive_directory_iterator(AnimationBitmaps)) {
         if(!std::filesystem::is_directory(f.path()) && f.path().filename() != ".DS_Store") { // Exclude folder as files and .DS_Store file
             BitmapLoader::GetLoader().Store(f.path().filename(), al_load_bitmap(f.path().string().c_str()));
@@ -34,14 +33,15 @@ void InitializeFilms(){
                 width = 256;
                 height = 232;
             }
-            else if(f.path().filename() == WalkingLeft || f.path().filename() == WalkingRight){
-                frames = int(al_get_bitmap_width(bitmap) / 16);
-                width = 16;
-                height = 32;
-            }
-            else {
+            else if(f.path().filename() == DownLeft || f.path().filename() == DownRight || f.path().filename() == AttackLeft || f.path().filename() == AttackRight ){
                 frames = int(al_get_bitmap_width(bitmap) / 32);
                 width = 32;
+                height = 32;
+
+            }
+            else {
+                frames = int(al_get_bitmap_width(bitmap) / 16);
+                width = 16;
                 height = 32;
             }
 

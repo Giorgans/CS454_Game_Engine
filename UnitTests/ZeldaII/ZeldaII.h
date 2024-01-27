@@ -8,6 +8,10 @@
 
 #define FRAME_DURATION 1000/14
 
+
+#include <map>
+extern std::map<std::string,bool> inputs;
+
 #define KEY_COLOR al_map_rgb(0,0,1)
 #define EMPTY_TILE 40
 
@@ -20,7 +24,8 @@
 #define ZELDA_II_TITLE_SCREEN_MUSIC "/UnitTests/ZeldaII/Media/Sound/01. Title Screen - Prologue.wav"
 #define ZELDA_II_PALACE_INTRO_MUSIC "/UnitTests/ZeldaII/Media/Sound/12. Palace Theme 1.wav"
 #define ZELDA_II_PALACE_NOINTRO_MUSIC "UnitTests/ZeldaII/Media/Sound/13. Palace Theme 1 (No Intro).wav"
-#define ZELDA_II_ATTACK_SOUND "UnitTests/ZeldaII/Media/Sound/attack.wav"
+#define ZELDA_II_ATTACK_SOUND "/UnitTests/ZeldaII/Media/Sound/attack.wav"
+#define ZELDA_II_PALACE_LEVEL_MUSIC "/UnitTests/ZeldaII/Media/Sound/12. Palace Theme 1.wav"
 
 /***************************************
  *  Choosing Starting level macros    *
@@ -113,6 +118,9 @@ void MainGameInputs();
  **************************************/
 
 void PlayAttackSound();
+void PlayTitleScreenSound();
+void PlayLevelSound();
+void LoadSounds();
 
 /***************************************
  *  Initialization Functions          *
@@ -123,6 +131,7 @@ void InitializeFilms();
 void InitializeAnimations();
 void InitializeInputs();
 void InitializeSprites();
+void InitializeSounds();
 
 
 #endif //CS454_GAME_ENGINE_ZELDAII_H

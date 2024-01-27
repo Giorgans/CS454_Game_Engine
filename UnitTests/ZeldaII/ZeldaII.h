@@ -14,6 +14,13 @@ extern std::map<std::string,bool> inputs;
 
 #define KEY_COLOR al_map_rgb(0,0,1)
 #define EMPTY_TILE 40
+#define KEY_TILE 72
+#define ELEVATOR_TILE 18
+#define CANDLE_TILE 73
+#define BRIDGE_TILE 68
+#define FAIRY_TILE 89
+
+#define WOSU_ENEMY_TILE 56
 
 /***************************************
  *  Macros of paths                   *
@@ -67,12 +74,22 @@ extern std::map<std::string,bool> inputs;
 /* Enemies Animations */
 #define Bot "bot.png"
 #define Bubble "bubble.png"
+#define WosuLeft "wosu.left.png"
+#define WosuRight "wosu.right.png"
 #define StalfosWalkingLeft "stalfos.left.png"
 #define StalfosWalkingRight "stalfos.right.png"
 #define StalfosAttackLeft "stalfos.attack.left.png"
 #define StalfosAttackRight "stalfos.attack.right.png"
 #define StalfosJumpLeft "stalfos.jump.left.png"
 #define StalfosJumpRight "stalfos.jump.right.png"
+
+/* Objects  */
+#define Key "key.png"
+#define Candle "candle.png"
+#define Door "door.png"
+#define Elevator "elevator.png"
+#define Fairy "fairy.png"
+#define FallingBridge "falling.bridge.png"
 
 /***************************************
  *  Parapa Palace Level Macros         *

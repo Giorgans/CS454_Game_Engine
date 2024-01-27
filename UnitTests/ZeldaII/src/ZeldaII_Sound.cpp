@@ -43,7 +43,7 @@ void LoadSounds(){
 
     soundManager.setVolume(SoundManager::SFX,0.8);
     soundManager.setVolume(SoundManager::LEVEL,0.3);
-    
+
 }
 
 void ZeldaII_Sound() {

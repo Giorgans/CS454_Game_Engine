@@ -125,12 +125,19 @@ void parapa_palace_level_rendering();
  **************************************/
 
 
+/*
+ * Action Functions
+ * */
+
+void setVisibility();
+
 /***************************************
  *  Creating Sprites Functions        *
  **************************************/
 
 void createTittleScreen();
 void createLink();
+void createWosu();
 
 /***************************************
  *  Input Functions                    *

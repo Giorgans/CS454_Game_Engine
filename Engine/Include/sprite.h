@@ -155,6 +155,7 @@ class SpriteManager  {
     public:
         void Add (Sprite* s) {
             dpyList.push_back(s);
+//            types.at(s->GetTypeId()).push_back(s);
         } //TODO: insert by ascending zorder
         void Remove (Sprite* s);
         SpriteList GetDisplayList() { return dpyList; }

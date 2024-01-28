@@ -60,6 +60,7 @@ void InitializeFilms(){
 void InitializeSprites(){
     createTittleScreen();
     createLink();
+    createWosu();
 }
 
 void InitializeSounds(){

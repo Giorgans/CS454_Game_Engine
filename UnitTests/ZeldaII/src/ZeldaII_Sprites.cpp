@@ -25,3 +25,11 @@ void createLink() {
     SpriteManager::GetSingleton().Add(Link);
 }
 
+void createWosu(){
+    auto *Wosu = new Sprite(LINK_STARTING_POINT_X,LINK_STARTING_POINT_Y,AnimationFilmHolder::GetHolder().Load(WosuLeft),"Enemy");
+    Wosu->SetFrame(0);
+    Wosu->SetVisibility(true);
+    Wosu->SetZorder(0);
+    Wosu->GetGravityHandler().gravityAddicted = true;
+    SpriteManager::GetSingleton().Add(Wosu);
+}

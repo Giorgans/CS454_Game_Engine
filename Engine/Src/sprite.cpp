@@ -32,6 +32,53 @@ void Sprite::Display (ALLEGRO_BITMAP *dest, const Rect& dpyArea, const Clipper& 
 
 }
 
+/*******************************************
+ * Collision functions                     *
+ ******************************************/
+
+CollisionChecker CollisionChecker::singleton;
+
+void CollisionChecker::Register(Sprite* s1, Sprite* s2, const Action& f) {
+    entries.emplace_back(s1, s2, f);
+}
+
+void CollisionChecker::Cancel(Sprite* s1, Sprite* s2) {
+    auto it = std::find_if(entries.begin(), entries.end(),
+                           [s1, s2](const Entry& e) {
+                               return (std::get<0>(e) == s1 && std::get<1>(e) == s2) ||
+                                      (std::get<0>(e) == s2 && std::get<1>(e) == s1);
+                           }
+    );
+    if (it != entries.end()) {
+        entries.erase(it);
+    }
+}
+
+void CollisionChecker::Check() const {
+    for (const auto& e : entries) {
+        Sprite* s1 = std::get<0>(e);
+        Sprite* s2 = std::get<1>(e);
+        Action action = std::get<2>(e);
+
+        if (s1->CollisionCheck(s2)) {
+            action(s1, s2);
+        }
+    }
+}
+
+bool Sprite::CollisionCheck(const Sprite* other) const {
+    // Example of a simple bounding box collision detection
+    Rect thisBox = this->GetBox(); // Assuming GetBox() returns the bounding box of the sprite
+    Rect otherBox = other->GetBox();
+
+    bool collisionX = thisBox.x + thisBox.w >= otherBox.x &&
+                      otherBox.x + otherBox.w >= thisBox.x;
+    bool collisionY = thisBox.y + thisBox.h >= otherBox.y &&
+                      otherBox.y + otherBox.h >= thisBox.y;
+
+    return collisionX && collisionY;
+}
+
 
 /*******************************************
  * Cliping  functions for Sprites         *

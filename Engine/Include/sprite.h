@@ -54,6 +54,8 @@ public:
     byte GetFrame() const { return frameNo; }
     auto GetTypeId() -> const std::string& { return typeId; }
     void SetVisibility (bool v) { isVisible = v; }
+    std::string GetStateID(){ return stateId;}
+    void SetStateID(std::string s){stateId = s;}
     bool IsVisible() const { return isVisible; }
     bool CollisionCheck(const Sprite* s) const;
     GravityHandler& GetGravityHandler (void){ return gravity; }
@@ -155,6 +157,7 @@ class SpriteManager  {
     public:
         void Add (Sprite* s) {
             dpyList.push_back(s);
+            //types.at(s->GetTypeId()).push_back(s);
             /*types.at(s->GetTypeId()).push_back(s);*/
         } //TODO: insert by ascending zorder
         void Remove (Sprite* s);

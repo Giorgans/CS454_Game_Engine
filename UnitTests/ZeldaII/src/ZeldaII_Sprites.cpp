@@ -32,6 +32,13 @@ void LinkEnemy(Sprite *enemy,Sprite *player){
     }
 }
 
+void LinkElevatorAction(Sprite *link,Sprite *elevator){
+    if(inputs["Down"]) {
+        elevator->SetStateID("Down");
+        link->SetStateID("Down");
+    }
+}
+
 void createEnemiesAndObjects(){
     auto Link = SpriteManager::GetSingleton().GetDisplayList().at(1);
     std::string csv_value,line;
@@ -51,6 +58,8 @@ void createEnemiesAndObjects(){
                 elevator->SetZorder(0);
                 elevator->GetGravityHandler().gravityAddicted = false;
                 SpriteManager::GetSingleton().Add(elevator);
+                auto link = SpriteManager::GetSingleton().GetDisplayList().at(1);
+                CollisionChecker::GetSingleton().Register(link,elevator,LinkElevatorAction);
             }
             if(i == WOSU_ENEMY_TILE){
                 auto wosu = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row),AnimationFilmHolder::GetHolder().Load(WosuLeft),"Wosu");

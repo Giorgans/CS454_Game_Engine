@@ -7,6 +7,7 @@
  *  Creating Sprites Functions        *
  *************************************/
 
+
 void createTittleScreen(){
     auto *TitleScn = new Sprite(ZELDA_STARTING_LEVEL_STARTING_POINT_X,ZELDA_STARTING_LEVEL_STARTING_POINT_Y,AnimationFilmHolder::GetHolder().Load(TitleScreen),"TitleScreen");
     TitleScn->SetFrame(0);
@@ -25,7 +26,14 @@ void createLink() {
     SpriteManager::GetSingleton().Add(Link);
 }
 
+void LinkEnemy(Sprite *enemy,Sprite *player){
+    if(inputs["A"]) {
+        enemy->SetVisibility(false);
+    }
+}
+
 void createEnemiesAndObjects(){
+    auto Link = SpriteManager::GetSingleton().GetDisplayList().at(1);
     std::string csv_value,line;
     Dim col=0,row=0;
     std::ifstream file;
@@ -44,8 +52,15 @@ void createEnemiesAndObjects(){
                 elevator->GetGravityHandler().gravityAddicted = false;
                 SpriteManager::GetSingleton().Add(elevator);
             }
-
-            //
+            if(i == WOSU_ENEMY_TILE){
+                auto wosu = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row),AnimationFilmHolder::GetHolder().Load(WosuLeft),"Wosu");
+                wosu->SetFrame(0);
+                wosu->SetVisibility(true);
+                wosu->SetZorder(0);
+                wosu->GetGravityHandler().gravityAddicted = true;
+                SpriteManager::GetSingleton().Add(wosu);
+                CollisionChecker::GetSingleton().Register(wosu,Link,LinkEnemy);
+            }
             col++;
         }
         row++;

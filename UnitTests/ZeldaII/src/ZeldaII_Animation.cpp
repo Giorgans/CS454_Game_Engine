@@ -11,6 +11,8 @@ extern TileLayer *terrain,*background;
 void TittleScreen_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim);
 void TittleScreen_Animations_OnFinish(Animator *animator);
 
+void Wosu_Animation_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim);
+
 void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim);
 void Link_Animations_OnFinish(Animator *animator);
 
@@ -19,9 +21,12 @@ void InitializeAnimations(){
     auto *TitleScreenAnimation =  new FrameRangeAnimation("TitleScreen",0,AnimationFilmHolder::GetHolder().GetFilm(TitleScreen)->GetTotalFrames()-1,0,0,0,1000/3);
     auto *WalkingAnimation = new  FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,4,0,FRAME_DURATION);
     auto *StandingAnimation = new FrameRangeAnimation("Standing",0,0,0,0,0,FRAME_DURATION);
+    auto *WosuWalkingLeft = new FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WosuLeft)->GetTotalFrames()-1,0,4,0,FRAME_DURATION);
 
     auto *TitleScreenAnimator = new FrameRangeAnimator("TitleScreenAnimator");
     auto *PlayerAnimator = new FrameRangeAnimator("PlayerAnimator");
+    auto *WosuAnimator = new FrameRangeAnimator("WosuAnimator");
+
 
     auto titles = SpriteManager::GetSingleton().GetDisplayList().at(0);
     auto Link = SpriteManager::GetSingleton().GetDisplayList().at(1);
@@ -42,8 +47,13 @@ void InitializeAnimations(){
 
     PlayerAnimator->SetOnFinish([PlayerAnimator](Animator *animator) {Link_Animations_OnFinish(PlayerAnimator);});
 
+    auto wosu=SpriteManager::GetSingleton().GetTypeList("Wosu").at(0);
+    WosuAnimator->SetOnAction(
+            [wosu,WosuAnimator, WosuWalkingLeft](Animator *animator,const Animation &anim) {
+                Wosu_Animation_OnAction(wosu,WosuAnimator, *WosuWalkingLeft);
+            }
+    );
     TitleScreenAnimator->Start(TitleScreenAnimation,GetGameTime());
-
 }
 
 void TittleScreen_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim){
@@ -68,6 +78,11 @@ void TittleScreen_Animations_OnFinish(Animator *animator){
         PlayerAnimator->Start(StandingAnimation, GetGameTime());
     else
         assert(true);
+
+}
+
+
+void Wosu_Animation_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim){
 
 }
 
@@ -102,6 +117,7 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
     if(inputs["locked"]){
         if (Player->GetFilm()->GetID() == AttackRight || Player->GetFilm()->GetID() == AttackLeft){
             Player->SetFrame(PlayerAnimator->GetCurrFrame());
+
             if(Player->GetFrame()==AttackAnimation->GetEndFrame()) {
                 inputs["locked"] = false;
                 if(Player->GetFilm()->GetID() == AttackRight)

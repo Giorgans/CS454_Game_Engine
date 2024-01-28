@@ -74,6 +74,30 @@ public:
 };
 
 /*******************************************
+ * Collision Class and signatures          *
+ ******************************************/
+
+class CollisionChecker final {
+public:
+    using Action = std::function<void(Sprite* s1, Sprite* s2)>;
+    static CollisionChecker singleton;
+
+protected:
+    using Entry = std::tuple<Sprite*, Sprite*, Action>;
+    std::list<Entry> entries;
+
+public:
+    CollisionChecker() = default;
+
+    void Register(Sprite* s1, Sprite* s2, const Action& f);
+    void Cancel(Sprite* s1, Sprite* s2);
+    void Check() const;
+
+    static CollisionChecker& GetSingleton() { return singleton; }
+    static const CollisionChecker& GetSingletonConst() { return singleton; }
+};
+
+/*******************************************
  * Cliping Class and functions for Sprites *
  ******************************************/
 

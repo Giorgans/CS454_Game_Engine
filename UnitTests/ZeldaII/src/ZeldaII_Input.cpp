@@ -36,7 +36,6 @@ void MainGameInputs(){
 
     if(al_key_down(&keyboardState, ALLEGRO_KEY_ESCAPE))
         inputs["exit"] = true;
-
 }
 
 void InitializeInputs(){

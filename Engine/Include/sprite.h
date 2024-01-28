@@ -157,8 +157,13 @@ class SpriteManager  {
     public:
         void Add (Sprite* s) {
             dpyList.push_back(s);
-            //types.at(s->GetTypeId()).push_back(s);
-            /*types.at(s->GetTypeId()).push_back(s);*/
+            auto it = types.find(s->GetTypeId());
+            if (it != types.end()) {
+                it->second.push_back(s);
+            } else {
+                types[s->GetTypeId()] = SpriteList{ s };
+            }
+
         } //TODO: insert by ascending zorder
         void Remove (Sprite* s);
         SpriteList GetDisplayList() { return dpyList; }
@@ -168,9 +173,6 @@ class SpriteManager  {
         SpriteManager() {};
 
 };
-
-
-
 
 
 #endif //CS454_GAME_ENGINE_SPRITE_H

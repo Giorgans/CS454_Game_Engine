@@ -23,13 +23,14 @@ void InitializeAnimations(){
     auto *TitleScreenAnimation =  new FrameRangeAnimation("TitleScreen",0,AnimationFilmHolder::GetHolder().GetFilm(TitleScreen)->GetTotalFrames()-1,0,0,0,1000/3);
     auto *WalkingAnimation = new  FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,4,0,FRAME_DURATION);
     auto *StandingAnimation = new FrameRangeAnimation("Standing",0,0,0,0,0,FRAME_DURATION);
-    auto *WosuWalkingLeft = new FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WosuLeft)->GetTotalFrames()-1,0,4,0,FRAME_DURATION);
+    auto *WosuWalking = new FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WosuLeft)->GetTotalFrames()-1,0,4,0,FRAME_DURATION);
 
     auto *TitleScreenAnimator = new FrameRangeAnimator("TitleScreenAnimator");
     auto *PlayerAnimator = new FrameRangeAnimator("PlayerAnimator");
     auto *WosuAnimator = new FrameRangeAnimator("WosuAnimator");
 
 
+    auto wosu=SpriteManager::GetSingleton().GetTypeList("Wosu").at(0);
     auto titles = SpriteManager::GetSingleton().GetDisplayList().at(0);
     auto Link = SpriteManager::GetSingleton().GetDisplayList().at(1);
 
@@ -61,10 +62,9 @@ void InitializeAnimations(){
 
     PlayerAnimator->SetOnFinish([PlayerAnimator](Animator *animator) {Link_Animations_OnFinish(PlayerAnimator);});
 
-    auto wosu=SpriteManager::GetSingleton().GetTypeList("Wosu").at(0);
     WosuAnimator->SetOnAction(
-            [wosu,WosuAnimator, WosuWalkingLeft](Animator *animator,const Animation &anim) {
-                Wosu_Animation_OnAction(wosu,WosuAnimator, *WosuWalkingLeft);
+            [wosu,WosuAnimator, WosuWalking](Animator *animator,const Animation &anim) {
+                Wosu_Animation_OnAction(wosu,WosuAnimator, *WosuWalking);
             }
     );
     TitleScreenAnimator->Start(TitleScreenAnimation,GetGameTime());
@@ -109,9 +109,50 @@ void TittleScreen_Animations_OnFinish(Animator *animator){
 }
 
 
-void Wosu_Animation_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim){
+SpriteVisibilityInfo isVisibleToLink(Sprite* sprite) {
+    Rect DisplayArea {0, 0, DISPLAY_W*2, DISPLAY_H*2};
+    int linkX = DisplayArea.w / 2; // Link is in the middle of the X-axis
 
+    SpriteVisibilityInfo info {false, false};
+
+    if (sprite->IsVisible()) {
+        Rect spriteBox = sprite->GetBox();
+        bool isWithinDisplayArea = spriteBox.x + spriteBox.w > DisplayArea.x &&
+                                   spriteBox.x < DisplayArea.x + DisplayArea.w &&
+                                   spriteBox.y + spriteBox.h > DisplayArea.y &&
+                                   spriteBox.y < DisplayArea.y + DisplayArea.h;
+
+        if (isWithinDisplayArea) {
+            info.isVisible = true;
+            info.isRightOfLink = spriteBox.x + spriteBox.w / 2 > linkX;
+        }
+    }
+
+    return info;
 }
+
+void Wosu_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim) {
+    SpriteVisibilityInfo info = isVisibleToLink(sprite);
+
+    if (info.isVisible) {
+        auto* wosuAnimator = (FrameRangeAnimator*) animator;
+        if (wosuAnimator) {
+            FrameRangeAnimation* newAnimation;
+
+            if (info.isRightOfLink) {
+                sprite->SetFilm(AnimationFilmHolder::GetHolder().Load(WosuLeft));
+                sprite->SetFrame(0);
+                sprite->SetHasDirectMotion(true).Move(-anim.GetDx(),anim.GetDy()).SetHasDirectMotion(false);
+            } else {
+                sprite->SetFilm(AnimationFilmHolder::GetHolder().Load(WosuRight));
+                sprite->SetFrame(0);
+                sprite->SetHasDirectMotion(true).Move(anim.GetDx(),anim.GetDy()).SetHasDirectMotion(false);
+            }
+        }
+    }
+}
+
+
 
 
 void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim){
@@ -367,3 +408,4 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
 void Link_Animations_OnFinish(Animator *animator) {
 
 }
+

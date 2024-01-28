@@ -1,8 +1,6 @@
 
 #include "../../../Engine/Include/sprite.h"
 
-
-
 /***************************************
  *  Creating Sprites Functions        *
  *************************************/

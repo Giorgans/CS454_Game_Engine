@@ -1,7 +1,7 @@
 #include "../../../Engine/Include/rendering.h"
 
 ALLEGRO_DISPLAY *window = nullptr;
-Rect DisplayArea {0,0,DISPLAY_W*2,DISPLAY_H*2};
+Rect DisplayArea {0,0,DISPLAY_W*2,DISPLAY_H*2}; //visible rectangle in screen
 TileLayer *background=nullptr,*terrain=nullptr;
 
 /***************************************

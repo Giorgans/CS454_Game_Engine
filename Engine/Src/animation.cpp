@@ -73,6 +73,19 @@ Animator::~Animator(){
     AnimatorManager::GetManager().Cancel(this);
 }
 
+void MovingAnimator::Progress (timestamp_t currTime) {
+    while (currTime > lastTime && (currTime - lastTime) >= anim->GetDelay()) {
+        lastTime += anim->GetDelay();
+        NotifyAction(*anim);
+        if (!anim->IsForever() && ++currRep == anim->GetReps()) {
+            state = ANIMATOR_FINISHED;
+            NotifyStopped();
+            return;
+        }
+    }
+}
+
+
 void FrameRangeAnimator::Progress (timestamp_t currTime) {
     while (currTime > lastTime && (currTime - lastTime) >= anim->GetDelay()) {
         if (currFrame == anim->GetEndFrame()) {
@@ -94,6 +107,8 @@ void FrameRangeAnimator::Progress (timestamp_t currTime) {
         if (currFrame > anim->GetEndFrame()) {
             currFrame = anim->GetStartFrame(); // flip to start
         }
+
+
     }
 }
 

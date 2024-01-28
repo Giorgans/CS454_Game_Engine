@@ -344,15 +344,24 @@ class MovingAnimator : public Animator {
         unsigned currRep = 0; // animation state
     public:
         void Progress (timestamp_t currTime);
-        auto GetAnim () const -> const MovingAnimation&{ return *anim; }
-        void Start (MovingAnimation* a, timestamp_t t) {
+        MovingAnimation *GetAnim(){return anim;}
+    unsigned GetCurrRep() const { return currRep; }
+
+    void SetAnim(MovingAnimation *a, timestamp_t t){
             anim = a;
             lastTime = t;
             state = ANIMATOR_RUNNING;
             currRep = 0;
-            NotifyStarted();
+
         }
-        MovingAnimator () = default;
+        void Start (MovingAnimation* a, timestamp_t t) {
+                anim = a;
+                lastTime = t;
+                state = ANIMATOR_RUNNING;
+                currRep = 0;
+                NotifyStarted();
+            }
+            MovingAnimator () = default;
 };
 
 class FrameRangeAnimator : public Animator {
@@ -364,13 +373,12 @@ class FrameRangeAnimator : public Animator {
         void Progress(timestamp_t currTime);
         unsigned GetCurrFrame() const { return currFrame; }
         unsigned GetCurrRep() const { return currRep; }
+        void SetCurrRep(unsigned r) {currRep = r;}
         FrameRangeAnimation *GetAnim(){return anim;}
         void SetAnim(FrameRangeAnimation *a, timestamp_t t){
             anim = a;
             lastTime = t;
             state = ANIMATOR_RUNNING;
-            currRep = 0;
-
         }
         void Start(FrameRangeAnimation *a, timestamp_t t) {
             anim = a;

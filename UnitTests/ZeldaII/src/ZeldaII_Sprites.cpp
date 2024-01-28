@@ -30,6 +30,10 @@ void LinkElevatorAction(Sprite *link,Sprite *elevator){
         elevator->SetStateID("Down");
         link->SetStateID("Down");
     }
+
+    if(link->GetStateID()=="GoingDown"){
+        elevator->SetStateID("GoingDown");
+    }
 }
 
 void createEnemiesAndObjects(){

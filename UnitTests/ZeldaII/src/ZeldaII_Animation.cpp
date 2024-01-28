@@ -14,13 +14,14 @@ void TittleScreen_Animations_OnFinish(Animator *animator);
 void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim);
 void Link_Animations_OnFinish(Animator *animator);
 
-void Elevator_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim);
+void Elevator_Animations_OnAction(Sprite *sprite,Animator *animator,const MovingAnimation &anim);
 
 void InitializeAnimations(){
 
     auto *TitleScreenAnimation =  new FrameRangeAnimation("TitleScreen",0,AnimationFilmHolder::GetHolder().GetFilm(TitleScreen)->GetTotalFrames()-1,0,0,0,1000/3);
     auto *WalkingAnimation = new  FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,4,0,FRAME_DURATION);
     auto *StandingAnimation = new FrameRangeAnimation("Standing",0,0,0,0,0,FRAME_DURATION);
+    auto *ElevatorStandingAnimation = new MovingAnimation("Standing",0,0,0,FRAME_DURATION);
 
     auto *TitleScreenAnimator = new FrameRangeAnimator("TitleScreenAnimator");
     auto *PlayerAnimator = new FrameRangeAnimator("PlayerAnimator");
@@ -30,10 +31,10 @@ void InitializeAnimations(){
 
     for(auto i : SpriteManager::GetSingleton().GetDisplayList()){
         if(i->GetFilm()->GetID() == Elevator && i->IsVisible()) {
-            auto *ElevatorAnimator = new FrameRangeAnimator("ElevatorAnimator");
+            auto *ElevatorAnimator = new MovingAnimator();
             ElevatorAnimator->SetOnAction(
-                    [i,ElevatorAnimator, StandingAnimation](Animator *animator,const Animation &anim) {
-                        Elevator_Animations_OnAction(i,ElevatorAnimator, *StandingAnimation);
+                    [i,ElevatorAnimator, ElevatorStandingAnimation](Animator *animator,const Animation &anim) {
+                        Elevator_Animations_OnAction(i,ElevatorAnimator, *ElevatorStandingAnimation);
                     }
             );
             ElevatorAnimator->Start(StandingAnimation,GetGameTime());
@@ -60,14 +61,32 @@ void InitializeAnimations(){
 
 }
 
-void Elevator_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim){
-    auto moveDown = new FrameRangeAnimation("Down",0,0,5,0,4,FRAME_DURATION);
-    auto* frameRangeAnimator = (FrameRangeAnimator*) animator;
+void Elevator_Animations_OnAction(Sprite *sprite,Animator *animator,const MovingAnimation &anim){
+    auto *ElevatorStandingAnimation = new MovingAnimation("Standing",0,0,0,FRAME_DURATION);
+    auto *moveDown = new MovingAnimation("Down",8,0,4,FRAME_DURATION);
+    auto *moveGoingDown = new MovingAnimation("Down",28,0,4,FRAME_DURATION);
+
+    auto* movingAnimator = (MovingAnimator*) animator;
+
 
     if(sprite->GetStateID()=="Down"){
-        frameRangeAnimator->SetAnim(moveDown,GetGameTime());
+        if(movingAnimator->GetAnim()->IsForever())
+            movingAnimator->SetAnim(moveDown,GetGameTime());
         sprite->SetHasDirectMotion(true).Move(moveDown->GetDx(), moveDown->GetDy()).SetHasDirectMotion(false);
 
+    }
+
+    if(sprite->GetStateID()=="GoingDown"){
+        if(movingAnimator->GetAnim()->IsForever())
+            movingAnimator->SetAnim(moveGoingDown,GetGameTime());
+        sprite->SetHasDirectMotion(true).Move(moveGoingDown->GetDx(), moveGoingDown->GetDy()).SetHasDirectMotion(false);
+
+    }
+
+    if(sprite->GetStateID()=="Down" && movingAnimator->GetCurrRep()==6){
+        Rect terrainview ={terrain->GetViewWindow().x, terrain->GetViewWindow().y + 240 , terrain->GetViewWindow().w, terrain->GetViewWindow().h};
+        terrain->SetViewWindow(terrainview);
+        background->SetViewWindow(terrainview);
     }
 
 
@@ -84,6 +103,8 @@ void TittleScreen_Animations_OnAction(Sprite *sprite,Animator *animator,const Fr
         link->SetVisibility(true);
         frameRangeAnimator->Stop();
     }
+
+
 }
 
 void TittleScreen_Animations_OnFinish(Animator *animator){
@@ -105,7 +126,7 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
     auto *WalkingAnimation = new  FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,4,0,FRAME_DURATION);
     auto *AttackAnimation = new  FrameRangeAnimation("Attack",0,AnimationFilmHolder::GetHolder().GetFilm(AttackRight)->GetTotalFrames()-1,0,0,0,1000/6);
     auto *JumpAnimation = new  FrameRangeAnimation("Jump",0,AnimationFilmHolder::GetHolder().GetFilm(JumpRight)->GetTotalFrames()-1,0,4,8,1000/6);
-    auto moveDown = new FrameRangeAnimation("Down",0,0,5,0,4,FRAME_DURATION);
+    auto *moveDown = new FrameRangeAnimation("Down",0,0,32,0,4,FRAME_DURATION);
 
     /*** Questions ***/
     auto isDown = inputs["Down"] && !inputs["Right"] && !inputs["Left"] && !inputs["A"] && !inputs["S"];
@@ -127,9 +148,16 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
 
     Sprite * Player =  sprite;
     auto *PlayerAnimator = (FrameRangeAnimator*) animator;
-    if(Player->GetStateID()=="Down"){
+
+    if(Player->GetStateID()=="Down" ) {
         PlayerAnimator->SetAnim(moveDown,GetGameTime());
         Player->SetHasDirectMotion(true).Move(moveDown->GetDx(), moveDown->GetDy()).SetHasDirectMotion(false);
+        if(PlayerAnimator->GetCurrRep()==6){
+            Player->SetHasDirectMotion(true).Move(0, 120).SetHasDirectMotion(false);
+            Player->SetStateID("GoingDown");
+            PlayerAnimator->SetCurrRep(0);
+            PlayerAnimator->SetAnim(WalkingAnimation,GetGameTime());
+        }
     }
     else if(inputs["locked"]){
         if (Player->GetFilm()->GetID() == AttackRight || Player->GetFilm()->GetID() == AttackLeft){
@@ -187,6 +215,7 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
 
     }
     else{
+        Player->SetStateID("");
         if (isDown) {
             PlayerAnimator->SetAnim(StandingAnimation, GetGameTime());
             if (Player->GetFilm()->GetID() == WalkingLeft)

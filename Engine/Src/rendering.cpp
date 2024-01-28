@@ -40,6 +40,6 @@ void BitmapBlitScaled(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Poi
 // Draws a scaled part of bitmap to an area of another bitmap
 void BitmapBlitScaledSprite(ALLEGRO_BITMAP *src,Rect src_rect,ALLEGRO_BITMAP *dest,Point dest_point){
     al_set_target_bitmap(dest);
-    al_draw_scaled_bitmap(src,src_rect.x,src_rect.y,src_rect.w,src_rect.h,dest_point.x,dest_point.y,src_rect.w,32,0);
+    al_draw_scaled_bitmap(src,src_rect.x,src_rect.y,src_rect.w,src_rect.h,dest_point.x,dest_point.y,src_rect.w,src_rect.h,0);
     al_unlock_bitmap(dest);
 }

@@ -71,7 +71,7 @@ void parapa_palace_level_rendering(){
     for(auto i : SpriteManager::GetSingleton().GetDisplayList()){
         if(i->GetTypeId() == "Link")
             i->Display(al_get_backbuffer(window),DisplayArea,MakeTileLayerClipper(terrain));
-        else if(i->IsVisible() && i->GetTypeId() != "TitleScreen")
+        if(i->IsVisible() && i->GetTypeId() != "TitleScreen")
             i->Display(al_get_backbuffer(window),DisplayArea,MakeTileLayerClipper(terrain));
     }
     tempBuffer = al_clone_bitmap(al_get_backbuffer(window));

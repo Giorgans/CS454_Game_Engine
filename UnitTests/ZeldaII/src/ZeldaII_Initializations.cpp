@@ -37,7 +37,31 @@ void InitializeFilms(){
                 frames = int(al_get_bitmap_width(bitmap) / 32);
                 width = 32;
                 height = 32;
-
+            }
+            else if(f.path().filename() == Door){
+                frames = int(al_get_bitmap_width(bitmap) / 8);
+                width = 8;
+                height = 48;
+            }
+            else if(f.path().filename() == Key || f.path().filename() == Candle || f.path().filename() == Fairy){
+                frames = 1;
+                width = 16;
+                height = 16;
+            }
+            else if(f.path().filename() == Elevator){
+                frames = 1;
+                width = 32;
+                height = 64;
+            }
+            else if(f.path().filename() == FallingBridge || f.path().filename() == Bot || f.path().filename() == Bubble){
+                frames = int(al_get_bitmap_width(bitmap) / 16);
+                width = 16;
+                height = 16;
+            }
+            else if(f.path().filename() == StalfosAttackLeft || f.path().filename() == StalfosAttackRight) {
+                frames = int(al_get_bitmap_width(bitmap) / 32);
+                width = 32;
+                height = 32;
             }
             else {
                 frames = int(al_get_bitmap_width(bitmap) / 16);
@@ -60,7 +84,7 @@ void InitializeFilms(){
 void InitializeSprites(){
     createTittleScreen();
     createLink();
-    createWosu();
+    createEnemiesAndObjects();
 }
 
 void InitializeSounds(){

@@ -41,7 +41,7 @@ extern std::map<std::string,bool> inputs;
 #define ZELDA_STARTING_LEVEL_TILESET_PATH           PARAPA_PALACE_LEVEL_TILESET_PATH
 #define ZELDA_STARTING_LEVEL_BACKGROUND_CSV_PATH    PARAPA_PALACE_LEVEL_BACKGROUND_CSV_PATH
 #define ZELDA_STARTING_LEVEL_TERRAIN_CSV_PATH       PARAPA_PALACE_LEVEL_TERRAIN_CSV_PATH
-
+#define ZELDA_STARTING_LEVEL_OBJECTS_CSV_PATH      PARAPA_PALACE_LEVEL_OBJECTS_AND_ENEMIES_CSV_PATH
 /***************************************
  *  Starting Position macros for render *
  **************************************/
@@ -98,6 +98,7 @@ extern std::map<std::string,bool> inputs;
 #define PARAPA_PALACE_LEVEL_TILESET_PATH "/UnitTests/ZeldaII/Media/Levels/ParapaPalace/tileset.png"
 #define PARAPA_PALACE_LEVEL_BACKGROUND_CSV_PATH "/UnitTests/ZeldaII/Media/Levels/ParapaPalace/parapa_palace_background.csv"
 #define PARAPA_PALACE_LEVEL_TERRAIN_CSV_PATH "/UnitTests/ZeldaII/Media/Levels/ParapaPalace/parapa_palace_terrain.csv"
+#define PARAPA_PALACE_LEVEL_OBJECTS_AND_ENEMIES_CSV_PATH "/UnitTests/ZeldaII/Media/Levels/ParapaPalace/sprites_Sprites.csv"
 #define PARAPA_PALACE_LEVEL_STARTING_POINT_X 64 << 4
 #define PARAPA_PALACE_LEVEL_STARTING_POINT_Y 3 << 4
 #define PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_X  66 << 4
@@ -125,19 +126,13 @@ void parapa_palace_level_rendering();
  **************************************/
 
 
-/*
- * Action Functions
- * */
-
-void setVisibility();
-
 /***************************************
  *  Creating Sprites Functions        *
  **************************************/
 
 void createTittleScreen();
 void createLink();
-void createWosu();
+void createEnemiesAndObjects();
 
 /***************************************
  *  Input Functions                    *

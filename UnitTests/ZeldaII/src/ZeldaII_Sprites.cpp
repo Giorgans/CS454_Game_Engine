@@ -25,6 +25,13 @@ void createLink() {
     SpriteManager::GetSingleton().Add(Link);
 }
 
+void LinkElevatorAction(Sprite *link,Sprite *elevator){
+    if(inputs["Down"]) {
+        elevator->SetStateID("Down");
+        link->SetStateID("Down");
+    }
+}
+
 void createEnemiesAndObjects(){
     std::string csv_value,line;
     Dim col=0,row=0;
@@ -43,7 +50,10 @@ void createEnemiesAndObjects(){
                 elevator->SetZorder(0);
                 elevator->GetGravityHandler().gravityAddicted = false;
                 SpriteManager::GetSingleton().Add(elevator);
+                auto link = SpriteManager::GetSingleton().GetDisplayList().at(1);
+                CollisionChecker::GetSingleton().Register(link,elevator,LinkElevatorAction);
             }
+
 
             //
             col++;

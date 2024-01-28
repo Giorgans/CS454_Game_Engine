@@ -6,4 +6,5 @@ extern TileLayer *terrain;
 
 
 void ZeldaII_Physics() {
+    CollisionChecker::GetSingleton().Check();
 }

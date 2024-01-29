@@ -5,7 +5,7 @@
 extern TileLayer *terrain,*background;
 
 /***************************************
- *  Animation Functions               *
+ *  Animation Functions                *
  **************************************/
 
 void TittleScreen_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim);
@@ -23,12 +23,14 @@ void InitializeAnimations(){
     auto *TitleScreenAnimation =  new FrameRangeAnimation("TitleScreen",0,AnimationFilmHolder::GetHolder().GetFilm(TitleScreen)->GetTotalFrames()-1,0,0,0,1000/3);
     auto *WalkingAnimation = new  FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,4,0,FRAME_DURATION);
     auto *StandingAnimation = new FrameRangeAnimation("Standing",0,0,0,0,0,FRAME_DURATION);
+    auto *WosuStanding = new FrameRangeAnimation("Standing",0,0,0,0,0,FRAME_DURATION);
     auto *WosuWalking = new FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WosuLeft)->GetTotalFrames()-1,0,4,0,FRAME_DURATION);
     auto *ElevatorStandingAnimation = new MovingAnimation("Standing",0,0,0,FRAME_DURATION);
 
     auto *TitleScreenAnimator = new FrameRangeAnimator("TitleScreenAnimator");
     auto *PlayerAnimator = new FrameRangeAnimator("PlayerAnimator");
     auto *WosuAnimator = new FrameRangeAnimator("WosuAnimator");
+    std::vector<FrameRangeAnimator*> wosuAnimators;
 
 
     auto wosu=SpriteManager::GetSingleton().GetTypeList("Wosu").at(0);
@@ -36,6 +38,7 @@ void InitializeAnimations(){
     auto Link = SpriteManager::GetSingleton().GetDisplayList().at(1);
 
     for(auto i : SpriteManager::GetSingleton().GetDisplayList()){
+        //ELEVATOR
         if(i->GetFilm()->GetID() == Elevator && i->IsVisible()) {
             auto *ElevatorAnimator = new MovingAnimator();
             ElevatorAnimator->SetOnAction(
@@ -44,6 +47,17 @@ void InitializeAnimations(){
                     }
             );
             ElevatorAnimator->Start(StandingAnimation,GetGameTime());
+        }
+        //WOS
+        else if (i->GetFilm()->GetID() == WosuLeft || i->GetFilm()->GetID() == WosuRight) {
+            auto *wosuAnimator = new FrameRangeAnimator("WosuAnimator");
+            wosuAnimator->SetOnAction(
+                    [i, wosuAnimator, WosuStanding](Animator *animator, const Animation &anim) {
+                        Wosu_Animation_OnAction(i, wosuAnimator, *WosuStanding);
+                    }
+            );
+            wosuAnimator->Start(WosuStanding, GetGameTime());
+            wosuAnimators.push_back(wosuAnimator);
         }
     }
 
@@ -130,21 +144,21 @@ void TittleScreen_Animations_OnFinish(Animator *animator){
 
 
 SpriteVisibilityInfo isVisibleToLink(Sprite* sprite) {
-    Rect DisplayArea {0, 0, DISPLAY_W*2, DISPLAY_H*2};
-    int linkX = DisplayArea.w / 2; // Link is in the middle of the X-axis
-
+    Rect Area ={terrain->GetViewWindow().x, terrain->GetViewWindow().y, terrain->GetViewWindow().w/2, terrain->GetViewWindow().h/2};
+    auto link = SpriteManager::GetSingleton().GetDisplayList().at(1);
+    int linkX = link->GetBox().x;
     SpriteVisibilityInfo info {false, false};
 
     if (sprite->IsVisible()) {
         Rect spriteBox = sprite->GetBox();
-        bool isWithinDisplayArea = spriteBox.x + spriteBox.w > DisplayArea.x &&
-                                   spriteBox.x < DisplayArea.x + DisplayArea.w &&
-                                   spriteBox.y + spriteBox.h > DisplayArea.y &&
-                                   spriteBox.y < DisplayArea.y + DisplayArea.h;
+        bool isWithinDisplayArea = spriteBox.x + spriteBox.w > Area.x &&
+                                   spriteBox.x < Area.x + Area.w &&
+                                   spriteBox.y + spriteBox.h > Area.y &&
+                                   spriteBox.y < Area.y + Area.h;
 
         if (isWithinDisplayArea) {
             info.isVisible = true;
-            info.isRightOfLink = spriteBox.x + spriteBox.w / 2 > linkX;
+            info.isRightOfLink = spriteBox.x > linkX;
         }
     }
 
@@ -152,23 +166,31 @@ SpriteVisibilityInfo isVisibleToLink(Sprite* sprite) {
 }
 
 void Wosu_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim) {
+
+    auto *WosuWalkingLeft = new FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WosuLeft)->GetTotalFrames()-1,0,-2,0,FRAME_DURATION);
+    auto *WosuWalkingRight = new FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WosuRight)->GetTotalFrames()-1,0,2,0,FRAME_DURATION);
     SpriteVisibilityInfo info = isVisibleToLink(sprite);
+    auto link = SpriteManager::GetSingleton().GetDisplayList().at(1);
+    auto* wosuAnimator = dynamic_cast<FrameRangeAnimator*>(animator);
 
-    if (info.isVisible) {
-        auto* wosuAnimator = (FrameRangeAnimator*) animator;
-        if (wosuAnimator) {
-            FrameRangeAnimation* newAnimation;
+    if (info.isVisible && inputs["start"]) {
 
+        if(sprite->GetStateID()!="Active"){
+            sprite->SetStateID("Active");
             if (info.isRightOfLink) {
+                wosuAnimator->SetAnim(WosuWalkingLeft, GetGameTime());
                 sprite->SetFilm(AnimationFilmHolder::GetHolder().Load(WosuLeft));
-                sprite->SetFrame(0);
-                sprite->SetHasDirectMotion(true).Move(-anim.GetDx(),anim.GetDy()).SetHasDirectMotion(false);
             } else {
+                wosuAnimator->SetAnim(WosuWalkingRight, GetGameTime());
                 sprite->SetFilm(AnimationFilmHolder::GetHolder().Load(WosuRight));
-                sprite->SetFrame(0);
-                sprite->SetHasDirectMotion(true).Move(anim.GetDx(),anim.GetDy()).SetHasDirectMotion(false);
             }
         }
+
+        sprite->SetFrame(wosuAnimator->GetCurrFrame());
+        auto dx= wosuAnimator->GetAnim()->GetDx();
+        auto dy= 4;
+        terrain->GetGrid()->FilterGridMotion(sprite->GetBox(),&dx,&dy);
+        sprite->SetHasDirectMotion(true).Move(dx, dy).SetHasDirectMotion(false);
     }
 }
 

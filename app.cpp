@@ -29,6 +29,7 @@ public:
         InitializeBitmaps();
         InitializeFilms();
         InitializeSprites();
+        InitializeRendering();
         InitializeAnimations();
         InitializeSounds();
     }

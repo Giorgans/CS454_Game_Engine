@@ -5,7 +5,8 @@
 #include <filesystem>
 extern uint64_t GameTime;
 
-
+extern ALLEGRO_DISPLAY *window;
+extern TileLayer *background,*terrain;
 
 /***************************************
  *  Initialization Functions          *
@@ -89,5 +90,19 @@ void InitializeSprites(){
 
 void InitializeSounds(){
     LoadSounds();
+}
+
+void InitializeRendering(){
+
+    if(window == nullptr){
+        window = al_create_display(DISPLAY_W,DISPLAY_H);
+        al_set_display_icon(window, al_load_bitmap(ICON_FILE_PATH));
+    }
+
+    if (background == nullptr)
+        background = new TileLayer(MAX_HEIGHT, MAX_WIDTH, al_load_bitmap(TILESET_FILE_PATH), BACKGROUND_CSV_FILE_PATH);
+    if (terrain == nullptr)
+        terrain = new TileLayer(MAX_HEIGHT, MAX_WIDTH, al_load_bitmap(TILESET_FILE_PATH), TERRAIN_CSV_FILE_PATH);
+
 }
 

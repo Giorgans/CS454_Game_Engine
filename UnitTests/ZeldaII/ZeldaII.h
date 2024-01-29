@@ -165,6 +165,7 @@ void InitializeAnimations();
 void InitializeInputs();
 void InitializeSprites();
 void InitializeSounds();
+void InitializeRendering();
 
 
 /***************************************

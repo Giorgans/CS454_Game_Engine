@@ -18,11 +18,6 @@ void ZeldaII_Rendering() {
 
 void tittle_screen_rendering(){
 
-    if(window == nullptr){
-        window = al_create_display(DISPLAY_W,DISPLAY_H);
-        al_set_display_icon(window, al_load_bitmap(ICON_FILE_PATH));
-    }
-
     al_set_target_backbuffer(window);
     al_clear_to_color(KEY_COLOR);
     for(auto i : SpriteManager::GetSingleton().GetDisplayList()){
@@ -49,12 +44,6 @@ void parapa_palace_level_rendering(){
         al_clear_to_color(KEY_COLOR);
         al_unlock_bitmap(al_get_backbuffer(window));
     }
-
-
-    if (background == nullptr)
-        background = new TileLayer(MAX_HEIGHT, MAX_WIDTH, al_load_bitmap(TILESET_FILE_PATH), BACKGROUND_CSV_FILE_PATH);
-    if (terrain == nullptr)
-        terrain = new TileLayer(MAX_HEIGHT, MAX_WIDTH, al_load_bitmap(TILESET_FILE_PATH), TERRAIN_CSV_FILE_PATH);
 
     al_set_target_backbuffer(window);
     al_clear_to_color(KEY_COLOR);

@@ -63,8 +63,10 @@ class BitmapLoader  {
             else return NULL;
         }
         void CleanUp () {
-            for (auto &i: bitmaps) al_destroy_bitmap(i.second);
-            bitmaps.clear();
+            for (auto it = bitmaps.begin(); it != bitmaps.end(); ) {
+                al_destroy_bitmap(*&it->second);
+                it = bitmaps.erase(it);
+            }
         }
         BitmapLoader () {}
         ~BitmapLoader() { CleanUp(); }
@@ -447,9 +449,15 @@ class AnimatorManager {
                 a->Progress(currTime);
         }
 
+        void CleanUp() {
+            running.clear();
+            suspended.clear();
+        }
 
         static auto GetManager() -> AnimatorManager & { return Manager; }
-        AnimatorManager() {};
+        AnimatorManager() {
+            CleanUp();
+        };
 
 };
 

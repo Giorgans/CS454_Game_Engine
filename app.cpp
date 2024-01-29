@@ -33,7 +33,19 @@ public:
         InitializeSounds();
     }
     void Load(void){  }
-    void Clear(void){  }
+    void Clear(void){
+        al_uninstall_audio();
+        al_uninstall_system();
+        al_uninstall_keyboard();
+        al_uninstall_system();
+        AnimatorManager::GetManager().CleanUp();
+        BitmapLoader::GetLoader().CleanUp();
+        AnimationFilmHolder::GetHolder().CleanUp();
+        SpriteManager::GetSingleton().CleanUp();
+        SoundManager::GetManager().CleanUp();
+
+
+    }
 };
 
 

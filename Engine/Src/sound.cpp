@@ -5,7 +5,7 @@
 #define DEPTH ALLEGRO_AUDIO_DEPTH_FLOAT32
 #define CHAN_CONFIG ALLEGRO_CHANNEL_CONF_2
 
-SoundManager& SoundManager::getInstance() {
+SoundManager& SoundManager::GetManager() {
     static SoundManager instance;
     return instance;
 }
@@ -14,13 +14,18 @@ SoundManager::SoundManager() = default;
 
 
 SoundManager::~SoundManager() {
+    CleanUp();
+}
+
+void SoundManager::CleanUp() {
+
     for (auto& sound : sounds) {
         al_destroy_sample(sound.second);
     }
     for (auto& instance : soundInstances) {
         al_destroy_sample_instance(instance.second);
     }
-    al_uninstall_audio();
+
 }
 
 void SoundManager::initialize() {

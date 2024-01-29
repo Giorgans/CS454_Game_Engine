@@ -12,6 +12,11 @@
 #include <map>
 extern std::map<std::string,bool> inputs;
 
+struct SpriteVisibilityInfo {
+    bool isVisible;
+    bool isRightOfLink;
+};
+
 #define KEY_COLOR al_map_rgb(0,0,1)
 #define EMPTY_TILE 40
 #define KEY_TILE 72
@@ -160,6 +165,12 @@ void InitializeAnimations();
 void InitializeInputs();
 void InitializeSprites();
 void InitializeSounds();
+void InitializeRendering();
+
+
+/***************************************
+ *  Useful Functions                  *
+ **************************************/
 
 
 #endif //CS454_GAME_ENGINE_ZELDAII_H

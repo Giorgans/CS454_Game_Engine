@@ -33,12 +33,10 @@ void SoundManager::initialize() {
     al_init_acodec_addon();
     al_reserve_samples(10); //edw mporoume na valome mexri kai 10 samples na paizoun
 
-    // Create mixers for each category
     mixers[SFX] = al_create_mixer(FREQUENCY, DEPTH, CHAN_CONFIG);
     mixers[LEVEL] = al_create_mixer(FREQUENCY, DEPTH, CHAN_CONFIG);
     mixers[VOICE] = al_create_mixer(FREQUENCY, DEPTH, CHAN_CONFIG);
 
-    // Create and attach master mixer
     ALLEGRO_MIXER* masterMixer = al_create_mixer(FREQUENCY, DEPTH, CHAN_CONFIG);
     for (auto& mixer : mixers) {
         if (!mixer.second || !al_attach_mixer_to_mixer(mixer.second, masterMixer)) {

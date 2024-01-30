@@ -20,6 +20,8 @@ void Stalfos_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameR
 
 void Elevator_Animations_OnAction(Sprite *sprite, Animator *animator, const MovingAnimation &anim);
 
+void Door_Animations_OnAction(Sprite *sprite, Animator *animator, const MovingAnimation &anim);
+
 void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim);
 
 void Link_Animations_OnFinish(Animator *animator);
@@ -125,6 +127,17 @@ void InitializeAnimations() {
             StalfosAnimator->Start(Standing, GetGameTime());
             StalfosAnimators.push_back(StalfosAnimator);
         }
+        //Door
+        else if(i->GetTypeId() == "Door"){
+            auto *DoorAnimator = new FrameRangeAnimator("DoorAnimator");
+            DoorAnimator->SetOnAction(
+                    [i, DoorAnimator, Standing](Animator *animator, const Animation &anim) {
+                        Door_Animations_OnAction(i, DoorAnimator, *Standing);
+                    }
+            );
+            DoorAnimator->Start(Standing, GetGameTime());
+
+        }
     }
 
     //TitleScreen
@@ -181,6 +194,7 @@ void Elevator_Animations_OnAction(Sprite *sprite, Animator *animator, const Movi
 
 
 }
+
 
 void TittleScreen_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim) {
     auto *frameRangeAnimator = (FrameRangeAnimator *) animator;
@@ -377,6 +391,35 @@ void Stalfos_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameR
     }
 }
 
+void Door_Animations_OnAction(Sprite *sprite, Animator *animator, const MovingAnimation &anim){
+    auto OpenAnimation = new FrameRangeAnimation("OpenAnimation",0,AnimationFilmHolder::GetHolder().Load(Door)->GetTotalFrames()-1,0,0,0,FRAME_DURATION);
+    auto *frameRangeAnimator = (FrameRangeAnimator *) animator;
+    SpriteVisibilityInfo info = distanceToLink(sprite);
+
+    if(info.isVisible && info.distanceFromLink<0 && info.distanceFromLink>-16){
+        auto link = SpriteManager::GetSingleton().GetDisplayList().at(1);
+        link->SetStateID("YouShallNotPassLeft");
+    }
+    if(info.isVisible && info.distanceFromLink>0 && info.distanceFromLink<16){
+        auto link = SpriteManager::GetSingleton().GetDisplayList().at(1);
+        link->SetStateID("YouShallNotPassRight");
+    }
+
+
+    if(sprite->GetStateID() == "Open"){
+        frameRangeAnimator->SetAnim(OpenAnimation,GetGameTime());
+        sprite->SetFrame(0);
+        sprite->SetStateID("Opening");
+    }
+    if(sprite->GetStateID() == "Opening"){
+        sprite->SetFrame(frameRangeAnimator->GetCurrFrame());
+        if(frameRangeAnimator->GetCurrFrame()==frameRangeAnimator->GetAnim()->GetEndFrame()){
+            sprite->SetVisibility(false);
+            frameRangeAnimator->Stop();
+        }
+    }
+}
+
 
 void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRangeAnimation &anim){
     /*** Animations ***/
@@ -417,6 +460,10 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
             PlayerAnimator->SetCurrRep(0);
             PlayerAnimator->SetAnim(WalkingAnimation,GetGameTime());
         }
+        if(PlayerAnimator->GetCurrRep()==31) {
+            Player->SetStateID("");
+        }
+
     }
     else if(inputs["locked"]){
         if (Player->GetFilm()->GetID() == AttackRight || Player->GetFilm()->GetID() == AttackLeft){
@@ -454,6 +501,7 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
                 Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
                 PlayerAnimator->SetAnim(WalkingAnimation,GetGameTime());
                 Player->SetFrame(0);
+                Player->SetStateID("");
             }
 
         }
@@ -484,6 +532,7 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
                 Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
                 PlayerAnimator->SetAnim(WalkingAnimation,GetGameTime());
                 Player->SetFrame(0);
+                Player->SetStateID("");
             }
 
         }
@@ -492,7 +541,6 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
 
     }
     else{
-        Player->SetStateID("");
         if (isDown) {
             PlayerAnimator->SetAnim(StandingAnimation, GetGameTime());
             if (Player->GetFilm()->GetID() == WalkingLeft)
@@ -534,6 +582,10 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
             int dx = PlayerAnimator->GetAnim()->GetDx();
             int dy = 4;
             terrain->GetGrid()->FilterGridMotion(Player->GetBox(), &dx, &dy);
+            if(Player->GetStateID()=="YouShallNotPassRight") {
+                dx = 0;
+                Player->SetStateID("");
+            }
             Player->SetHasDirectMotion(true).Move(dx, dy).SetHasDirectMotion(false);
             Player->SetFrame(PlayerAnimator->GetCurrFrame());
         }
@@ -556,6 +608,11 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
             int dx = -PlayerAnimator->GetAnim()->GetDx();
             int dy = 4;
             terrain->GetGrid()->FilterGridMotion(Player->GetBox(), &dx,&dy);
+            if(Player->GetStateID()=="YouShallNotPassLeft") {
+                dx = 0;
+                Player->SetStateID("");
+            }
+
             Player->SetHasDirectMotion(true).Move(dx, dy).SetHasDirectMotion(false);
             Player->SetFrame(PlayerAnimator->GetCurrFrame());
         }

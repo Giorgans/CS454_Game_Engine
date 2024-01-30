@@ -574,9 +574,8 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
                 Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
             }
 
-            if (((terrain->GetViewWindow().x + terrain->GetViewWindow().w) - (terrain->GetViewWindow().x / 2)) <= Player->GetBox().x) {
-                background->Scroll(4, 0);
-                terrain->Scroll(4, 0);
+            if ((((terrain->GetViewWindow().x + terrain->GetViewWindow().w) - (terrain->GetViewWindow().x / 2)) <= Player->GetBox().x) && !inputs["center"]) {
+                inputs["center"]=true;
             }
 
             int dx = PlayerAnimator->GetAnim()->GetDx();
@@ -600,10 +599,6 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
                 Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
             }
 
-            if (((terrain->GetViewWindow().x - 4) >= 0) &&  ((terrain->GetViewWindow().x + terrain->GetViewWindow().w / 2)) > Player->GetBox().x) {
-                background->Scroll(-4, 0);
-                terrain->Scroll(-4, 0);
-            }
 
             int dx = -PlayerAnimator->GetAnim()->GetDx();
             int dy = 4;
@@ -706,7 +701,18 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
 
 
         }
+
+
     }
+
+    if(inputs["center"]){
+        Rect newView = {(Player->GetBox().x-132),terrain->GetViewWindow().y,terrain->GetViewWindow().w,terrain->GetViewWindow().h};
+        terrain->SetViewWindow(newView);
+        terrain->GetGrid()->SetViewWindow(newView);
+        background->SetViewWindow(newView);
+
+    }
+
 
 
 }

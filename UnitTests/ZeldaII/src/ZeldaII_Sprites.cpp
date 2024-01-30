@@ -26,7 +26,8 @@ void createLink() {
 
 void LinkEnemy(Sprite *enemy,Sprite *player){
     if(inputs["A"]) {
-        enemy->SetVisibility(false);
+        enemy->SetStateID("Attacked");
+        /*enemy->SetVisibility(false);*/
     }
 }
 
@@ -63,7 +64,7 @@ void createEnemiesAndObjects(){
                 auto link = SpriteManager::GetSingleton().GetDisplayList().at(1);
                 CollisionChecker::GetSingleton().Register(link,elevator,LinkElevatorAction);
             }
-            if(i == WOSU_ENEMY_TILE){
+            else if(i == WOSU_ENEMY_TILE){
                 auto wosu = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row),AnimationFilmHolder::GetHolder().Load(WosuLeft),"Wosu");
                 wosu->SetFrame(0);
                 wosu->SetVisibility(true);
@@ -71,6 +72,37 @@ void createEnemiesAndObjects(){
                 wosu->GetGravityHandler().gravityAddicted = true;
                 SpriteManager::GetSingleton().Add(wosu);
                 CollisionChecker::GetSingleton().Register(wosu,Link,LinkEnemy);
+            }
+            else if(i == BOT_TILE) {
+                auto bot = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row), AnimationFilmHolder::GetHolder().Load(Bot), "Bot");
+                bot->SetFrame(0);
+                bot->SetVisibility(true);
+                bot->SetZorder(0);
+                bot->GetGravityHandler().gravityAddicted = true;
+                bot->SetStateID("Inactive");
+                SpriteManager::GetSingleton().Add(bot);
+                CollisionChecker::GetSingleton().Register(bot,Link,LinkEnemy);
+            }
+            else if(i == STALFOS_TILE) {
+                auto stalfos = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row), AnimationFilmHolder::GetHolder().Load(StalfosWalkingLeft), "Stalfos");
+                stalfos->SetFrame(0);
+                stalfos->SetVisibility(true);
+                stalfos->SetZorder(0);
+                stalfos->GetGravityHandler().gravityAddicted = true;
+                SpriteManager::GetSingleton().Add(stalfos);
+                CollisionChecker::GetSingleton().Register(stalfos,Link,LinkEnemy);
+            }
+            else if(i == KEY_TILE) {
+                auto key = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row), AnimationFilmHolder::GetHolder().Load(Key), "Key");
+            }
+            else if(i == CANDLE_TILE) {
+                auto candle = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row), AnimationFilmHolder::GetHolder().Load(Candle), "Candle");
+            }
+            else if(i == BRIDGE_TILE) {
+                auto bridge = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row), AnimationFilmHolder::GetHolder().Load(FallingBridge), "Bridge");
+            }
+            else if(i == FAIRY_TILE) {
+                auto fairy = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row), AnimationFilmHolder::GetHolder().Load(Fairy), "Fairy");
             }
             col++;
         }

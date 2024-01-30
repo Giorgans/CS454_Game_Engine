@@ -5,6 +5,7 @@
 #include "allegro5/allegro_image.h"
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
+#include <random>
 
 #define FRAME_DURATION 1000/14
 
@@ -14,8 +15,9 @@ extern std::map<std::string,bool> inputs;
 
 struct SpriteVisibilityInfo {
     bool isVisible;
-    bool isRightOfLink;
+    int distanceFromLink; // Signed distance from Link
 };
+
 
 #define KEY_COLOR al_map_rgb(0,0,1)
 #define EMPTY_TILE 40
@@ -26,6 +28,11 @@ struct SpriteVisibilityInfo {
 #define FAIRY_TILE 89
 
 #define WOSU_ENEMY_TILE 56
+#define BOT_TILE 92
+#define STALFOS_TILE 94
+
+#define ATTACK_RANGE 40
+#define PUSH_BACK 20
 
 /***************************************
  *  Macros of paths                   *

@@ -49,7 +49,7 @@ class BitmapLoader  {
         ALLEGRO_BITMAP *GetBitmap(const std::string &path) const {
             return  bitmaps.find(path)->second != bitmaps.end()->second ? bitmaps.find(path)->second : nullptr ;
         }
-        static BitmapLoader Loader; // singleton
+        static BitmapLoader Loader;
     public:
     Bitmaps bitmaps;
 
@@ -62,12 +62,15 @@ class BitmapLoader  {
                 return bitmaps.at(filename);
             else return NULL;
         }
-        void CleanUp () {
-            for (auto it = bitmaps.begin(); it != bitmaps.end(); ) {
-                al_destroy_bitmap(*&it->second);
-                it = bitmaps.erase(it);
-            }
+    void CleanUp() {
+        for (auto it = bitmaps.begin(); it != bitmaps.end(); ) {
+
+            al_destroy_bitmap(it->second);
+            it = bitmaps.erase(it);
+
         }
+
+    }
         BitmapLoader () {}
         ~BitmapLoader() { CleanUp(); }
 };
@@ -105,7 +108,7 @@ class AnimationFilmHolder {
         auto GetFilm (const std::string& id) -> const AnimationFilm* const;
 
         AnimationFilmHolder () {}
-        ~AnimationFilmHolder() { CleanUp(); }
+        ~AnimationFilmHolder() { CleanUp();  }
 };
 
 /***************************************
@@ -449,15 +452,13 @@ class AnimatorManager {
                 a->Progress(currTime);
         }
 
-        void CleanUp() {
-            running.clear();
-            suspended.clear();
-        }
+        void CleanUp();
 
         static auto GetManager() -> AnimatorManager & { return Manager; }
-        AnimatorManager() {
+        AnimatorManager() {};
+        ~AnimatorManager(){
             CleanUp();
-        };
+        }
 
 };
 

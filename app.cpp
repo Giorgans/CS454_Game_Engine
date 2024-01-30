@@ -35,16 +35,18 @@ public:
     }
     void Load(void){  }
     void Clear(void){
-        al_uninstall_audio();
-        al_uninstall_system();
-        al_uninstall_keyboard();
-        al_uninstall_system();
-        AnimatorManager::GetManager().CleanUp();
         BitmapLoader::GetLoader().CleanUp();
         AnimationFilmHolder::GetHolder().CleanUp();
+        AnimatorManager::GetManager().CleanUp();
         SpriteManager::GetSingleton().CleanUp();
         SoundManager::GetManager().CleanUp();
 
+        al_uninstall_audio();
+        al_uninstall_keyboard();
+        al_shutdown_font_addon();
+        al_shutdown_primitives_addon();
+        al_shutdown_image_addon();
+        al_uninstall_system();
 
     }
 };

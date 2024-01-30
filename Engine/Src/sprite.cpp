@@ -37,7 +37,6 @@ void SpriteManager::CleanUp(){
     for (auto& instance : types) {
         instance.second.clear();
     }
-
 }
 
 

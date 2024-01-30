@@ -18,19 +18,32 @@ SoundManager::~SoundManager() {
 }
 
 void SoundManager::CleanUp() {
+    for (auto it = sounds.begin(); it != sounds.end(); ) {
 
-    for (auto& sound : sounds) {
-        al_destroy_sample(sound.second);
-    }
-    for (auto& instance : soundInstances) {
-        al_destroy_sample_instance(instance.second);
-    }
+        al_destroy_sample(it->second);
+        it = sounds.erase(it);
 
+    }
+    sounds.clear();
+
+    for (auto it = soundInstances.begin(); it != soundInstances.end(); ) {
+
+        al_destroy_sample_instance(it->second);
+        it = soundInstances.erase(it);
+
+    }
+    soundInstances.clear();
+
+    for (auto it = mixers.begin(); it != mixers.end(); ) {
+
+        al_destroy_mixer(it->second);
+        it = mixers.erase(it);
+
+    }
+    mixers.clear();
 }
 
 void SoundManager::initialize() {
-    al_install_audio();
-    al_init_acodec_addon();
     al_reserve_samples(10); //edw mporoume na valome mexri kai 10 samples na paizoun
 
     mixers[SFX] = al_create_mixer(FREQUENCY, DEPTH, CHAN_CONFIG);

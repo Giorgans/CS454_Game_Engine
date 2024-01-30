@@ -12,8 +12,7 @@ void SetGameTime() { GameTime = GetSystemTime (); }
 uint64_t GetGameTime(){ return GameTime; }
 
 void Animations(){
-    AnimatorManager manager = AnimatorManager::GetManager();
-    manager.Progress(GetGameTime());
+    AnimatorManager::GetManager().Progress(GetGameTime());
 }
 
 
@@ -28,6 +27,7 @@ void AnimationFilmHolder::CleanUp() {
     for (auto &i: films)
         delete (i.second);
     films.clear();
+
 }
 
 auto AnimationFilmHolder::GetFilm(const std::string &id) -> const AnimationFilm *const {
@@ -130,6 +130,10 @@ void TickAnimator::Progress (timestamp_t currTime) {
         }
 }
 
+void AnimatorManager::CleanUp() {
+    running.clear();
+    suspended.clear();
+}
 
 
 

@@ -32,6 +32,14 @@ void Sprite::Display (ALLEGRO_BITMAP *dest, const Rect& dpyArea, const Clipper& 
 
 }
 
+void SpriteManager::CleanUp(){
+    dpyList.clear();
+    for (auto& instance : types) {
+        instance.second.clear();
+    }
+}
+
+
 /*******************************************
  * Collision functions                     *
  ******************************************/

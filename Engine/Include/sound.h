@@ -10,14 +10,14 @@ class SoundManager {
 public:
     enum SoundCategory { SFX, LEVEL, VOICE };
 
-    static SoundManager& getInstance();
+    static SoundManager& GetManager();
 
     void loadSound(SoundCategory category, const std::string& soundName, const std::string& filePath);
     void playSound(const std::string& soundName, bool loop = false);
     void stopSound(const std::string& soundName);
     void setVolume(SoundCategory category, float volume);
     void initialize(); // Initialize mixers and voice
-
+    void CleanUp();
     SoundManager(SoundManager const&) = delete;
     void operator=(SoundManager const&) = delete;
 

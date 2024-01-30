@@ -628,18 +628,18 @@ void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRan
                 Player->SetFrame(0);
             }
 
-            int dx = 0;
-            int dy = 4;
-            terrain->GetGrid()->FilterGridMotion(Player->GetBox(), &dx, &dy);
-            Player->SetHasDirectMotion(true).Move(dx, dy).SetHasDirectMotion(false);
+                int dx = 0;
+                int dy = 4;
+                terrain->GetGrid()->FilterGridMotion(Player->GetBox(), &dx, &dy);
+                Player->SetHasDirectMotion(true).Move(dx, dy).SetHasDirectMotion(false);
 
 
+            }
         }
+
+
     }
-
-
 }
 
 void Link_Animations_OnFinish(Animator *animator) {
-
 }

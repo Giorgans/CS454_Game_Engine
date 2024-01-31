@@ -7,7 +7,7 @@
 #include <allegro5/allegro_font.h>
 #include <random>
 
-#define FRAME_DURATION 1000/14
+#define FRAME_DURATION 1000/30
 
 
 #include <map>

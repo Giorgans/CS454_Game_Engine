@@ -92,10 +92,12 @@ void InitializeSounds(){
     LoadSounds();
 }
 
-void InitializeRendering(){
+void InitializeRendering() {
 
-    if(window == nullptr){
-        window = al_create_display(DISPLAY_W,DISPLAY_H);
+    al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW);
+
+    if(window == nullptr) {
+        window = al_create_display(0, 0);
         al_set_display_icon(window, al_load_bitmap(ICON_FILE_PATH));
     }
 
@@ -103,6 +105,4 @@ void InitializeRendering(){
         background = new TileLayer(MAX_HEIGHT, MAX_WIDTH, al_load_bitmap(TILESET_FILE_PATH), BACKGROUND_CSV_FILE_PATH);
     if (terrain == nullptr)
         terrain = new TileLayer(MAX_HEIGHT, MAX_WIDTH, al_load_bitmap(TILESET_FILE_PATH), TERRAIN_CSV_FILE_PATH);
-
 }
-

@@ -1,49 +1,69 @@
 #include "../../../Engine/Include/rendering.h"
 
 ALLEGRO_DISPLAY *window = nullptr;
-Rect DisplayArea {0,0,DISPLAY_W*2,DISPLAY_H*2}; //visible rectangle in screen
-TileLayer *background=nullptr,*terrain=nullptr;
+Rect DisplayArea{0, 0, DISPLAY_W, DISPLAY_H}; //visible rectangle in screen
+TileLayer *background = nullptr, *terrain = nullptr;
 
 /***************************************
  *  Main Loop Rendering Function      *
  **************************************/
 
 void ZeldaII_Rendering() {
-    if(!inputs.at("start"))
+    DisplayArea = {0, 0, al_get_display_width(window), al_get_display_height(window)};
+    if (!inputs.at("start"))
         tittle_screen_rendering();
     else
         parapa_palace_level_rendering();
-
 }
 
-void tittle_screen_rendering(){
-
+void tittle_screen_rendering() {
     al_set_target_backbuffer(window);
     al_clear_to_color(KEY_COLOR);
-    for(auto i : SpriteManager::GetSingleton().GetDisplayList()){
-        if(i->GetTypeId() == "TitleScreen" && i->IsVisible())
-            AnimationFilmHolder::GetHolder().Load(TitleScreen)->DisplayFrame(al_get_backbuffer(window),{DisplayArea.x ,DisplayArea.y},i->GetFrame());
+
+    int displayWidth = al_get_display_width(window);
+    int displayHeight = al_get_display_height(window);
+
+    for (auto i: SpriteManager::GetSingleton().GetDisplayList()) {
+        if (i->GetTypeId() == "TitleScreen" && i->IsVisible()) {
+
+            Rect frameBox = AnimationFilmHolder::GetHolder().Load(TitleScreen)->GetFrameBox(i->GetFrame());
+
+            //temp bitmap
+            ALLEGRO_BITMAP *tempBitmap = al_create_bitmap(frameBox.w, frameBox.h);
+
+            al_set_target_bitmap(tempBitmap);
+            al_clear_to_color(al_map_rgba(0, 0, 0, 0));
+
+            AnimationFilmHolder::GetHolder().Load(TitleScreen)->DisplayFrame(tempBitmap, {0, 0}, i->GetFrame());
+            al_set_target_backbuffer(window);
+
+            al_draw_scaled_bitmap(tempBitmap,
+                                  0, 0, frameBox.w, frameBox.h, // source bitmap region
+                                  0, 0, displayWidth, displayHeight, // target bitmap region
+                                  0);
+
+            al_destroy_bitmap(tempBitmap);
+        }
     }
-    auto tempBuffer = al_clone_bitmap(al_get_backbuffer(window));
-    al_clear_to_color(KEY_COLOR);
-    al_draw_scaled_bitmap(tempBuffer,0,0,al_get_bitmap_width(tempBuffer), al_get_bitmap_height(tempBuffer),0,0,
-                          al_get_bitmap_width(tempBuffer)*2.5, al_get_bitmap_height(tempBuffer)*2.1,0);
+
     al_flip_display();
-    al_unlock_bitmap(al_get_backbuffer(window));
 }
 
 
-void parapa_palace_level_rendering(){
-    ALLEGRO_BITMAP *tempBuffer;
-    if(window == nullptr){
-        window = al_create_display(DISPLAY_W,DISPLAY_H);
-        al_set_display_icon(window, al_load_bitmap(ICON_FILE_PATH));
-    }
-    else {
-        al_set_target_backbuffer(window);
-        al_clear_to_color(KEY_COLOR);
-        al_unlock_bitmap(al_get_backbuffer(window));
-    }
+void parapa_palace_level_rendering() {
+    // Fetch the full screen dimensions
+    int fullScreenWidth = al_get_display_width(window);
+    int fullScreenHeight = al_get_display_height(window);
+
+    // Calculate scaling factors based on the full screen size and the base resolution
+    float scaleX = fullScreenWidth / 640.0f;
+    float scaleY = fullScreenHeight / 480.0f;
+
+    // Set up the transformation
+    ALLEGRO_TRANSFORM transform;
+    al_identity_transform(&transform);
+    al_scale_transform(&transform, scaleX, scaleY);
+    al_use_transform(&transform);
 
     al_set_target_backbuffer(window);
     al_clear_to_color(KEY_COLOR);
@@ -53,21 +73,23 @@ void parapa_palace_level_rendering(){
     terrain->Display(al_get_backbuffer(window), DisplayArea);
 
     //Render Grid
-    if (inputs.at("G"))
+    if (inputs.at("G")) {
         terrain->GetGrid()->Display(al_get_backbuffer(window), DisplayArea);
-    // Render sprites
-
-    for(auto i : SpriteManager::GetSingleton().GetDisplayList()){
-        if(i->GetTypeId() == "Link")
-            i->Display(al_get_backbuffer(window),DisplayArea,MakeTileLayerClipper(terrain));
-        if(i->IsVisible() && i->GetTypeId() != "TitleScreen")
-            i->Display(al_get_backbuffer(window),DisplayArea,MakeTileLayerClipper(terrain));
     }
-    tempBuffer = al_clone_bitmap(al_get_backbuffer(window));
-    al_clear_to_color(KEY_COLOR);
-    al_draw_scaled_bitmap(tempBuffer,0,0,al_get_bitmap_width(tempBuffer), al_get_bitmap_height(tempBuffer),0,0,
-                          al_get_bitmap_width(tempBuffer)*2.4, al_get_bitmap_height(tempBuffer)*2.4,0);
-    al_flip_display();
-    al_unlock_bitmap(al_get_backbuffer(window));
 
+    // Render sprites
+    for (auto sprite : SpriteManager::GetSingleton().GetDisplayList()) {
+        if (sprite->IsVisible() && sprite->GetTypeId() != "TitleScreen") {
+            sprite->Display(al_get_backbuffer(window), DisplayArea, MakeTileLayerClipper(terrain));
+        }
+    }
+
+    // Flip the display to show the rendered frame
+    al_flip_display();
+
+    // No need to unlock the bitmap here since we never locked it
 }
+
+
+
+

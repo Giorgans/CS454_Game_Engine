@@ -5,7 +5,7 @@
 #define DEPTH ALLEGRO_AUDIO_DEPTH_FLOAT32
 #define CHAN_CONFIG ALLEGRO_CHANNEL_CONF_2
 
-SoundManager& SoundManager::getInstance() {
+SoundManager& SoundManager::GetManager() {
     static SoundManager instance;
     return instance;
 }
@@ -14,26 +14,42 @@ SoundManager::SoundManager() = default;
 
 
 SoundManager::~SoundManager() {
-    for (auto& sound : sounds) {
-        al_destroy_sample(sound.second);
+    CleanUp();
+}
+
+void SoundManager::CleanUp() {
+    for (auto it = sounds.begin(); it != sounds.end(); ) {
+
+        al_destroy_sample(it->second);
+        it = sounds.erase(it);
+
     }
-    for (auto& instance : soundInstances) {
-        al_destroy_sample_instance(instance.second);
+    sounds.clear();
+
+    for (auto it = soundInstances.begin(); it != soundInstances.end(); ) {
+
+        al_destroy_sample_instance(it->second);
+        it = soundInstances.erase(it);
+
     }
-    al_uninstall_audio();
+    soundInstances.clear();
+
+    for (auto it = mixers.begin(); it != mixers.end(); ) {
+
+        al_destroy_mixer(it->second);
+        it = mixers.erase(it);
+
+    }
+    mixers.clear();
 }
 
 void SoundManager::initialize() {
-    al_install_audio();
-    al_init_acodec_addon();
     al_reserve_samples(10); //edw mporoume na valome mexri kai 10 samples na paizoun
 
-    // Create mixers for each category
     mixers[SFX] = al_create_mixer(FREQUENCY, DEPTH, CHAN_CONFIG);
     mixers[LEVEL] = al_create_mixer(FREQUENCY, DEPTH, CHAN_CONFIG);
     mixers[VOICE] = al_create_mixer(FREQUENCY, DEPTH, CHAN_CONFIG);
 
-    // Create and attach master mixer
     ALLEGRO_MIXER* masterMixer = al_create_mixer(FREQUENCY, DEPTH, CHAN_CONFIG);
     for (auto& mixer : mixers) {
         if (!mixer.second || !al_attach_mixer_to_mixer(mixer.second, masterMixer)) {

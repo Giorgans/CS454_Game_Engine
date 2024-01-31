@@ -5,12 +5,19 @@
 #include "allegro5/allegro_image.h"
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
+#include <random>
 
 #define FRAME_DURATION 1000/14
 
 
 #include <map>
 extern std::map<std::string,bool> inputs;
+
+struct SpriteVisibilityInfo {
+    bool isVisible;
+    int distanceFromLink; // Signed distance from Link
+};
+
 
 #define KEY_COLOR al_map_rgb(0,0,1)
 #define EMPTY_TILE 40
@@ -19,8 +26,14 @@ extern std::map<std::string,bool> inputs;
 #define CANDLE_TILE 73
 #define BRIDGE_TILE 68
 #define FAIRY_TILE 89
+#define DOOR_TILE 35
 
 #define WOSU_ENEMY_TILE 56
+#define BOT_TILE 92
+#define STALFOS_TILE 94
+
+#define ATTACK_RANGE 40
+#define PUSH_BACK 20
 
 /***************************************
  *  Macros of paths                   *
@@ -41,7 +54,7 @@ extern std::map<std::string,bool> inputs;
 #define ZELDA_STARTING_LEVEL_TILESET_PATH           PARAPA_PALACE_LEVEL_TILESET_PATH
 #define ZELDA_STARTING_LEVEL_BACKGROUND_CSV_PATH    PARAPA_PALACE_LEVEL_BACKGROUND_CSV_PATH
 #define ZELDA_STARTING_LEVEL_TERRAIN_CSV_PATH       PARAPA_PALACE_LEVEL_TERRAIN_CSV_PATH
-
+#define ZELDA_STARTING_LEVEL_OBJECTS_CSV_PATH      PARAPA_PALACE_LEVEL_OBJECTS_AND_ENEMIES_CSV_PATH
 /***************************************
  *  Starting Position macros for render *
  **************************************/
@@ -98,6 +111,7 @@ extern std::map<std::string,bool> inputs;
 #define PARAPA_PALACE_LEVEL_TILESET_PATH "/UnitTests/ZeldaII/Media/Levels/ParapaPalace/tileset.png"
 #define PARAPA_PALACE_LEVEL_BACKGROUND_CSV_PATH "/UnitTests/ZeldaII/Media/Levels/ParapaPalace/parapa_palace_background.csv"
 #define PARAPA_PALACE_LEVEL_TERRAIN_CSV_PATH "/UnitTests/ZeldaII/Media/Levels/ParapaPalace/parapa_palace_terrain.csv"
+#define PARAPA_PALACE_LEVEL_OBJECTS_AND_ENEMIES_CSV_PATH "/UnitTests/ZeldaII/Media/Levels/ParapaPalace/sprites_Sprites.csv"
 #define PARAPA_PALACE_LEVEL_STARTING_POINT_X 64 << 4
 #define PARAPA_PALACE_LEVEL_STARTING_POINT_Y 3 << 4
 #define PARAPA_PALACE_LEVEL_LINK_STARTING_POINT_X  66 << 4
@@ -131,6 +145,7 @@ void parapa_palace_level_rendering();
 
 void createTittleScreen();
 void createLink();
+void createEnemiesAndObjects();
 
 /***************************************
  *  Input Functions                    *
@@ -158,6 +173,12 @@ void InitializeAnimations();
 void InitializeInputs();
 void InitializeSprites();
 void InitializeSounds();
+void InitializeRendering();
+
+
+/***************************************
+ *  Useful Functions                  *
+ **************************************/
 
 
 #endif //CS454_GAME_ENGINE_ZELDAII_H

@@ -1,7 +1,7 @@
 #include "../../../Engine/Include/rendering.h"
 
 ALLEGRO_DISPLAY *window = nullptr;
-Rect DisplayArea {0,0,DISPLAY_W*2,DISPLAY_H*2};
+Rect DisplayArea {0,0,DISPLAY_W*2,DISPLAY_H*2}; //visible rectangle in screen
 TileLayer *background=nullptr,*terrain=nullptr;
 
 /***************************************
@@ -17,11 +17,6 @@ void ZeldaII_Rendering() {
 }
 
 void tittle_screen_rendering(){
-
-    if(window == nullptr){
-        window = al_create_display(DISPLAY_W,DISPLAY_H);
-        al_set_display_icon(window, al_load_bitmap(ICON_FILE_PATH));
-    }
 
     al_set_target_backbuffer(window);
     al_clear_to_color(KEY_COLOR);
@@ -50,12 +45,6 @@ void parapa_palace_level_rendering(){
         al_unlock_bitmap(al_get_backbuffer(window));
     }
 
-
-    if (background == nullptr)
-        background = new TileLayer(MAX_HEIGHT, MAX_WIDTH, al_load_bitmap(TILESET_FILE_PATH), BACKGROUND_CSV_FILE_PATH);
-    if (terrain == nullptr)
-        terrain = new TileLayer(MAX_HEIGHT, MAX_WIDTH, al_load_bitmap(TILESET_FILE_PATH), TERRAIN_CSV_FILE_PATH);
-
     al_set_target_backbuffer(window);
     al_clear_to_color(KEY_COLOR);
 
@@ -71,7 +60,7 @@ void parapa_palace_level_rendering(){
     for(auto i : SpriteManager::GetSingleton().GetDisplayList()){
         if(i->GetTypeId() == "Link")
             i->Display(al_get_backbuffer(window),DisplayArea,MakeTileLayerClipper(terrain));
-        else if(i->IsVisible() && i->GetTypeId() != "TitleScreen")
+        if(i->IsVisible() && i->GetTypeId() != "TitleScreen")
             i->Display(al_get_backbuffer(window),DisplayArea,MakeTileLayerClipper(terrain));
     }
     tempBuffer = al_clone_bitmap(al_get_backbuffer(window));

@@ -22,7 +22,7 @@ bool PlayedOnce=false;
 bool levelSoundPlayed = false;
 
 uint64_t LastTime;
-SoundManager& soundManager = SoundManager::getInstance();
+SoundManager& soundManager = SoundManager::GetManager();
 
 
 void LoadSounds(){

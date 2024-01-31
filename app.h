@@ -13,6 +13,7 @@
 
 #include "Engine/Include/rendering.h"
 #include "Engine/Include/animation.h"
+#include "Engine/Include/sound.h"
 
 namespace app {
     class Game { // app::Game namespace, the mother application//

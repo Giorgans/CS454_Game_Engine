@@ -12,8 +12,7 @@ void SetGameTime() { GameTime = GetSystemTime (); }
 uint64_t GetGameTime(){ return GameTime; }
 
 void Animations(){
-    AnimatorManager manager = AnimatorManager::GetManager();
-    manager.Progress(GetGameTime());
+    AnimatorManager::GetManager().Progress(GetGameTime());
 }
 
 
@@ -28,6 +27,7 @@ void AnimationFilmHolder::CleanUp() {
     for (auto &i: films)
         delete (i.second);
     films.clear();
+
 }
 
 auto AnimationFilmHolder::GetFilm(const std::string &id) -> const AnimationFilm *const {
@@ -73,6 +73,19 @@ Animator::~Animator(){
     AnimatorManager::GetManager().Cancel(this);
 }
 
+void MovingAnimator::Progress (timestamp_t currTime) {
+    while (currTime > lastTime && (currTime - lastTime) >= anim->GetDelay()) {
+        lastTime += anim->GetDelay();
+        NotifyAction(*anim);
+        if (!anim->IsForever() && ++currRep == anim->GetReps()) {
+            state = ANIMATOR_FINISHED;
+            NotifyStopped();
+            return;
+        }
+    }
+}
+
+
 void FrameRangeAnimator::Progress (timestamp_t currTime) {
     while (currTime > lastTime && (currTime - lastTime) >= anim->GetDelay()) {
         if (currFrame == anim->GetEndFrame()) {
@@ -94,6 +107,8 @@ void FrameRangeAnimator::Progress (timestamp_t currTime) {
         if (currFrame > anim->GetEndFrame()) {
             currFrame = anim->GetStartFrame(); // flip to start
         }
+
+
     }
 }
 
@@ -115,6 +130,10 @@ void TickAnimator::Progress (timestamp_t currTime) {
         }
 }
 
+void AnimatorManager::CleanUp() {
+    running.clear();
+    suspended.clear();
+}
 
 
 

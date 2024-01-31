@@ -49,7 +49,7 @@ class BitmapLoader  {
         ALLEGRO_BITMAP *GetBitmap(const std::string &path) const {
             return  bitmaps.find(path)->second != bitmaps.end()->second ? bitmaps.find(path)->second : nullptr ;
         }
-        static BitmapLoader Loader; // singleton
+        static BitmapLoader Loader;
     public:
     Bitmaps bitmaps;
 
@@ -62,10 +62,15 @@ class BitmapLoader  {
                 return bitmaps.at(filename);
             else return NULL;
         }
-        void CleanUp () {
-            for (auto &i: bitmaps) al_destroy_bitmap(i.second);
-            bitmaps.clear();
+    void CleanUp() {
+        for (auto it = bitmaps.begin(); it != bitmaps.end(); ) {
+
+            al_destroy_bitmap(it->second);
+            it = bitmaps.erase(it);
+
         }
+
+    }
         BitmapLoader () {}
         ~BitmapLoader() { CleanUp(); }
 };
@@ -103,7 +108,7 @@ class AnimationFilmHolder {
         auto GetFilm (const std::string& id) -> const AnimationFilm* const;
 
         AnimationFilmHolder () {}
-        ~AnimationFilmHolder() { CleanUp(); }
+        ~AnimationFilmHolder() { CleanUp();  }
 };
 
 /***************************************
@@ -344,15 +349,24 @@ class MovingAnimator : public Animator {
         unsigned currRep = 0; // animation state
     public:
         void Progress (timestamp_t currTime);
-        auto GetAnim () const -> const MovingAnimation&{ return *anim; }
-        void Start (MovingAnimation* a, timestamp_t t) {
+        MovingAnimation *GetAnim(){return anim;}
+    unsigned GetCurrRep() const { return currRep; }
+
+    void SetAnim(MovingAnimation *a, timestamp_t t){
             anim = a;
             lastTime = t;
             state = ANIMATOR_RUNNING;
             currRep = 0;
-            NotifyStarted();
+
         }
-        MovingAnimator () = default;
+        void Start (MovingAnimation* a, timestamp_t t) {
+                anim = a;
+                lastTime = t;
+                state = ANIMATOR_RUNNING;
+                currRep = 0;
+                NotifyStarted();
+            }
+            MovingAnimator () = default;
 };
 
 class FrameRangeAnimator : public Animator {
@@ -364,13 +378,12 @@ class FrameRangeAnimator : public Animator {
         void Progress(timestamp_t currTime);
         unsigned GetCurrFrame() const { return currFrame; }
         unsigned GetCurrRep() const { return currRep; }
+        void SetCurrRep(unsigned r) {currRep = r;}
         FrameRangeAnimation *GetAnim(){return anim;}
         void SetAnim(FrameRangeAnimation *a, timestamp_t t){
             anim = a;
             lastTime = t;
             state = ANIMATOR_RUNNING;
-            currRep = 0;
-
         }
         void Start(FrameRangeAnimation *a, timestamp_t t) {
             anim = a;
@@ -439,9 +452,13 @@ class AnimatorManager {
                 a->Progress(currTime);
         }
 
+        void CleanUp();
 
         static auto GetManager() -> AnimatorManager & { return Manager; }
         AnimatorManager() {};
+        ~AnimatorManager(){
+            CleanUp();
+        }
 
 };
 

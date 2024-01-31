@@ -5,7 +5,8 @@
 #include <filesystem>
 extern uint64_t GameTime;
 
-
+extern ALLEGRO_DISPLAY *window;
+extern TileLayer *background,*terrain;
 
 /***************************************
  *  Initialization Functions          *
@@ -37,7 +38,31 @@ void InitializeFilms(){
                 frames = int(al_get_bitmap_width(bitmap) / 32);
                 width = 32;
                 height = 32;
-
+            }
+            else if(f.path().filename() == Door){
+                frames = int(al_get_bitmap_width(bitmap) / 8);
+                width = 8;
+                height = 48;
+            }
+            else if(f.path().filename() == Key || f.path().filename() == Candle || f.path().filename() == Fairy){
+                frames = 1;
+                width = 16;
+                height = 16;
+            }
+            else if(f.path().filename() == Elevator){
+                frames = 1;
+                width = 32;
+                height = 64;
+            }
+            else if(f.path().filename() == FallingBridge || f.path().filename() == Bot || f.path().filename() == Bubble){
+                frames = int(al_get_bitmap_width(bitmap) / 16);
+                width = 16;
+                height = 16;
+            }
+            else if(f.path().filename() == StalfosAttackLeft || f.path().filename() == StalfosAttackRight) {
+                frames = int(al_get_bitmap_width(bitmap) / 32);
+                width = 32;
+                height = 32;
             }
             else {
                 frames = int(al_get_bitmap_width(bitmap) / 16);
@@ -60,9 +85,23 @@ void InitializeFilms(){
 void InitializeSprites(){
     createTittleScreen();
     createLink();
+    createEnemiesAndObjects();
 }
 
 void InitializeSounds(){
     LoadSounds();
+}
+
+void InitializeRendering(){
+
+    if(window == nullptr){
+        window = al_create_display(DISPLAY_W,DISPLAY_H);
+        al_set_display_icon(window, al_load_bitmap(ICON_FILE_PATH));
+    }
+    if (background == nullptr)
+        background = new TileLayer(MAX_HEIGHT, MAX_WIDTH, al_load_bitmap(TILESET_FILE_PATH), BACKGROUND_CSV_FILE_PATH);
+    if (terrain == nullptr)
+        terrain = new TileLayer(MAX_HEIGHT, MAX_WIDTH, al_load_bitmap(TILESET_FILE_PATH), TERRAIN_CSV_FILE_PATH);
+
 }
 

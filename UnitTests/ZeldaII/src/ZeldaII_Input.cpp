@@ -20,6 +20,10 @@ void TitleScreenInputs() {
     al_get_keyboard_state(&keyboardState);
     if(al_key_down(&keyboardState, ALLEGRO_KEY_ENTER))
         inputs["start"] = true;
+
+    if(al_key_down(&keyboardState, ALLEGRO_KEY_ESCAPE))
+        inputs["exit"] = true;
+
 }
 
 void MainGameInputs(){
@@ -36,7 +40,6 @@ void MainGameInputs(){
 
     if(al_key_down(&keyboardState, ALLEGRO_KEY_ESCAPE))
         inputs["exit"] = true;
-
 }
 
 void InitializeInputs(){
@@ -50,5 +53,7 @@ void InitializeInputs(){
     inputs.insert(std::pair<std::string ,bool>("start",false));
     inputs.insert(std::pair<std::string ,bool>("exit",false));
     inputs.insert(std::pair<std::string ,bool>("locked",false));
+    inputs.insert(std::pair<std::string ,bool>("key",false));
+    inputs.insert(std::pair<std::string ,bool>("center",false));
 
 }

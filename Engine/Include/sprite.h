@@ -54,6 +54,8 @@ public:
     byte GetFrame() const { return frameNo; }
     auto GetTypeId() -> const std::string& { return typeId; }
     void SetVisibility (bool v) { isVisible = v; }
+    std::string GetStateID(){ return stateId;}
+    void SetStateID(std::string s){stateId = s;}
     bool IsVisible() const { return isVisible; }
     bool CollisionCheck(const Sprite* s) const;
     GravityHandler& GetGravityHandler (void){ return gravity; }
@@ -155,18 +157,27 @@ class SpriteManager  {
     public:
         void Add (Sprite* s) {
             dpyList.push_back(s);
+            auto it = types.find(s->GetTypeId());
+            if (it != types.end()) {
+                it->second.push_back(s);
+            } else {
+                types[s->GetTypeId()] = SpriteList{ s };
+            }
+
         } //TODO: insert by ascending zorder
         void Remove (Sprite* s);
         SpriteList GetDisplayList() { return dpyList; }
         auto GetTypeList(const std::string& typeId) -> const SpriteList& { return types[typeId]; }
         static auto GetSingleton()-> SpriteManager&{ return Manager; }
         static auto GetSingletonConst() -> const SpriteManager& { return Manager; }
+        void CleanUp();
+
         SpriteManager() {};
+        ~SpriteManager(){
+            CleanUp();
+        }
 
 };
-
-
-
 
 
 #endif //CS454_GAME_ENGINE_SPRITE_H

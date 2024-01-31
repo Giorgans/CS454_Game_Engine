@@ -49,5 +49,7 @@ void InitializeInputs(){
     inputs.insert(std::pair<std::string ,bool>("start",false));
     inputs.insert(std::pair<std::string ,bool>("exit",false));
     inputs.insert(std::pair<std::string ,bool>("locked",false));
+    inputs.insert(std::pair<std::string ,bool>("key",false));
+    inputs.insert(std::pair<std::string ,bool>("center",false));
 
 }

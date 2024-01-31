@@ -26,6 +26,7 @@ struct SpriteVisibilityInfo {
 #define CANDLE_TILE 73
 #define BRIDGE_TILE 68
 #define FAIRY_TILE 89
+#define DOOR_TILE 35
 
 #define WOSU_ENEMY_TILE 56
 #define BOT_TILE 92

@@ -42,6 +42,22 @@ void LinkElevatorAction(Sprite *link,Sprite *elevator){
     }
 }
 
+void LinkKeyAction(Sprite *link,Sprite *key){
+    if(inputs["A"]){
+        key->SetVisibility(false);
+        inputs["key"] = true;
+    }
+}
+
+void LinkDoorAction(Sprite *link,Sprite *door){
+    if(inputs["key"])
+        door->SetStateID("Open");
+
+
+
+}
+
+
 void createEnemiesAndObjects(){
     auto Link = SpriteManager::GetSingleton().GetDisplayList().at(1);
     std::string csv_value,line;
@@ -93,7 +109,24 @@ void createEnemiesAndObjects(){
                 CollisionChecker::GetSingleton().Register(stalfos,Link,LinkEnemy);
             }
             else if(i == KEY_TILE) {
-                auto key = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row), AnimationFilmHolder::GetHolder().Load(Key), "Key");
+                auto key = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row),AnimationFilmHolder::GetHolder().Load(Key),"Key");
+                key->SetFrame(0);
+                key->SetVisibility(true);
+                key->SetZorder(0);
+                key->GetGravityHandler().gravityAddicted = false;
+                SpriteManager::GetSingleton().Add(key);
+                auto link = SpriteManager::GetSingleton().GetDisplayList().at(1);
+                CollisionChecker::GetSingleton().Register(link,key, LinkKeyAction);
+            }
+            else if(i == DOOR_TILE){
+                auto door = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row),AnimationFilmHolder::GetHolder().Load(Door),"Door");
+                door->SetFrame(0);
+                door->SetVisibility(true);
+                door->SetZorder(0);
+                door->GetGravityHandler().gravityAddicted = false;
+                SpriteManager::GetSingleton().Add(door);
+                auto link = SpriteManager::GetSingleton().GetDisplayList().at(1);
+                CollisionChecker::GetSingleton().Register(link,door, LinkDoorAction);
             }
             else if(i == CANDLE_TILE) {
                 auto candle = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row), AnimationFilmHolder::GetHolder().Load(Candle), "Candle");

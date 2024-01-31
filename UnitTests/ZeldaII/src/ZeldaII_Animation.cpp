@@ -20,6 +20,8 @@ void Stalfos_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameR
 
 void Elevator_Animations_OnAction(Sprite *sprite, Animator *animator, const MovingAnimation &anim);
 
+void Door_Animations_OnAction(Sprite *sprite, Animator *animator, const MovingAnimation &anim);
+
 void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim);
 
 void Link_Animations_OnFinish(Animator *animator);
@@ -119,6 +121,18 @@ void InitializeAnimations() {
                     }
             );
             StalfosAnimator->Start(Standing, GetGameTime());
+            StalfosAnimators.push_back(StalfosAnimator);
+        }
+        //Door
+        else if(i->GetTypeId() == "Door"){
+            auto *DoorAnimator = new FrameRangeAnimator("DoorAnimator");
+            DoorAnimator->SetOnAction(
+                    [i, DoorAnimator, Standing](Animator *animator, const Animation &anim) {
+                        Door_Animations_OnAction(i, DoorAnimator, *Standing);
+                    }
+            );
+            DoorAnimator->Start(Standing, GetGameTime());
+
         }
     }
 
@@ -252,7 +266,7 @@ void Wosu_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameRang
 
         sprite->SetFrame(wosuAnimator->GetCurrFrame());
         auto dx = wosuAnimator->GetAnim()->GetDx();
-        auto dy = 0;
+        auto dy = 4;
         terrain->GetGrid()->FilterGridMotion(sprite->GetBox(), &dx, &dy);
         sprite->SetHasDirectMotion(true).Move(dx, dy).SetHasDirectMotion(false);
     } else sprite->SetStateID("Inactive");
@@ -462,17 +476,43 @@ void Stalfos_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameR
 
 }
 
+void Door_Animations_OnAction(Sprite *sprite, Animator *animator, const MovingAnimation &anim){
+    auto OpenAnimation = new FrameRangeAnimation("OpenAnimation",0,AnimationFilmHolder::GetHolder().Load(Door)->GetTotalFrames()-1,0,0,0,FRAME_DURATION);
+    auto *frameRangeAnimator = (FrameRangeAnimator *) animator;
+    SpriteVisibilityInfo info = distanceToLink(sprite);
+
+    if(info.isVisible && info.distanceFromLink<0 && info.distanceFromLink>-16){
+        auto link = SpriteManager::GetSingleton().GetDisplayList().at(1);
+        link->SetStateID("YouShallNotPassLeft");
+    }
+    if(info.isVisible && info.distanceFromLink>0 && info.distanceFromLink<16){
+        auto link = SpriteManager::GetSingleton().GetDisplayList().at(1);
+        link->SetStateID("YouShallNotPassRight");
+    }
+
+
+    if(sprite->GetStateID() == "Open"){
+        frameRangeAnimator->SetAnim(OpenAnimation,GetGameTime());
+        sprite->SetFrame(0);
+        sprite->SetStateID("Opening");
+    }
+    if(sprite->GetStateID() == "Opening"){
+        sprite->SetFrame(frameRangeAnimator->GetCurrFrame());
+        if(frameRangeAnimator->GetCurrFrame()==frameRangeAnimator->GetAnim()->GetEndFrame()){
+            sprite->SetVisibility(false);
+            frameRangeAnimator->Stop();
+        }
+    }
+}
+
 
 void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim) {
     /*** Animations ***/
-    auto *StandingAnimation = new FrameRangeAnimation("Standing", 0, 0, 0, 0, 0, FRAME_DURATION);
-    auto *WalkingAnimation = new FrameRangeAnimation("Walking", 0, AnimationFilmHolder::GetHolder().GetFilm(
-            WalkingRight)->GetTotalFrames() - 1, 0, 4, 0, FRAME_DURATION);
-    auto *AttackAnimation = new FrameRangeAnimation("Attack", 0, AnimationFilmHolder::GetHolder().GetFilm(
-            AttackRight)->GetTotalFrames() - 1, 0, 0, 0, 1000 / 6);
-    auto *JumpAnimation = new FrameRangeAnimation("Jump", 0, AnimationFilmHolder::GetHolder().GetFilm(
-            JumpRight)->GetTotalFrames() - 1, 0, 0, 8, 1000 / 8);
-    auto *moveDown = new FrameRangeAnimation("Down", 0, 0, 32, 0, 4, FRAME_DURATION);
+    auto *StandingAnimation = new FrameRangeAnimation("Standing",0,0,0,0,0,FRAME_DURATION);
+    auto *WalkingAnimation = new  FrameRangeAnimation("Walking",0,AnimationFilmHolder::GetHolder().GetFilm(WalkingRight)->GetTotalFrames()-1,0,4,0,FRAME_DURATION);
+    auto *AttackAnimation = new  FrameRangeAnimation("Attack",0,AnimationFilmHolder::GetHolder().GetFilm(AttackRight)->GetTotalFrames()-1,0,0,0,1000/6);
+    auto *JumpAnimation = new  FrameRangeAnimation("Jump",0,AnimationFilmHolder::GetHolder().GetFilm(JumpRight)->GetTotalFrames()-1,0,0,8,1000/8);
+    auto *moveDown = new FrameRangeAnimation("Down",0,0,32,0,4,FRAME_DURATION);
 
     /*** Questions ***/
     auto isDown = inputs["Down"] && !inputs["Right"] && !inputs["Left"] && !inputs["A"] && !inputs["S"];
@@ -496,24 +536,31 @@ void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRan
             !inputs["Up"] && inputs["Down"] && !inputs["Right"] && inputs["Left"] && !inputs["A"] && inputs["S"];
 
 
-    Sprite *Player = sprite;
-    auto *PlayerAnimator = (FrameRangeAnimator *) animator;
+    Sprite * Player =  sprite;
+    auto *PlayerAnimator = (FrameRangeAnimator*) animator;
 
-    if (Player->GetStateID() == "Down") {
-        PlayerAnimator->SetAnim(moveDown, GetGameTime());
+    if(Player->GetStateID()=="Down" ) {
+        PlayerAnimator->SetAnim(moveDown,GetGameTime());
         Player->SetHasDirectMotion(true).Move(moveDown->GetDx(), moveDown->GetDy()).SetHasDirectMotion(false);
-        if (PlayerAnimator->GetCurrRep() == 6) {
+        if(PlayerAnimator->GetCurrRep()==6){
             Player->SetHasDirectMotion(true).Move(0, 120).SetHasDirectMotion(false);
             Player->SetStateID("GoingDown");
             PlayerAnimator->SetCurrRep(0);
-            PlayerAnimator->SetAnim(WalkingAnimation, GetGameTime());
+            PlayerAnimator->SetAnim(WalkingAnimation,GetGameTime());
         }
+        if(PlayerAnimator->GetCurrRep()==31) {
+            Player->SetStateID("");
+        }
+
+    }
+    else if(inputs["locked"]){
+        if (Player->GetFilm()->GetID() == AttackRight || Player->GetFilm()->GetID() == AttackLeft){
     } else if (inputs["locked"]) {
         if (Player->GetFilm()->GetID() == AttackRight || Player->GetFilm()->GetID() == AttackLeft) {
             Player->SetFrame(PlayerAnimator->GetCurrFrame());
-            if (Player->GetFrame() == AttackAnimation->GetEndFrame()) {
+            if(Player->GetFrame()==AttackAnimation->GetEndFrame()) {
                 inputs["locked"] = false;
-                if (Player->GetFilm()->GetID() == AttackRight)
+                if(Player->GetFilm()->GetID() == AttackRight)
                     Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
                 if (Player->GetFilm()->GetID() == AttackLeft)
                     Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
@@ -521,18 +568,17 @@ void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRan
             }
         }
 
-        if (Player->GetFilm()->GetID() == JumpRight) {
+        if (Player->GetFilm()->GetID() == JumpRight ) {
             int dx;
-            if (isMovingRight)
-                dx = 4;
+            if(isMovingRight)
+                 dx = 4;
             else
-                dx = 0;
+                 dx = 0;
             int dy = -PlayerAnimator->GetAnim()->GetDy();
 
 
             terrain->GetGrid()->FilterGridMotion(Player->GetBox(), &dx, &dy);
-            if (((terrain->GetViewWindow().x + terrain->GetViewWindow().w) - (terrain->GetViewWindow().x / 2)) <=
-                Player->GetBox().x) {
+            if (((terrain->GetViewWindow().x + terrain->GetViewWindow().w) - (terrain->GetViewWindow().x / 2)) <= Player->GetBox().x) {
                 background->Scroll(dx, 0);
                 terrain->Scroll(dx, 0);
             }
@@ -540,29 +586,30 @@ void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRan
             Player->SetHasDirectMotion(true).Move(dx, dy).SetHasDirectMotion(false);
             Player->SetFrame(PlayerAnimator->GetCurrFrame());
 
-            if (Player->GetFrame() == 0) {
+            if(Player->GetFrame()==0) {
                 inputs["locked"] = false;
                 Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
-                PlayerAnimator->SetAnim(WalkingAnimation, GetGameTime());
+                PlayerAnimator->SetAnim(WalkingAnimation,GetGameTime());
                 Player->SetFrame(0);
+                Player->SetStateID("");
             }
 
         }
 
-        if (Player->GetFilm()->GetID() == JumpLeft) {
+        if (Player->GetFilm()->GetID() == JumpLeft ) {
 
             int dx;
-            if (isMovingLeft)
+            if(isMovingLeft)
                 dx = -4;
             else
                 dx = 0;
             int dy = -PlayerAnimator->GetAnim()->GetDy();
 
 
+
             terrain->GetGrid()->FilterGridMotion(Player->GetBox(), &dx, &dy);
 
-            if (((terrain->GetViewWindow().x - 4) >= 0) &&
-                ((terrain->GetViewWindow().x + terrain->GetViewWindow().w / 2)) > Player->GetBox().x) {
+            if (((terrain->GetViewWindow().x - 4) >= 0) &&  ((terrain->GetViewWindow().x + terrain->GetViewWindow().w / 2)) > Player->GetBox().x) {
                 background->Scroll(dx, 0);
                 terrain->Scroll(dx, 0);
             }
@@ -570,10 +617,10 @@ void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRan
             Player->SetHasDirectMotion(true).Move(dx, dy).SetHasDirectMotion(false);
             Player->SetFrame(PlayerAnimator->GetCurrFrame());
 
-            if (Player->GetFrame() == 0) {
+            if(Player->GetFrame()==0) {
                 inputs["locked"] = false;
                 Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
-                PlayerAnimator->SetAnim(WalkingAnimation, GetGameTime());
+                PlayerAnimator->SetAnim(WalkingAnimation,GetGameTime());
                 Player->SetFrame(0);
             }
 
@@ -615,15 +662,17 @@ void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRan
                 Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
             }
 
-            if (((terrain->GetViewWindow().x + terrain->GetViewWindow().w) - (terrain->GetViewWindow().x / 2)) <=
-                Player->GetBox().x) {
-                background->Scroll(4, 0);
-                terrain->Scroll(4, 0);
+            if ((((terrain->GetViewWindow().x + terrain->GetViewWindow().w) - (terrain->GetViewWindow().x / 2)) <= Player->GetBox().x) && !inputs["center"]) {
+                inputs["center"]=true;
             }
 
             int dx = PlayerAnimator->GetAnim()->GetDx();
             int dy = 4;
             terrain->GetGrid()->FilterGridMotion(Player->GetBox(), &dx, &dy);
+            if(Player->GetStateID()=="YouShallNotPassRight") {
+                dx = 0;
+                Player->SetStateID("");
+            }
             Player->SetHasDirectMotion(true).Move(dx, dy).SetHasDirectMotion(false);
             Player->SetFrame(PlayerAnimator->GetCurrFrame());
         }
@@ -638,15 +687,19 @@ void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRan
                 Player->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingLeft));
             }
 
-            if (((terrain->GetViewWindow().x - 4) >= 0) &&
-                ((terrain->GetViewWindow().x + terrain->GetViewWindow().w / 2)) > Player->GetBox().x) {
+            if (((terrain->GetViewWindow().x - 4) >= 0) &&  ((terrain->GetViewWindow().x + terrain->GetViewWindow().w / 2)) > Player->GetBox().x) {
                 background->Scroll(-4, 0);
                 terrain->Scroll(-4, 0);
             }
 
             int dx = -PlayerAnimator->GetAnim()->GetDx();
             int dy = 4;
-            terrain->GetGrid()->FilterGridMotion(Player->GetBox(), &dx, &dy);
+            terrain->GetGrid()->FilterGridMotion(Player->GetBox(), &dx,&dy);
+            if(Player->GetStateID()=="YouShallNotPassLeft") {
+                dx = 0;
+                Player->SetStateID("");
+            }
+
             Player->SetHasDirectMotion(true).Move(dx, dy).SetHasDirectMotion(false);
             Player->SetFrame(PlayerAnimator->GetCurrFrame());
         }
@@ -693,8 +746,8 @@ void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRan
         }
         auto Gx = 0;
         auto Gy = 4;
-        terrain->GetGrid()->FilterGridMotion(Player->GetBox(), &Gx, &Gy);
-        if (((isJump && Player->GetFilm()->GetID() == WalkingRight) || isJumpRight) && !Gy) {
+        terrain->GetGrid()->FilterGridMotion(Player->GetBox(), &Gx,&Gy);
+        if(((isJump && Player->GetFilm()->GetID()==WalkingRight) || isJumpRight) && !Gy) {
             if (PlayerAnimator->GetAnim() != JumpAnimation) {
                 PlayerAnimator->SetAnim(JumpAnimation, GetGameTime());
                 Player->SetFrame(0);
@@ -704,7 +757,7 @@ void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRan
             inputs["locked"] = true;
         }
 
-        if (((isJump && Player->GetFilm()->GetID() == WalkingLeft) || isJumpLeft) && !Gy) {
+        if(((isJump && Player->GetFilm()->GetID()==WalkingLeft) || isJumpLeft) && !Gy) {
             if (PlayerAnimator->GetAnim() != JumpAnimation) {
                 PlayerAnimator->SetAnim(JumpAnimation, GetGameTime());
                 Player->SetFrame(0);
@@ -713,9 +766,10 @@ void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRan
             Player->SetFrame(0);
             inputs["locked"] = true;
         }
-        if ((isJumpLeft && Gy) || (isJumpRight && Gy)) {
-            isStanding = true;
+        if((isJumpLeft && Gy) || (isJumpRight && Gy)) {
+            isStanding= true;
         }
+
 
 
         if (isStanding) {
@@ -739,7 +793,18 @@ void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRan
 
 
         }
+
+
     }
+
+    if(inputs["center"]){
+        Rect newView = {(Player->GetBox().x-132),terrain->GetViewWindow().y,terrain->GetViewWindow().w,terrain->GetViewWindow().h};
+        terrain->SetViewWindow(newView);
+        terrain->GetGrid()->SetViewWindow(newView);
+        background->SetViewWindow(newView);
+
+    }
+
 
 
 }

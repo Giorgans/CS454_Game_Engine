@@ -22,6 +22,8 @@ void Elevator_Animations_OnAction(Sprite *sprite, Animator *animator, const Movi
 
 void Door_Animations_OnAction(Sprite *sprite, Animator *animator, const MovingAnimation &anim);
 
+void Bridge_Animations_OnAction(Sprite *sprite, Animator *animator, const MovingAnimation &anim);
+
 void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim);
 
 void Link_Animations_OnFinish(Animator *animator);
@@ -54,13 +56,13 @@ void InitializeAnimations() {
 
     botStandingAnimation = new FrameRangeAnimation("Standing", 0,
                                                    AnimationFilmHolder::GetHolder().GetFilm(Bot)->GetTotalFrames() - 1,
-                                                   0, 0, 4, FRAME_DURATION*2);
+                                                   0, 0, 4, FRAME_DURATION * 2);
     botJumpLeftAnimation = new FrameRangeAnimation("JumpLeft", 0,
                                                    AnimationFilmHolder::GetHolder().GetFilm(Bot)->GetTotalFrames() - 1,
-                                                   0, -4, -8, FRAME_DURATION *2);
+                                                   0, -4, -8, FRAME_DURATION * 2);
     botJumpRightAnimation = new FrameRangeAnimation("JumpRight", 0,
                                                     AnimationFilmHolder::GetHolder().GetFilm(Bot)->GetTotalFrames() - 1,
-                                                    0, 4, -8, FRAME_DURATION *2);
+                                                    0, 4, -8, FRAME_DURATION * 2);
 
     stalfosMoveLeftAnimation = new FrameRangeAnimation("StalfosMoveLeft", 0, AnimationFilmHolder::GetHolder().GetFilm(
             StalfosWalkingLeft)->GetTotalFrames() - 1, 0, -2, 12, FRAME_DURATION);
@@ -72,8 +74,8 @@ void InitializeAnimations() {
                                                           FRAME_DURATION*2);
     stalfosAttackLeftAnimation = new FrameRangeAnimation("StalfosAttackLeft", 0,
                                                          AnimationFilmHolder::GetHolder().GetFilm(
-                                                                 StalfosAttackLeft)->GetTotalFrames() - 1, 0, 1, 4,
-                                                         FRAME_DURATION*2);
+                                                                 StalfosAttackLeft)->GetTotalFrames() - 1, 0, 4, 0,
+                                                         FRAME_DURATION);
 
     auto *TitleScreenAnimator = new FrameRangeAnimator("TitleScreenAnimator");
     auto *PlayerAnimator = new FrameRangeAnimator("PlayerAnimator");
@@ -133,6 +135,18 @@ void InitializeAnimations() {
             DoorAnimator->Start(Standing, GetGameTime());
 
         }
+        //Bridge
+        else if(i->GetTypeId() == "Bridge"){
+            auto *BridgeAnimator = new FrameRangeAnimator("BridgeAnimator");
+            BridgeAnimator->SetOnAction(
+                    [i, BridgeAnimator, Standing](Animator *animator, const Animation &anim) {
+                        Bridge_Animations_OnAction(i, BridgeAnimator, *Standing);
+                    }
+            );
+            BridgeAnimator->Start(Standing, GetGameTime());
+
+        }
+
     }
 
     //TitleScreen
@@ -161,15 +175,22 @@ void InitializeAnimations() {
 
 void Elevator_Animations_OnAction(Sprite *sprite, Animator *animator, const MovingAnimation &anim) {
     auto *ElevatorStandingAnimation = new MovingAnimation("Standing", 0, 0, 0, FRAME_DURATION);
-    auto *moveDown = new MovingAnimation("Down", 8, 0, 4, FRAME_DURATION);
+    auto *move = new MovingAnimation("Down", 8, 0, 4, FRAME_DURATION);
     auto *moveGoingDown = new MovingAnimation("Down", 28, 0, 4, FRAME_DURATION);
 
     auto *movingAnimator = (MovingAnimator *) animator;
 
     if (sprite->GetStateID() == "Down") {
         if (movingAnimator->GetAnim()->IsForever())
-            movingAnimator->SetAnim(moveDown, GetGameTime());
-        sprite->SetHasDirectMotion(true).Move(moveDown->GetDx(), moveDown->GetDy()).SetHasDirectMotion(false);
+            movingAnimator->SetAnim(move, GetGameTime());
+        sprite->SetHasDirectMotion(true).Move(move->GetDx(), move->GetDy()).SetHasDirectMotion(false);
+
+    }
+
+    if (sprite->GetStateID() == "Up" ) {
+        if (movingAnimator->GetAnim()->IsForever())
+            movingAnimator->SetAnim(move, GetGameTime());
+        sprite->SetHasDirectMotion(true).Move(move->GetDx(), -move->GetDy()).SetHasDirectMotion(false);
 
     }
 
@@ -184,11 +205,39 @@ void Elevator_Animations_OnAction(Sprite *sprite, Animator *animator, const Movi
         Rect terrainview = {terrain->GetViewWindow().x, terrain->GetViewWindow().y + 240, terrain->GetViewWindow().w,
                             terrain->GetViewWindow().h};
         terrain->SetViewWindow(terrainview);
+        terrain->GetGrid()->SetViewWindow(terrainview);
+        background->SetViewWindow(terrainview);
+    }
+
+    if (sprite->GetStateID() == "Up" && movingAnimator->GetCurrRep() == 6) {
+        Rect terrainview = {terrain->GetViewWindow().x, terrain->GetViewWindow().y - 240, terrain->GetViewWindow().w,
+                            terrain->GetViewWindow().h};
+        terrain->SetViewWindow(terrainview);
+        terrain->GetGrid()->SetViewWindow(terrainview);
         background->SetViewWindow(terrainview);
     }
 
 
 }
+
+void Bridge_Animations_OnAction(Sprite *sprite, Animator *animator, const MovingAnimation &anim){
+    auto FallAnimation = new FrameRangeAnimation("FallAnimation",0,AnimationFilmHolder::GetHolder().Load(FallingBridge)->GetTotalFrames()-1,0,0,0,1000/6);
+    auto *frameRangeAnimator = (FrameRangeAnimator *) animator;
+
+    if(sprite->GetStateID()=="Fall"){
+        frameRangeAnimator->SetAnim(FallAnimation,GetGameTime());
+        sprite->SetFrame(0);
+        sprite->SetStateID("Falling");
+    }
+    else if(sprite->GetStateID()=="Falling"){
+        sprite->SetFrame(frameRangeAnimator->GetCurrFrame());
+        if(sprite->GetFrame()==0){
+            sprite->SetVisibility(false);
+            frameRangeAnimator->Stop();
+        }
+    }
+}
+
 
 void TittleScreen_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim) {
     auto *frameRangeAnimator = (FrameRangeAnimator *) animator;
@@ -684,11 +733,17 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
 
             int dx = -PlayerAnimator->GetAnim()->GetDx();
             int dy = 4;
+
             terrain->GetGrid()->FilterGridMotion(Player->GetBox(), &dx,&dy);
             if(Player->GetStateID()=="YouShallNotPassLeft") {
                 dx = 0;
                 Player->SetStateID("");
             }
+            if(Player->GetStateID()=="OnBridge") {
+                dy = 0;
+                Player->SetStateID("");
+            }
+
 
             Player->SetHasDirectMotion(true).Move(dx, dy).SetHasDirectMotion(false);
             Player->SetFrame(PlayerAnimator->GetCurrFrame());
@@ -760,8 +815,6 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
             isStanding= true;
         }
 
-
-
         if (isStanding) {
             if (PlayerAnimator->GetAnim() != StandingAnimation) {
                 PlayerAnimator->SetAnim(StandingAnimation, GetGameTime());
@@ -778,6 +831,10 @@ void Link_Animations_OnAction(Sprite *sprite,Animator *animator,const FrameRange
 
             int dx = 0;
             int dy = 4;
+            if(Player->GetStateID()=="OnBridge") {
+                dy = 0;
+                Player->SetStateID("");
+            }
             terrain->GetGrid()->FilterGridMotion(Player->GetBox(), &dx, &dy);
             Player->SetHasDirectMotion(true).Move(dx, dy).SetHasDirectMotion(false);
 

@@ -20,6 +20,10 @@ void TitleScreenInputs() {
     al_get_keyboard_state(&keyboardState);
     if(al_key_down(&keyboardState, ALLEGRO_KEY_ENTER))
         inputs["start"] = true;
+
+    if(al_key_down(&keyboardState, ALLEGRO_KEY_ESCAPE))
+        inputs["exit"] = true;
+
 }
 
 void MainGameInputs(){

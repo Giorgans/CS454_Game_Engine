@@ -100,7 +100,6 @@ void InitializeRendering() {
         window = al_create_display(0, 0);
         al_set_display_icon(window, al_load_bitmap(ICON_FILE_PATH));
     }
-
     if (background == nullptr)
         background = new TileLayer(MAX_HEIGHT, MAX_WIDTH, al_load_bitmap(TILESET_FILE_PATH), BACKGROUND_CSV_FILE_PATH);
     if (terrain == nullptr)

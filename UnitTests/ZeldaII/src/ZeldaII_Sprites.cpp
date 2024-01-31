@@ -36,6 +36,15 @@ void LinkElevatorAction(Sprite *link,Sprite *elevator){
         elevator->SetStateID("Down");
         link->SetStateID("Down");
     }
+    if(inputs["Up"]) {
+        elevator->SetStateID("Up");
+        link->SetStateID("Up");
+    }
+
+    if(link->GetStateID()=="GoingUp"){
+        elevator->SetStateID("GoingUp");
+    }
+
 
     if(link->GetStateID()=="GoingDown"){
         elevator->SetStateID("GoingDown");
@@ -56,6 +65,13 @@ void LinkDoorAction(Sprite *link,Sprite *door){
 
 
 }
+void LinkBridgeAction(Sprite *link,Sprite *bridge){
+    if(bridge->IsVisible()) {
+        bridge->SetStateID("Fall");
+        link->SetStateID("OnBridge");
+    }
+}
+
 
 
 void createEnemiesAndObjects(){
@@ -129,13 +145,34 @@ void createEnemiesAndObjects(){
                 CollisionChecker::GetSingleton().Register(link,door, LinkDoorAction);
             }
             else if(i == CANDLE_TILE) {
-                auto candle = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row), AnimationFilmHolder::GetHolder().Load(Candle), "Candle");
+                auto candle = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row),AnimationFilmHolder::GetHolder().Load(Candle),"Candle");
+                candle->SetFrame(0);
+                candle->SetVisibility(true);
+                candle->SetZorder(0);
+                candle->GetGravityHandler().gravityAddicted = false;
+                SpriteManager::GetSingleton().Add(candle);
+                auto link = SpriteManager::GetSingleton().GetDisplayList().at(1);
+                CollisionChecker::GetSingleton().Register(link,candle, {});
             }
             else if(i == BRIDGE_TILE) {
-                auto bridge = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row), AnimationFilmHolder::GetHolder().Load(FallingBridge), "Bridge");
+                auto bridge = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row),AnimationFilmHolder::GetHolder().Load(FallingBridge),"Bridge");
+                bridge->SetFrame(0);
+                bridge->SetVisibility(true);
+                bridge->SetZorder(0);
+                bridge->GetGravityHandler().gravityAddicted = false;
+                SpriteManager::GetSingleton().Add(bridge);
+                auto link = SpriteManager::GetSingleton().GetDisplayList().at(1);
+                CollisionChecker::GetSingleton().Register(link,bridge, LinkBridgeAction);
             }
             else if(i == FAIRY_TILE) {
-                auto fairy = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row), AnimationFilmHolder::GetHolder().Load(Fairy), "Fairy");
+                auto fairy = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row),AnimationFilmHolder::GetHolder().Load(Fairy),"Fairy");
+                fairy->SetFrame(0);
+                fairy->SetVisibility(true);
+                fairy->SetZorder(0);
+                fairy->GetGravityHandler().gravityAddicted = false;
+                SpriteManager::GetSingleton().Add(fairy);
+                auto link = SpriteManager::GetSingleton().GetDisplayList().at(1);
+                CollisionChecker::GetSingleton().Register(link,fairy, {});
             }
             col++;
         }

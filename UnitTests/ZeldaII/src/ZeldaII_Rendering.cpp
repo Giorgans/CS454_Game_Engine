@@ -51,6 +51,8 @@ void tittle_screen_rendering() {
 
 
 void parapa_palace_level_rendering() {
+    ALLEGRO_BITMAP *tempBuffer;
+
     // Fetch the full screen dimensions
     int fullScreenWidth = al_get_display_width(window);
     int fullScreenHeight = al_get_display_height(window);
@@ -59,13 +61,6 @@ void parapa_palace_level_rendering() {
     float scaleX = fullScreenWidth / 640.0f;
     float scaleY = fullScreenHeight / 480.0f;
 
-    // Set up the transformation
-    ALLEGRO_TRANSFORM transform;
-    al_identity_transform(&transform);
-    al_scale_transform(&transform, scaleX, scaleY);
-    al_use_transform(&transform);
-
-    al_set_target_backbuffer(window);
     al_clear_to_color(KEY_COLOR);
 
     //Render terrain and background
@@ -77,17 +72,26 @@ void parapa_palace_level_rendering() {
         terrain->GetGrid()->Display(al_get_backbuffer(window), DisplayArea);
     }
 
-    // Render sprites
-    for (auto sprite : SpriteManager::GetSingleton().GetDisplayList()) {
-        if (sprite->IsVisible() && sprite->GetTypeId() != "TitleScreen") {
-            sprite->Display(al_get_backbuffer(window), DisplayArea, MakeTileLayerClipper(terrain));
-        }
+    for(auto i : SpriteManager::GetSingleton().GetDisplayList()){
+        if(i->GetTypeId() == "Link")
+            i->Display(al_get_backbuffer(window),DisplayArea,MakeTileLayerClipper(terrain));
+        else if(i->IsVisible() && i->GetTypeId() != "TitleScreen")
+            i->Display(al_get_backbuffer(window),DisplayArea,MakeTileLayerClipper(terrain));
     }
+    tempBuffer = al_clone_bitmap(al_get_backbuffer(window));
+    al_clear_to_color(KEY_COLOR);
+    al_draw_scaled_bitmap(tempBuffer,0,0,al_get_bitmap_width(tempBuffer), al_get_bitmap_height(tempBuffer),0,0,
+                          DISPLAY_W*2.4, DISPLAY_H*2.4,0);
+    // Set up the transformation
+    ALLEGRO_TRANSFORM transform;
+    al_identity_transform(&transform);
+    al_scale_transform(&transform, scaleX, scaleY);
+    al_use_transform(&transform);
 
-    // Flip the display to show the rendered frame
+    al_set_target_backbuffer(window);
+
     al_flip_display();
-
-    // No need to unlock the bitmap here since we never locked it
+    al_unlock_bitmap(al_get_backbuffer(window));
 }
 
 

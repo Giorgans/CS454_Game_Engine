@@ -1,6 +1,5 @@
 #include "../Include/terrain.h"
 #include "../Include/rendering.h"
-
 /**********************************************
  *  Tile Layer Class Function Implementations *
  *********************************************/

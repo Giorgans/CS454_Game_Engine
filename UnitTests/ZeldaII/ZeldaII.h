@@ -33,7 +33,7 @@ struct SpriteVisibilityInfo {
 #define STALFOS_TILE 94
 
 #define ATTACK_RANGE 40
-#define PUSH_BACK 20
+#define PUSH_BACK 8
 
 /***************************************
  *  Macros of paths                   *

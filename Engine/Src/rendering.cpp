@@ -1,13 +1,6 @@
 #include "../Include/rendering.h"
 
-
-void Rendering() {
-
-
-
-
-
-}
+void Rendering() {}
 
 
 // Draws a part of bitmap to an area of another bitmap

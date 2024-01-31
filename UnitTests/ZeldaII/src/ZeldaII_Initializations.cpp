@@ -94,10 +94,12 @@ void InitializeSounds(){
 
 void InitializeRendering() {
 
-    al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW);
+  //  al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW);
 
     if(window == nullptr) {
-        window = al_create_display(0, 0);
+        window = al_create_display(DISPLAY_W,DISPLAY_H);
+        al_set_display_flag(window, ALLEGRO_FULLSCREEN_WINDOW, true);
+
         al_set_display_icon(window, al_load_bitmap(ICON_FILE_PATH));
     }
     if (background == nullptr)

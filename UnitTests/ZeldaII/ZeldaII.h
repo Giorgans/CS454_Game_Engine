@@ -7,7 +7,7 @@
 #include <allegro5/allegro_font.h>
 #include <random>
 
-#define FRAME_DURATION 1000/14
+#define FRAME_DURATION 1000/30
 
 
 #include <map>
@@ -27,13 +27,14 @@ struct SpriteVisibilityInfo {
 #define BRIDGE_TILE 68
 #define FAIRY_TILE 89
 #define DOOR_TILE 35
+#define LAVA_TILE 9
 
 #define WOSU_ENEMY_TILE 56
 #define BOT_TILE 92
 #define STALFOS_TILE 94
 
 #define ATTACK_RANGE 40
-#define PUSH_BACK 20
+#define PUSH_BACK 8
 
 /***************************************
  *  Macros of paths                   *
@@ -70,6 +71,7 @@ struct SpriteVisibilityInfo {
  **************************************/
 
 #define TitleScreen "titlescreen.png"
+#define GameOver "game.over.screen.png"
 /* Link's Animations */
 #define WalkingRight "link.right.png"
 #define WalkingLeft "link.left.png"
@@ -83,6 +85,8 @@ struct SpriteVisibilityInfo {
 #define JumpAttackUpLeft "link.jump.attack.up.left.png"
 #define JumpAttackDownRight "link.jump.attack.down.right.png"
 #define JumpAttackDownLeft "link.jump.attack.down.left.png"
+#define DamageLeft "link.damage.left.png"
+#define DamageRight "link.damage.right.png"
 
 /* Enemies Animations */
 #define Bot "bot.png"
@@ -95,6 +99,8 @@ struct SpriteVisibilityInfo {
 #define StalfosAttackRight "stalfos.attack.right.png"
 #define StalfosJumpLeft "stalfos.jump.left.png"
 #define StalfosJumpRight "stalfos.jump.right.png"
+#define Enemy16Death "enemy.death.16.png"
+#define Enemy32Death "enemy.death.32.png"
 
 /* Objects  */
 #define Key "key.png"
@@ -103,7 +109,7 @@ struct SpriteVisibilityInfo {
 #define Elevator "elevator.png"
 #define Fairy "fairy.png"
 #define FallingBridge "falling.bridge.png"
-
+#define Lava "lava.png"
 /***************************************
  *  Parapa Palace Level Macros         *
 ***************************************/
@@ -133,7 +139,7 @@ void ZeldaII_Physics();
 
 void tittle_screen_rendering();
 void parapa_palace_level_rendering();
-
+void game_over_rendering() ;
 /***************************************
  *  Animation Functions               *
  **************************************/
@@ -146,6 +152,7 @@ void parapa_palace_level_rendering();
 void createTittleScreen();
 void createLink();
 void createEnemiesAndObjects();
+void createGameOver();
 
 /***************************************
  *  Input Functions                    *

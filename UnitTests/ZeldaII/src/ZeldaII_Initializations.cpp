@@ -29,11 +29,17 @@ void InitializeFilms(){
             int frames;
             int width;
             int height;
-            if(f.path().filename() == TitleScreen ){
+            if(  f.path().filename() == GameOver){
                 frames = int(al_get_bitmap_width(bitmap) / 256 );
                 width = 256;
                 height = 232;
             }
+            else if(f.path().filename() == TitleScreen ){
+                frames = int(al_get_bitmap_width(bitmap) / 1024 );
+                width = 1024;
+                height = 928;
+            }
+
             else if(f.path().filename() == DownLeft || f.path().filename() == DownRight || f.path().filename() == AttackLeft || f.path().filename() == AttackRight ){
                 frames = int(al_get_bitmap_width(bitmap) / 32);
                 width = 32;
@@ -44,7 +50,7 @@ void InitializeFilms(){
                 width = 8;
                 height = 48;
             }
-            else if(f.path().filename() == Key || f.path().filename() == Candle || f.path().filename() == Fairy){
+            else if(f.path().filename() == Key || f.path().filename() == Candle || f.path().filename() == Fairy || f.path().filename() == Lava){
                 frames = 1;
                 width = 16;
                 height = 16;
@@ -54,7 +60,7 @@ void InitializeFilms(){
                 width = 32;
                 height = 64;
             }
-            else if(f.path().filename() == FallingBridge || f.path().filename() == Bot || f.path().filename() == Bubble){
+            else if(f.path().filename() == FallingBridge || f.path().filename() == Bot || f.path().filename() == Bubble || f.path().filename() == Enemy16Death ){
                 frames = int(al_get_bitmap_width(bitmap) / 16);
                 width = 16;
                 height = 16;
@@ -85,6 +91,8 @@ void InitializeFilms(){
 void InitializeSprites(){
     createTittleScreen();
     createLink();
+    createGameOver();
+
     createEnemiesAndObjects();
 }
 
@@ -92,16 +100,16 @@ void InitializeSounds(){
     LoadSounds();
 }
 
-void InitializeRendering(){
+void InitializeRendering() {
 
-    if(window == nullptr){
+    if(window == nullptr) {
         window = al_create_display(DISPLAY_W,DISPLAY_H);
+        al_set_display_flag(window, ALLEGRO_FULLSCREEN_WINDOW, false);
+
         al_set_display_icon(window, al_load_bitmap(ICON_FILE_PATH));
     }
     if (background == nullptr)
         background = new TileLayer(MAX_HEIGHT, MAX_WIDTH, al_load_bitmap(TILESET_FILE_PATH), BACKGROUND_CSV_FILE_PATH);
     if (terrain == nullptr)
         terrain = new TileLayer(MAX_HEIGHT, MAX_WIDTH, al_load_bitmap(TILESET_FILE_PATH), TERRAIN_CSV_FILE_PATH);
-
 }
-

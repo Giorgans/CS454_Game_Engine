@@ -15,6 +15,16 @@ void createTittleScreen(){
 
 }
 
+void createGameOver(){
+    auto *over = new Sprite(ZELDA_STARTING_LEVEL_STARTING_POINT_X,ZELDA_STARTING_LEVEL_STARTING_POINT_Y,AnimationFilmHolder::GetHolder().Load(GameOver),"GameOver");
+    over->SetFrame(0);
+    over->SetVisibility(false);
+    over->SetZorder(1);
+    SpriteManager::GetSingleton().Add(over);
+
+}
+
+
 void createLink() {
     auto *Link = new Sprite(LINK_STARTING_POINT_X,LINK_STARTING_POINT_Y,AnimationFilmHolder::GetHolder().Load(WalkingRight),"Link");
     Link->SetFrame(0);
@@ -25,9 +35,9 @@ void createLink() {
 }
 
 void LinkEnemy(Sprite *enemy,Sprite *player){
-    if(inputs["A"]) {
+    if((player->GetFilm()->GetID()==AttackLeft || player->GetFilm()->GetID()==AttackRight ||player->GetFilm()->GetID()==DownLeft || player->GetFilm()->GetID()==DownRight) && player->GetFrame()==1) {
         enemy->SetStateID("Attacked");
-        /*enemy->SetVisibility(false);*/
+        enemy->SetVisibility(false);
     }
 }
 
@@ -72,6 +82,9 @@ void LinkBridgeAction(Sprite *link,Sprite *bridge){
     }
 }
 
+void LinkLavaAction(Sprite *link,Sprite *lava){
+        link->SetStateID("Lava");
+}
 
 
 void createEnemiesAndObjects(){
@@ -154,6 +167,18 @@ void createEnemiesAndObjects(){
                 auto link = SpriteManager::GetSingleton().GetDisplayList().at(1);
                 CollisionChecker::GetSingleton().Register(link,candle, {});
             }
+            else if(i == LAVA_TILE) {
+                auto lava = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row),AnimationFilmHolder::GetHolder().Load(Lava),"Lava");
+                lava->SetFrame(0);
+                lava->SetVisibility(true);
+                lava->SetZorder(0);
+                lava->GetGravityHandler().gravityAddicted = false;
+                SpriteManager::GetSingleton().Add(lava);
+                auto link = SpriteManager::GetSingleton().GetDisplayList().at(1);
+                CollisionChecker::GetSingleton().Register(link,lava, LinkLavaAction);
+            }
+
+
             else if(i == BRIDGE_TILE) {
                 auto bridge = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row),AnimationFilmHolder::GetHolder().Load(FallingBridge),"Bridge");
                 bridge->SetFrame(0);

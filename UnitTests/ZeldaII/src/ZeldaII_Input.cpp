@@ -24,6 +24,9 @@ void TitleScreenInputs() {
     if(al_key_down(&keyboardState, ALLEGRO_KEY_ESCAPE))
         inputs["exit"] = true;
 
+
+
+
 }
 
 void MainGameInputs(){
@@ -37,7 +40,10 @@ void MainGameInputs(){
     inputs["A"] = al_key_down(&keyboardState, ALLEGRO_KEY_A);
     inputs["S"] = al_key_down(&keyboardState, ALLEGRO_KEY_S);
     inputs["G"] = al_key_down(&keyboardState, ALLEGRO_KEY_G);
+    inputs["F"] = al_key_down(&keyboardState, ALLEGRO_KEY_F);
 
+    if(inputs["F"])
+        inputs["FullScreen"]= !inputs["FullScreen"];
     if(al_key_down(&keyboardState, ALLEGRO_KEY_ESCAPE))
         inputs["exit"] = true;
 }
@@ -55,5 +61,8 @@ void InitializeInputs(){
     inputs.insert(std::pair<std::string ,bool>("locked",false));
     inputs.insert(std::pair<std::string ,bool>("key",false));
     inputs.insert(std::pair<std::string ,bool>("center",false));
+    inputs.insert(std::pair<std::string ,bool>("F",false));
+    inputs.insert(std::pair<std::string ,bool>("FullScreen",false));
+    inputs.insert(std::pair<std::string ,bool>("GameOver",false));
 
 }

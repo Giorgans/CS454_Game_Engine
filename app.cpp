@@ -26,6 +26,7 @@ public:
         GetGame().SetPhysics( ZeldaII_Physics);
 
         InitializeInputs();
+        InitializeRendering();
         InitializeBitmaps();
         InitializeFilms();
         InitializeSprites();

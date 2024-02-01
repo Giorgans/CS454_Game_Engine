@@ -27,6 +27,7 @@ struct SpriteVisibilityInfo {
 #define BRIDGE_TILE 68
 #define FAIRY_TILE 89
 #define DOOR_TILE 35
+#define LAVA_TILE 9
 
 #define WOSU_ENEMY_TILE 56
 #define BOT_TILE 92
@@ -108,7 +109,7 @@ struct SpriteVisibilityInfo {
 #define Elevator "elevator.png"
 #define Fairy "fairy.png"
 #define FallingBridge "falling.bridge.png"
-
+#define Lava "lava.png"
 /***************************************
  *  Parapa Palace Level Macros         *
 ***************************************/
@@ -138,7 +139,7 @@ void ZeldaII_Physics();
 
 void tittle_screen_rendering();
 void parapa_palace_level_rendering();
-
+void game_over_rendering() ;
 /***************************************
  *  Animation Functions               *
  **************************************/
@@ -151,6 +152,7 @@ void parapa_palace_level_rendering();
 void createTittleScreen();
 void createLink();
 void createEnemiesAndObjects();
+void createGameOver();
 
 /***************************************
  *  Input Functions                    *

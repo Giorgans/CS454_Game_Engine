@@ -63,5 +63,6 @@ void InitializeInputs(){
     inputs.insert(std::pair<std::string ,bool>("center",false));
     inputs.insert(std::pair<std::string ,bool>("F",false));
     inputs.insert(std::pair<std::string ,bool>("FullScreen",false));
+    inputs.insert(std::pair<std::string ,bool>("GameOver",false));
 
 }

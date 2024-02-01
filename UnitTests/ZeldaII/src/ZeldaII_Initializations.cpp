@@ -29,11 +29,17 @@ void InitializeFilms(){
             int frames;
             int width;
             int height;
-            if(f.path().filename() == TitleScreen || f.path().filename() == GameOver){
+            if(  f.path().filename() == GameOver){
                 frames = int(al_get_bitmap_width(bitmap) / 256 );
                 width = 256;
                 height = 232;
             }
+            else if(f.path().filename() == TitleScreen ){
+                frames = int(al_get_bitmap_width(bitmap) / 1024 );
+                width = 1024;
+                height = 928;
+            }
+
             else if(f.path().filename() == DownLeft || f.path().filename() == DownRight || f.path().filename() == AttackLeft || f.path().filename() == AttackRight ){
                 frames = int(al_get_bitmap_width(bitmap) / 32);
                 width = 32;
@@ -44,7 +50,7 @@ void InitializeFilms(){
                 width = 8;
                 height = 48;
             }
-            else if(f.path().filename() == Key || f.path().filename() == Candle || f.path().filename() == Fairy){
+            else if(f.path().filename() == Key || f.path().filename() == Candle || f.path().filename() == Fairy || f.path().filename() == Lava){
                 frames = 1;
                 width = 16;
                 height = 16;
@@ -85,6 +91,8 @@ void InitializeFilms(){
 void InitializeSprites(){
     createTittleScreen();
     createLink();
+    createGameOver();
+
     createEnemiesAndObjects();
 }
 

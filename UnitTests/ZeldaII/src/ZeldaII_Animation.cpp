@@ -12,6 +12,8 @@ void TittleScreen_Animations_OnAction(Sprite *sprite, Animator *animator, const 
 
 void TittleScreen_Animations_OnFinish(Animator *animator);
 
+void GameOver_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim) ;
+
 void Wosu_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim);
 
 void Bot_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim);
@@ -28,15 +30,6 @@ void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRan
 
 void Link_Animations_OnFinish(Animator *animator);
 
-FrameRangeAnimation *botStandingAnimation;
-FrameRangeAnimation *botJumpLeftAnimation;
-FrameRangeAnimation *botJumpRightAnimation;
-
-FrameRangeAnimation *stalfosMoveLeftAnimation;
-FrameRangeAnimation *stalfosMoveRightAnimation;
-FrameRangeAnimation *stalfosAttackLeftAnimation;
-FrameRangeAnimation *stalfosAttackRightAnimation;
-
 
 std::random_device rd;
 std::mt19937 gen(rd());
@@ -48,41 +41,44 @@ void InitializeAnimations() {
 
     auto *TitleScreenAnimation = new FrameRangeAnimation("TitleScreen", 0, AnimationFilmHolder::GetHolder().GetFilm(
             TitleScreen)->GetTotalFrames() - 1, 0, 0, 0, 1000 / 3);
+    auto *GameOverAnimation = new FrameRangeAnimation("GameOver", 0, AnimationFilmHolder::GetHolder().GetFilm(
+            GameOver)->GetTotalFrames() - 1, 0, 0, 0, 1000 / 3);
+
     auto *WalkingAnimation = new FrameRangeAnimation("Walking", 0, AnimationFilmHolder::GetHolder().GetFilm(
             WalkingRight)->GetTotalFrames() - 1, 0, 4, 0, FRAME_DURATION);
     auto *StandingAnimation = new FrameRangeAnimation("Standing", 0, 0, 0, 0, 0, FRAME_DURATION);
     auto *Standing = new FrameRangeAnimation("Standing", 0, 0, 0, 0, 0, FRAME_DURATION);
     auto *ElevatorStandingAnimation = new MovingAnimation("Standing", 0, 0, 0, FRAME_DURATION);
 
-    botStandingAnimation = new FrameRangeAnimation("Standing", 0,
+    auto *botStandingAnimation = new FrameRangeAnimation("Standing", 0,
                                                    AnimationFilmHolder::GetHolder().GetFilm(Bot)->GetTotalFrames() - 1,
                                                    0, 0, 4, FRAME_DURATION * 2);
-    botJumpLeftAnimation = new FrameRangeAnimation("JumpLeft", 0,
+    auto *botJumpLeftAnimation = new FrameRangeAnimation("JumpLeft", 0,
                                                    AnimationFilmHolder::GetHolder().GetFilm(Bot)->GetTotalFrames() - 1,
                                                    0, -4, -8, FRAME_DURATION * 2);
-    botJumpRightAnimation = new FrameRangeAnimation("JumpRight", 0,
+    auto *botJumpRightAnimation = new FrameRangeAnimation("JumpRight", 0,
                                                     AnimationFilmHolder::GetHolder().GetFilm(Bot)->GetTotalFrames() - 1,
                                                     0, 4, -8, FRAME_DURATION * 2);
 
-    stalfosMoveLeftAnimation = new FrameRangeAnimation("StalfosMoveLeft", 0, AnimationFilmHolder::GetHolder().GetFilm(
+    auto *stalfosMoveLeftAnimation = new FrameRangeAnimation("StalfosMoveLeft", 0, AnimationFilmHolder::GetHolder().GetFilm(
             StalfosWalkingLeft)->GetTotalFrames() - 1, 0, -2, 12, FRAME_DURATION);
-    stalfosMoveRightAnimation = new FrameRangeAnimation("StalfosMoveRight", 0, AnimationFilmHolder::GetHolder().GetFilm(
+    auto *stalfosMoveRightAnimation = new FrameRangeAnimation("StalfosMoveRight", 0, AnimationFilmHolder::GetHolder().GetFilm(
             StalfosWalkingRight)->GetTotalFrames() - 1, 0, 2, 12, FRAME_DURATION);
-    stalfosAttackRightAnimation = new FrameRangeAnimation("StalfosAttackRight", 0,
+    auto *stalfosAttackRightAnimation = new FrameRangeAnimation("StalfosAttackRight", 0,
                                                           AnimationFilmHolder::GetHolder().GetFilm(
                                                                   StalfosAttackRight)->GetTotalFrames() - 1, 0, -1, 4,
                                                           FRAME_DURATION * 2);
-    stalfosAttackLeftAnimation = new FrameRangeAnimation("StalfosAttackLeft", 0,
+    auto *stalfosAttackLeftAnimation = new FrameRangeAnimation("StalfosAttackLeft", 0,
                                                          AnimationFilmHolder::GetHolder().GetFilm(
                                                                  StalfosAttackLeft)->GetTotalFrames() - 1, 0, 1, 4,
                                                          FRAME_DURATION * 2);
 
     auto *TitleScreenAnimator = new FrameRangeAnimator("TitleScreenAnimator");
     auto *PlayerAnimator = new FrameRangeAnimator("PlayerAnimator");
-
+    auto *GameOverAnimator = new FrameRangeAnimator("GameOverAnimator");
     auto titles = SpriteManager::GetSingleton().GetDisplayList().at(0);
     auto Link = SpriteManager::GetSingleton().GetDisplayList().at(1);
-
+    auto *gameOver= SpriteManager::GetSingleton().GetDisplayList().at(2);
     for (auto i: SpriteManager::GetSingleton().GetDisplayList()) {
         //ELEVATOR
         if (i->GetFilm()->GetID() == Elevator && i->IsVisible()) {
@@ -166,8 +162,12 @@ void InitializeAnimations() {
             }
     );
 
-    PlayerAnimator->SetOnFinish([PlayerAnimator](Animator *animator) { Link_Animations_OnFinish(PlayerAnimator); });
-
+    PlayerAnimator->SetOnFinish([GameOverAnimator](Animator *animator) { Link_Animations_OnFinish(GameOverAnimator); });
+    GameOverAnimator->SetOnAction(
+            [gameOver, GameOverAnimator, GameOverAnimation](Animator *animator, const Animation &anim) {
+                GameOver_Animations_OnAction(gameOver, GameOverAnimator, *GameOverAnimation);
+            }
+            );
 
     TitleScreenAnimator->Start(TitleScreenAnimation, GetGameTime());
 
@@ -239,15 +239,13 @@ void Bridge_Animations_OnAction(Sprite *sprite, Animator *animator, const Moving
 }
 
 
-void TittleScreen_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim) {
+void GameOver_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim) {
+    sprite->SetVisibility(true);
     auto *frameRangeAnimator = (FrameRangeAnimator *) animator;
     sprite->SetFrame(frameRangeAnimator->GetCurrFrame());
-    if (inputs["start"]) {
-        auto titlescr = SpriteManager::GetSingleton().GetDisplayList().at(0);
-        titlescr->SetVisibility(false);
-        auto link = SpriteManager::GetSingleton().GetDisplayList().at(1);
-        link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
-        link->SetVisibility(true);
+    if(sprite->GetFrame()==frameRangeAnimator->GetAnim()->GetEndFrame()){
+        inputs["exit"]=true;
+
         frameRangeAnimator->Stop();
     }
 }
@@ -263,6 +261,20 @@ void TittleScreen_Animations_OnFinish(Animator *animator) {
         assert(true);
 
 }
+
+void TittleScreen_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim) {
+    auto *frameRangeAnimator = (FrameRangeAnimator *) animator;
+    sprite->SetFrame(frameRangeAnimator->GetCurrFrame());
+    if (inputs["start"]) {
+        auto titlescr = SpriteManager::GetSingleton().GetDisplayList().at(0);
+        titlescr->SetVisibility(false);
+        auto link = SpriteManager::GetSingleton().GetDisplayList().at(1);
+        link->SetFilm(AnimationFilmHolder::GetHolder().Load(WalkingRight));
+        link->SetVisibility(true);
+        frameRangeAnimator->Stop();
+    }
+}
+
 
 
 SpriteVisibilityInfo distanceToLink(Sprite *sprite) {
@@ -323,6 +335,15 @@ void Wosu_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameRang
 
 void Bot_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim) {
     SpriteVisibilityInfo info = distanceToLink(sprite);
+    auto *botStandingAnimation = new FrameRangeAnimation("Standing", 0,
+                                                         AnimationFilmHolder::GetHolder().GetFilm(Bot)->GetTotalFrames() - 1,
+                                                         0, 0, 4, FRAME_DURATION * 2);
+    auto *botJumpLeftAnimation = new FrameRangeAnimation("JumpLeft", 0,
+                                                         AnimationFilmHolder::GetHolder().GetFilm(Bot)->GetTotalFrames() - 1,
+                                                         0, -4, -8, FRAME_DURATION * 2);
+    auto *botJumpRightAnimation = new FrameRangeAnimation("JumpRight", 0,
+                                                          AnimationFilmHolder::GetHolder().GetFilm(Bot)->GetTotalFrames() - 1,
+                                                          0, 4, -8, FRAME_DURATION * 2);
 
     if (info.isVisible) {
         auto *BotAnimator = dynamic_cast<FrameRangeAnimator *>(animator);
@@ -384,6 +405,18 @@ void Bot_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameRange
 
 void Stalfos_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim) {
     SpriteVisibilityInfo info = distanceToLink(sprite);
+    auto *stalfosMoveLeftAnimation = new FrameRangeAnimation("StalfosMoveLeft", 0, AnimationFilmHolder::GetHolder().GetFilm(
+            StalfosWalkingLeft)->GetTotalFrames() - 1, 0, -2, 12, FRAME_DURATION);
+    auto *stalfosMoveRightAnimation = new FrameRangeAnimation("StalfosMoveRight", 0, AnimationFilmHolder::GetHolder().GetFilm(
+            StalfosWalkingRight)->GetTotalFrames() - 1, 0, 2, 12, FRAME_DURATION);
+    auto *stalfosAttackRightAnimation = new FrameRangeAnimation("StalfosAttackRight", 0,
+                                                                AnimationFilmHolder::GetHolder().GetFilm(
+                                                                        StalfosAttackRight)->GetTotalFrames() - 1, 0, -1, 4,
+                                                                FRAME_DURATION * 2);
+    auto *stalfosAttackLeftAnimation = new FrameRangeAnimation("StalfosAttackLeft", 0,
+                                                               AnimationFilmHolder::GetHolder().GetFilm(
+                                                                       StalfosAttackLeft)->GetTotalFrames() - 1, 0, 1, 4,
+                                                               FRAME_DURATION * 2);
 
     if (info.isVisible && inputs["start"]) {
         auto *StalfosAnimator = dynamic_cast<FrameRangeAnimator *>(animator);
@@ -491,6 +524,7 @@ void Door_Animations_OnAction(Sprite *sprite, Animator *animator, const MovingAn
 void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim) {
     /*** Animations ***/
     auto *StandingAnimation = new FrameRangeAnimation("Standing", 0, 0, 0, 0, 0, FRAME_DURATION);
+    auto *DamagedAnimation = new FrameRangeAnimation("Standing", 0, AnimationFilmHolder::GetHolder().Load(DamageRight)->GetTotalFrames()-1, 0, 4, 0, FRAME_DURATION);
     auto *WalkingAnimation = new FrameRangeAnimation("Walking", 0, AnimationFilmHolder::GetHolder().GetFilm(
             WalkingRight)->GetTotalFrames() - 1, 0, 4, 0, FRAME_DURATION);
     auto *AttackAnimation = new FrameRangeAnimation("Attack", 0, AnimationFilmHolder::GetHolder().GetFilm(
@@ -537,7 +571,13 @@ void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRan
             Player->SetStateID("");
         }
 
-    } else if (inputs["locked"]) {
+    }
+    else if(Player->GetStateID() == "Lava"){
+        PlayerAnimator->SetAnim(DamagedAnimation, GetGameTime());
+        PlayerAnimator->Stop();
+        Player->SetStateID("");
+    }
+    else if (inputs["locked"]) {
         if (Player->GetFilm()->GetID() == AttackRight || Player->GetFilm()->GetID() == AttackLeft) {
             Player->SetFrame(PlayerAnimator->GetCurrFrame());
             if (Player->GetFrame() == AttackAnimation->GetEndFrame()) {
@@ -798,5 +838,10 @@ void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRan
 }
 
 void Link_Animations_OnFinish(Animator *animator) {
+    auto *GameOverAnimation = new FrameRangeAnimation("GameOver", 0, AnimationFilmHolder::GetHolder().GetFilm(
+            GameOver)->GetTotalFrames() - 1, 0, 0, 0, 1000 / 3);
 
+    auto *GameOverAnimator = (FrameRangeAnimator *) animator;
+    inputs["GameOver"]=true;
+    GameOverAnimator->Start(GameOverAnimation,GetGameTime());
 }

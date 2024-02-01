@@ -29,7 +29,7 @@ void InitializeFilms(){
             int frames;
             int width;
             int height;
-            if(f.path().filename() == TitleScreen ){
+            if(f.path().filename() == TitleScreen || f.path().filename() == GameOver){
                 frames = int(al_get_bitmap_width(bitmap) / 256 );
                 width = 256;
                 height = 232;
@@ -54,7 +54,7 @@ void InitializeFilms(){
                 width = 32;
                 height = 64;
             }
-            else if(f.path().filename() == FallingBridge || f.path().filename() == Bot || f.path().filename() == Bubble){
+            else if(f.path().filename() == FallingBridge || f.path().filename() == Bot || f.path().filename() == Bubble || f.path().filename() == Enemy16Death ){
                 frames = int(al_get_bitmap_width(bitmap) / 16);
                 width = 16;
                 height = 16;

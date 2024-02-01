@@ -70,6 +70,7 @@ struct SpriteVisibilityInfo {
  **************************************/
 
 #define TitleScreen "titlescreen.png"
+#define GameOver "game.over.screen.png"
 /* Link's Animations */
 #define WalkingRight "link.right.png"
 #define WalkingLeft "link.left.png"
@@ -83,6 +84,8 @@ struct SpriteVisibilityInfo {
 #define JumpAttackUpLeft "link.jump.attack.up.left.png"
 #define JumpAttackDownRight "link.jump.attack.down.right.png"
 #define JumpAttackDownLeft "link.jump.attack.down.left.png"
+#define DamageLeft "link.damage.left.png"
+#define DamageRight "link.damage.right.png"
 
 /* Enemies Animations */
 #define Bot "bot.png"
@@ -95,6 +98,8 @@ struct SpriteVisibilityInfo {
 #define StalfosAttackRight "stalfos.attack.right.png"
 #define StalfosJumpLeft "stalfos.jump.left.png"
 #define StalfosJumpRight "stalfos.jump.right.png"
+#define Enemy16Death "enemy.death.16.png"
+#define Enemy32Death "enemy.death.32.png"
 
 /* Objects  */
 #define Key "key.png"

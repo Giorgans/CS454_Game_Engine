@@ -3,6 +3,7 @@
 #define CS454_GAME_ENGINE_ZELDAII_H
 #include <allegro5/allegro.h>
 #include "allegro5/allegro_image.h"
+#include "src/Enemy.h"
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 #include <random>
@@ -12,6 +13,7 @@
 
 #include <map>
 extern std::map<std::string,bool> inputs;
+extern std::vector<Enemy> enemyHealthList;
 
 struct SpriteVisibilityInfo {
     bool isVisible;

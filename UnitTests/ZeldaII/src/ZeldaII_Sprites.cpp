@@ -1,9 +1,12 @@
 
 #include "../../../Engine/Include/sprite.h"
+#include "Enemy.h"
 
 /***************************************
  *  Creating Sprites Functions        *
  *************************************/
+
+std::vector<Enemy> enemyList;
 
 
 void createTittleScreen(){
@@ -113,6 +116,7 @@ void createEnemiesAndObjects(){
                 wosu->GetGravityHandler().gravityAddicted = true;
                 SpriteManager::GetSingleton().Add(wosu);
                 CollisionChecker::GetSingleton().Register(wosu,Link,LinkEnemy);
+                enemyList.emplace_back(wosu, 1);
             }
             else if(i == BOT_TILE) {
                 auto bot = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row), AnimationFilmHolder::GetHolder().Load(Bot), "Bot");
@@ -123,6 +127,7 @@ void createEnemiesAndObjects(){
                 bot->SetStateID("Inactive");
                 SpriteManager::GetSingleton().Add(bot);
                 CollisionChecker::GetSingleton().Register(bot,Link,LinkEnemy);
+                enemyList.emplace_back(bot, 1);
             }
             else if(i == STALFOS_TILE) {
                 auto stalfos = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row), AnimationFilmHolder::GetHolder().Load(StalfosWalkingLeft), "Stalfos");
@@ -132,6 +137,7 @@ void createEnemiesAndObjects(){
                 stalfos->GetGravityHandler().gravityAddicted = true;
                 SpriteManager::GetSingleton().Add(stalfos);
                 CollisionChecker::GetSingleton().Register(stalfos,Link,LinkEnemy);
+                enemyList.emplace_back(stalfos, 3);
             }
             else if(i == KEY_TILE) {
                 auto key = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row),AnimationFilmHolder::GetHolder().Load(Key),"Key");

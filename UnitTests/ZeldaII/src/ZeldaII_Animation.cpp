@@ -1,7 +1,6 @@
 #include "../ZeldaII.h"
 #include "../../../Engine/Include/sprite.h"
 #include "../../../Engine/Include/rendering.h"
-
 extern TileLayer *terrain, *background;
 
 /***************************************
@@ -39,6 +38,7 @@ FrameRangeAnimation *stalfosMoveRightAnimation;
 FrameRangeAnimation *stalfosAttackLeftAnimation;
 FrameRangeAnimation *stalfosAttackRightAnimation;
 
+extern std::vector<Enemy> enemyHealthList;
 
 std::random_device rd;
 std::mt19937 gen(rd());

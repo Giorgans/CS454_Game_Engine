@@ -37,9 +37,9 @@ void createLink() {
 }
 
 void LinkEnemy(Sprite *enemy,Sprite *player){
-    if(inputs["A"]) {
+    if((player->GetFilm()->GetID()==AttackLeft || player->GetFilm()->GetID()==AttackRight ||player->GetFilm()->GetID()==DownLeft ||player->GetFilm()->GetID()==DownRight) && player->GetFrame()==1) {
         enemy->SetStateID("Attacked");
-        /*enemy->SetVisibility(false);*/
+        enemy->SetVisibility(false);
     }
 }
 

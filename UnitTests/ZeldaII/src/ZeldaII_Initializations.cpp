@@ -29,7 +29,7 @@ void InitializeFilms(){
             int frames;
             int width;
             int height;
-            if(f.path().filename() == TitleScreen ){
+            if(f.path().filename() == TitleScreen || f.path().filename() == GameOver){
                 frames = int(al_get_bitmap_width(bitmap) / 256 );
                 width = 256;
                 height = 232;
@@ -54,7 +54,7 @@ void InitializeFilms(){
                 width = 32;
                 height = 64;
             }
-            else if(f.path().filename() == FallingBridge || f.path().filename() == Bot || f.path().filename() == Bubble){
+            else if(f.path().filename() == FallingBridge || f.path().filename() == Bot || f.path().filename() == Bubble || f.path().filename() == Enemy16Death ){
                 frames = int(al_get_bitmap_width(bitmap) / 16);
                 width = 16;
                 height = 16;
@@ -95,10 +95,10 @@ void InitializeSounds(){
 
 void InitializeRendering() {
 
-    al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW);
-
     if(window == nullptr) {
-        window = al_create_display(0, 0);
+        window = al_create_display(DISPLAY_W,DISPLAY_H);
+        al_set_display_flag(window, ALLEGRO_FULLSCREEN_WINDOW, false);
+
         al_set_display_icon(window, al_load_bitmap(ICON_FILE_PATH));
     }
     if (background == nullptr)

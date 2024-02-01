@@ -9,7 +9,11 @@ TileLayer *background = nullptr, *terrain = nullptr;
  **************************************/
 
 void ZeldaII_Rendering() {
-    DisplayArea = {0, 0, al_get_display_width(window), al_get_display_height(window)};
+    if (inputs.at("F")) {
+        inputs["FullScreen"] = !inputs["FullScreen"];
+        al_set_display_flag(window, ALLEGRO_FULLSCREEN_WINDOW, inputs["FullScreen"]);
+    }
+
     if (!inputs.at("start"))
         tittle_screen_rendering();
     else

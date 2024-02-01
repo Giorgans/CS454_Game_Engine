@@ -1,4 +1,5 @@
 #include "../ZeldaII.h"
+#include "Enemy.h"
 #include "../../../Engine/Include/sprite.h"
 #include "../../../Engine/Include/rendering.h"
 
@@ -9,6 +10,8 @@ extern TileLayer *terrain, *background;
  **************************************/
 
 void TittleScreen_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim);
+
+void PauseScreen_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim);
 
 void TittleScreen_Animations_OnFinish(Animator *animator);
 
@@ -30,6 +33,16 @@ void Link_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRan
 
 void Link_Animations_OnFinish(Animator *animator);
 
+FrameRangeAnimation *botStandingAnimation;
+FrameRangeAnimation *botJumpLeftAnimation;
+FrameRangeAnimation *botJumpRightAnimation;
+
+FrameRangeAnimation *stalfosMoveLeftAnimation;
+FrameRangeAnimation *stalfosMoveRightAnimation;
+FrameRangeAnimation *stalfosAttackLeftAnimation;
+FrameRangeAnimation *stalfosAttackRightAnimation;
+
+extern std::vector<Enemy> enemyList;
 
 std::random_device rd;
 std::mt19937 gen(rd());
@@ -39,6 +52,8 @@ std::uniform_int_distribution<> distr_rare(0, 6);
 void InitializeAnimations() {
 
 
+    auto *PauseScreenAnimation = new FrameRangeAnimation("PauseScreen", 0, AnimationFilmHolder::GetHolder().GetFilm(
+            PauseScreen)->GetTotalFrames() - 1, 0, 0, 0, 1000 / 3);
     auto *TitleScreenAnimation = new FrameRangeAnimation("TitleScreen", 0, AnimationFilmHolder::GetHolder().GetFilm(
             TitleScreen)->GetTotalFrames() - 1, 0, 0, 0, 1000 / 3);
     auto *GameOverAnimation = new FrameRangeAnimation("GameOver", 0, AnimationFilmHolder::GetHolder().GetFilm(
@@ -141,6 +156,15 @@ void InitializeAnimations() {
             );
             BridgeAnimator->Start(Standing, GetGameTime());
 
+        }
+
+        else if (i->GetTypeId()=="PauseScreen"){
+            auto *PauseAnimator = new FrameRangeAnimator("PauseScreen");
+PauseAnimator->SetOnAction(
+        [i, PauseAnimator, Standing](Animator *animator, const Animation &anim) {
+            PauseScreen_Animations_OnAction(i, PauseAnimator, *Standing);
+        }
+        );
         }
 
     }
@@ -250,6 +274,17 @@ void GameOver_Animations_OnAction(Sprite *sprite, Animator *animator, const Fram
     }
 }
 
+void PauseScreen_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim) {
+    auto *frameRangeAnimator = (FrameRangeAnimator *) animator;
+    sprite->SetFrame(frameRangeAnimator->GetCurrFrame());
+    if (inputs["P"]) {
+        sprite->SetVisibility(true);
+    } else {
+        sprite->SetVisibility(false);
+        frameRangeAnimator->Stop();
+    }
+}
+
 void TittleScreen_Animations_OnFinish(Animator *animator) {
     auto *StandingAnimation = new FrameRangeAnimation("Standing", 0, 0, 0, 0, 0, FRAME_DURATION);
 
@@ -300,12 +335,28 @@ SpriteVisibilityInfo distanceToLink(Sprite *sprite) {
     return info;
 }
 
+//Deals damage to enemies, and kills them if necessary
+void rip(Sprite *sprite, Animator *animator) {
+    for (auto &enemy: enemyList) {
+        if (enemy.sprite == sprite) {
+            enemy.TakeDamage(1);
+            if (!enemy.sprite->IsVisible()) {
+                animator->Stop();
+            }
+            break;
+        }
+    }
+}
+
 
 void Wosu_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim) {
 
     SpriteVisibilityInfo info = distanceToLink(sprite);
 
     if (info.isVisible && inputs["start"]) {
+
+        if (sprite->GetStateID() == "Attacked")
+            rip(sprite, animator);
 
         auto *wosuAnimator = dynamic_cast<FrameRangeAnimator *>(animator);
 
@@ -347,7 +398,8 @@ void Bot_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameRange
 
     if (info.isVisible) {
         auto *BotAnimator = dynamic_cast<FrameRangeAnimator *>(animator);
-
+        if (sprite->GetStateID() == "Attacked")
+            rip(sprite, animator);
         if (sprite->GetStateID() == "Inactive") {
             sprite->SetStateID("Active");
             BotAnimator->SetAnim(botStandingAnimation, GetGameTime());
@@ -422,6 +474,9 @@ void Stalfos_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameR
         auto *StalfosAnimator = dynamic_cast<FrameRangeAnimator *>(animator);
         bool isLeftOfLink = info.distanceFromLink < 0;
 
+        if (sprite->GetStateID() == "Attacked")
+            rip(sprite, animator);
+
 //        Stalfos is hurtttt :(
         if (sprite->GetStateID() == "Attacked") {
             if (StalfosAnimator->GetCurrFrame() == StalfosAnimator->GetAnim()->GetEndFrame()) {
@@ -435,9 +490,16 @@ void Stalfos_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameR
                     sprite->SetFrame(StalfosAnimator->GetCurrFrame());
                 } else {
                     //Stalfos is being pushed back
-                    FrameRangeAnimation *pushBackAnim = isLeftOfLink ? new FrameRangeAnimation("StalfosMoveRight", 0,AnimationFilmHolder::GetHolder().GetFilm(StalfosWalkingRight)->GetTotalFrames() -1, 0, -PUSH_BACK, 4, FRAME_DURATION)
+                    FrameRangeAnimation *pushBackAnim = isLeftOfLink ? new FrameRangeAnimation("StalfosMoveRight", 0,
+                                                                                               AnimationFilmHolder::GetHolder().GetFilm(
+                                                                                                       StalfosWalkingRight)->GetTotalFrames() -
+                                                                                               1, 0, -PUSH_BACK, 4,
+                                                                                               FRAME_DURATION)
                                                                      :
-                                                        new FrameRangeAnimation("StalfosMoveLeft", 0,AnimationFilmHolder::GetHolder().GetFilm(StalfosWalkingLeft)->GetTotalFrames() -1, 0, PUSH_BACK, 4,FRAME_DURATION);
+                                                        new FrameRangeAnimation("StalfosMoveLeft", 0,
+                                                                                AnimationFilmHolder::GetHolder().GetFilm(
+                                                                                        StalfosWalkingLeft)->GetTotalFrames() -
+                                                                                1, 0, PUSH_BACK, 4, FRAME_DURATION);
 
                     StalfosAnimator->SetAnim(pushBackAnim, GetGameTime());
                     sprite->SetFilm(AnimationFilmHolder::GetHolder().Load(
@@ -453,16 +515,19 @@ void Stalfos_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameR
                 if (attackChance == 0 && sprite->GetStateID() != "Attacking") {
 //                    Stalfos atttackkkkk
                     sprite->SetStateID("Attacking");
-                    FrameRangeAnimation *attackAnim = isLeftOfLink ? stalfosAttackRightAnimation : stalfosAttackLeftAnimation;
+                    FrameRangeAnimation *attackAnim = isLeftOfLink ? stalfosAttackRightAnimation
+                                                                   : stalfosAttackLeftAnimation;
                     StalfosAnimator->SetAnim(attackAnim, GetGameTime());
-                    sprite->SetFilm(AnimationFilmHolder::GetHolder().Load(isLeftOfLink ? StalfosAttackRight : StalfosAttackLeft));
+                    sprite->SetFilm(AnimationFilmHolder::GetHolder().Load(
+                            isLeftOfLink ? StalfosAttackRight : StalfosAttackLeft));
                     sprite->SetFrame(0);
                 } else {
 //                    Stalfos moves
                     sprite->SetStateID("Moving");
                     FrameRangeAnimation *walkAnim = isLeftOfLink ? stalfosMoveRightAnimation : stalfosMoveLeftAnimation;
                     StalfosAnimator->SetAnim(walkAnim, GetGameTime());
-                    sprite->SetFilm(AnimationFilmHolder::GetHolder().Load(isLeftOfLink ? StalfosWalkingRight : StalfosWalkingLeft));
+                    sprite->SetFilm(AnimationFilmHolder::GetHolder().Load(
+                            isLeftOfLink ? StalfosWalkingRight : StalfosWalkingLeft));
                     sprite->SetFrame(0);
                 }
             } else {
@@ -470,7 +535,8 @@ void Stalfos_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameR
                 sprite->SetStateID("Moving");
                 FrameRangeAnimation *walkAnim = isLeftOfLink ? stalfosMoveRightAnimation : stalfosMoveLeftAnimation;
                 StalfosAnimator->SetAnim(walkAnim, GetGameTime());
-                sprite->SetFilm(AnimationFilmHolder::GetHolder().Load(isLeftOfLink ? StalfosWalkingRight : StalfosWalkingLeft));
+                sprite->SetFilm(
+                        AnimationFilmHolder::GetHolder().Load(isLeftOfLink ? StalfosWalkingRight : StalfosWalkingLeft));
                 sprite->SetFrame(0);
             }
         }

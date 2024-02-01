@@ -1,5 +1,6 @@
 #include "../app.h"
 
+
 void app::Game::MainLoop() {
     while (!IsFinished())
         MainLoopIteration();
@@ -7,16 +8,35 @@ void app::Game::MainLoop() {
 
 
 void app::Game::MainLoopIteration() {
-    SetGameTime();
-    Sound();
-    Render();
-    Input();
-    ProgressAnimations();
-    AI();
-    Physics();
-    CollisionChecking();
-    UserCode();  // hook for custom code at end CommitDestructions();
-    if (inputs.at("exit")) { SetDone(Done); }
+        SetGameTime();
+        Render();
+        ProcessInput();
+        Input();
+        if (!IsPaused()) {
+            Sound();
+            ProgressAnimations();
+            AI();
+            Physics();
+            CollisionChecking();
+        }
+        UserCode(); // Custom code hook
+        CommitDestructions();
+        if (inputs["exit"]) {
+            SetDone(Done);
+        }
+    }
+
+void app::Game::HandleToglePauseResume () {
+    if (IsPaused())
+        Resume();
+    else
+        Pause(GetGameTime());
 }
 
 
+
+void app::Game::ProcessInput() {
+    if (inputs["P"]) {
+        HandleToglePauseResume();
+    }
+}

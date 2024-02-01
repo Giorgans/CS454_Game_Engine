@@ -15,7 +15,6 @@ void Animations(){
     AnimatorManager::GetManager().Progress(GetGameTime());
 }
 
-
 void AnimationFilm::DisplayFrame (ALLEGRO_BITMAP *dest, const Point& at, byte frameNo) const
 {BitmapBlit(bitmap,GetFrameBox(frameNo),dest,at);}
 

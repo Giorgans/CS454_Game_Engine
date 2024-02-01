@@ -83,6 +83,7 @@ void InitializeFilms(){
 
 
 void InitializeSprites(){
+//    createPauseScreen();
     createTittleScreen();
     createLink();
     createEnemiesAndObjects();

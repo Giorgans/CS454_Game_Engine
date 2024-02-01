@@ -10,6 +10,8 @@ extern TileLayer *terrain, *background;
 
 void TittleScreen_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim);
 
+void PauseScreen_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim);
+
 void TittleScreen_Animations_OnFinish(Animator *animator);
 
 void Wosu_Animation_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim);
@@ -46,6 +48,8 @@ std::uniform_int_distribution<> distr_rare(0, 6);
 void InitializeAnimations() {
 
 
+    auto *PauseScreenAnimation = new FrameRangeAnimation("PauseScreen", 0, AnimationFilmHolder::GetHolder().GetFilm(
+            PauseScreen)->GetTotalFrames() - 1, 0, 0, 0, 1000 / 3);
     auto *TitleScreenAnimation = new FrameRangeAnimation("TitleScreen", 0, AnimationFilmHolder::GetHolder().GetFilm(
             TitleScreen)->GetTotalFrames() - 1, 0, 0, 0, 1000 / 3);
     auto *WalkingAnimation = new FrameRangeAnimation("Walking", 0, AnimationFilmHolder::GetHolder().GetFilm(
@@ -147,7 +151,18 @@ void InitializeAnimations() {
 
         }
 
+/*        else if (i->GetTypeId()=="PauseScreen"){
+            auto *PauseAnimator = new FrameRangeAnimator("PauseScreen");
+PauseAnimator->SetOnAction(
+        [i, PauseAnimator, PauseScreenAnimation](Animator *animator, const Animation &anim) {
+            PauseScreen_Animations_OnAction(i, PauseAnimator, *PauseScreenAnimation);
+        }
+        );
+        }*/
+
     }
+
+
 
     //TitleScreen
     TitleScreenAnimator->SetOnAction(
@@ -239,6 +254,7 @@ void Bridge_Animations_OnAction(Sprite *sprite, Animator *animator, const Moving
 }
 
 
+
 void TittleScreen_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim) {
     auto *frameRangeAnimator = (FrameRangeAnimator *) animator;
     sprite->SetFrame(frameRangeAnimator->GetCurrFrame());
@@ -250,6 +266,17 @@ void TittleScreen_Animations_OnAction(Sprite *sprite, Animator *animator, const 
         link->SetVisibility(true);
         frameRangeAnimator->Stop();
     }
+}
+
+void PauseScreen_Animations_OnAction(Sprite *sprite, Animator *animator, const FrameRangeAnimation &anim) {
+    auto *frameRangeAnimator = (FrameRangeAnimator *) animator;
+    sprite->SetFrame(frameRangeAnimator->GetCurrFrame());
+    auto pause = SpriteManager::GetSingleton().GetDisplayList().at(0);
+    if (inputs["P"]) {
+        pause->SetVisibility(true);
+        frameRangeAnimator->Stop();
+    }
+    else pause->SetVisibility(false);
 }
 
 void TittleScreen_Animations_OnFinish(Animator *animator) {

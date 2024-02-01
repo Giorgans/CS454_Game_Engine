@@ -23,7 +23,9 @@ namespace app {
         static const bool NotDone() { return  false;}
         static const bool Done(){ return true;}
     private:
-        Action render , anim, input, ai, physics, destruct, collisions, user ,sound;
+        Action render , anim, input, ai, physics, destruct, collisions, user ,sound,pauseResume;
+        bool isPaused = false;
+        uint64_t  pauseTime = 0;
         Pred done ;
         void Invoke (const Action& f) { if (f) f(); }
     public:
@@ -33,6 +35,12 @@ namespace app {
         bool IsFinished() const { return done(); }
         void MainLoop();
         void MainLoopIteration();
+
+        void SetOnPauseResume (const Action& f) { pauseResume = f; }
+        void Pause (uint64_t t) { isPaused = true; pauseTime = t; if(pauseResume) pauseResume(); }
+        void Resume (void) { isPaused = false; if(pauseResume) pauseResume(); pauseTime = 0; }
+        bool IsPaused (void) const { return isPaused; }
+        uint64_t GetPauseTime (void) const { return pauseTime; }
 
         void SetProgressAnimations(const Action & f) { anim = f; }
         void SetInput(const Action & f) { input = f; }
@@ -51,6 +59,9 @@ namespace app {
         void CommitDestructions() { Invoke(destruct); }
         void UserCode() { Invoke(user); }
         void Sound() { Invoke(sound); }
+
+        void ProcessInput();
+        void HandleToglePauseResume ();
     };
 
 

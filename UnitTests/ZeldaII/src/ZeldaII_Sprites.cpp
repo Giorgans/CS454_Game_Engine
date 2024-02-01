@@ -13,7 +13,16 @@ void createTittleScreen(){
     TitleScn->SetZorder(1);
     SpriteManager::GetSingleton().Add(TitleScn);
 
+
 }
+
+/*void createPauseScreen(){
+    auto *Pause = new Sprite(ZELDA_STARTING_LEVEL_STARTING_POINT_X,ZELDA_STARTING_LEVEL_STARTING_POINT_Y,AnimationFilmHolder::GetHolder().Load(PauseScreen),"PauseScreen");
+    Pause->SetFrame(0);
+    Pause->SetVisibility(true);
+    Pause->SetZorder(1);
+    SpriteManager::GetSingleton().Add(Pause);
+}*/
 
 void createLink() {
     auto *Link = new Sprite(LINK_STARTING_POINT_X,LINK_STARTING_POINT_Y,AnimationFilmHolder::GetHolder().Load(WalkingRight),"Link");

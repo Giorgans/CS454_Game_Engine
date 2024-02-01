@@ -47,6 +47,7 @@ struct SpriteVisibilityInfo {
 #define ZELDA_II_ATTACK_SOUND "/UnitTests/ZeldaII/Media/Sound/attack.wav"
 #define ZELDA_II_PALACE_LEVEL_MUSIC "/UnitTests/ZeldaII/Media/Sound/12. Palace Theme 1.wav"
 
+
 /***************************************
  *  Choosing Starting level macros    *
  **************************************/
@@ -68,7 +69,7 @@ struct SpriteVisibilityInfo {
 /***************************************
  *  File macros for lookup           *
  **************************************/
-
+#define PauseScreen "pause_screen.png"
 #define TitleScreen "titlescreen.png"
 /* Link's Animations */
 #define WalkingRight "link.right.png"
@@ -143,6 +144,7 @@ void parapa_palace_level_rendering();
  *  Creating Sprites Functions        *
  **************************************/
 
+void createPauseScreen();
 void createTittleScreen();
 void createLink();
 void createEnemiesAndObjects();

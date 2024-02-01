@@ -6,7 +6,6 @@ void app::Game::MainLoop() {
         MainLoopIteration();
 }
 
-
 void app::Game::MainLoopIteration() {
         SetGameTime();
         Render();
@@ -26,17 +25,15 @@ void app::Game::MainLoopIteration() {
         }
     }
 
-void app::Game::HandleToglePauseResume () {
+void app::Game::HandleTogglePauseResume () {
     if (IsPaused())
         Resume();
     else
         Pause(GetGameTime());
 }
 
-
-
 void app::Game::ProcessInput() {
     if (inputs["P"]) {
-        HandleToglePauseResume();
+        HandleTogglePauseResume();
     }
 }

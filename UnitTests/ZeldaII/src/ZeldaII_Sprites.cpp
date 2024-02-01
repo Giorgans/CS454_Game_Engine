@@ -19,13 +19,13 @@ void createTittleScreen(){
 
 }
 
-/*void createPauseScreen(){
+void createPauseScreen(){
     auto *Pause = new Sprite(ZELDA_STARTING_LEVEL_STARTING_POINT_X,ZELDA_STARTING_LEVEL_STARTING_POINT_Y,AnimationFilmHolder::GetHolder().Load(PauseScreen),"PauseScreen");
     Pause->SetFrame(0);
     Pause->SetVisibility(true);
-    Pause->SetZorder(1);
+    Pause->SetZorder(0);
     SpriteManager::GetSingleton().Add(Pause);
-}*/
+}
 
 void createLink() {
     auto *Link = new Sprite(LINK_STARTING_POINT_X,LINK_STARTING_POINT_Y,AnimationFilmHolder::GetHolder().Load(WalkingRight),"Link");
@@ -39,7 +39,6 @@ void createLink() {
 void LinkEnemy(Sprite *enemy,Sprite *player){
     if((player->GetFilm()->GetID()==AttackLeft || player->GetFilm()->GetID()==AttackRight ||player->GetFilm()->GetID()==DownLeft ||player->GetFilm()->GetID()==DownRight) && player->GetFrame()==1) {
         enemy->SetStateID("Attacked");
-        enemy->SetVisibility(false);
     }
 }
 
@@ -137,7 +136,7 @@ void createEnemiesAndObjects(){
                 stalfos->GetGravityHandler().gravityAddicted = true;
                 SpriteManager::GetSingleton().Add(stalfos);
                 CollisionChecker::GetSingleton().Register(stalfos,Link,LinkEnemy);
-                enemyList.emplace_back(stalfos, 3);
+                enemyList.emplace_back(stalfos, 20);
             }
             else if(i == KEY_TILE) {
                 auto key = new Sprite(MUL_TILE_WIDTH(col), MUL_TILE_HEIGHT(row),AnimationFilmHolder::GetHolder().Load(Key),"Key");

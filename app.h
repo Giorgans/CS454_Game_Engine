@@ -61,7 +61,7 @@ namespace app {
         void Sound() { Invoke(sound); }
 
         void ProcessInput();
-        void HandleToglePauseResume ();
+        void HandleTogglePauseResume ();
     };
 
 

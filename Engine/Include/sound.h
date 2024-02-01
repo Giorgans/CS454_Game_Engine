@@ -17,18 +17,22 @@ public:
     void stopSound(const std::string& soundName);
     void setVolume(SoundCategory category, float volume);
     void initialize(); // Initialize mixers and voice
+    void pauseAllSounds();
+    void resumeAllSounds();
     void CleanUp();
     SoundManager(SoundManager const&) = delete;
-    void operator=(SoundManager const&) = delete;
 
+    void operator=(SoundManager const&) = delete;
 private:
     SoundManager();
+    std::map<std::string, bool> wasPlayingBeforePause;
     ~SoundManager();
-
     std::map<std::string, ALLEGRO_SAMPLE*> sounds;
     std::map<std::string, ALLEGRO_SAMPLE_INSTANCE*> soundInstances;
     std::map<SoundCategory, ALLEGRO_MIXER*> mixers;
+
     ALLEGRO_VOICE *voice = nullptr;
+
 };
 
 #endif

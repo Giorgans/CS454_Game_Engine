@@ -41,12 +41,25 @@ void LoadSounds(){
         soundManager.loadSound(SoundManager::SFX,"attack",ATTACK_SOUND);
     }
 
-    soundManager.setVolume(SoundManager::SFX,0);
-    soundManager.setVolume(SoundManager::LEVEL,0);
+    soundManager.setVolume(SoundManager::SFX,0.5);
+    soundManager.setVolume(SoundManager::LEVEL,0.2);
 
 }
 
 void ZeldaII_Sound() {
+
+    static bool wasPausedLastFrame = false;
+
+    if(inputs["P"]) {
+        if (!wasPausedLastFrame) {
+            soundManager.setVolume(SoundManager::LEVEL,0);
+            wasPausedLastFrame = true;
+        }
+    } else {
+        soundManager.setVolume(SoundManager::LEVEL,0.2);
+        wasPausedLastFrame = false;
+    }
+
 
     if(inputs.at("A") && inputs.at("Down") && (GetGameTime() - LastTime)>(1000/6)){
         LastTime = GetGameTime();

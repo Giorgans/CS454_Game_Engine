@@ -2,7 +2,6 @@
 #define CS454_SUPER_MARIO_GAME_ENEMY_H
 
 #include "../../../Engine/Include/sprite.h"
-#include "../ZeldaII.h"
 
 class Enemy {
 public:

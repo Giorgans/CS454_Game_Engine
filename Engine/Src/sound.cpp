@@ -97,6 +97,31 @@ void SoundManager::stopSound(const std::string& soundName) {
     }
 }
 
+void SoundManager::pauseAllSounds() {
+    for (auto& soundInstancePair : soundInstances) {
+        ALLEGRO_SAMPLE_INSTANCE* soundInstance = soundInstancePair.second;
+        if (soundInstance && al_get_sample_instance_playing(soundInstance)) {
+            wasPlayingBeforePause[soundInstancePair.first] = true;
+            al_stop_sample_instance(soundInstance);
+        } else {
+            wasPlayingBeforePause[soundInstancePair.first] = false;
+        }
+    }
+}
+
+void SoundManager::resumeAllSounds() {
+    for (auto& soundInstancePair : soundInstances) {
+        const auto& soundName = soundInstancePair.first;
+        ALLEGRO_SAMPLE_INSTANCE* soundInstance = soundInstancePair.second;
+        if (wasPlayingBeforePause[soundName]) {
+            al_play_sample_instance(soundInstance);
+        }
+    }
+    wasPlayingBeforePause.clear();
+}
+
+
+
 void SoundManager::setVolume(SoundCategory category, float volume) {
     if (mixers.find(category) != mixers.end()) {
         al_set_mixer_gain(mixers[category], volume);

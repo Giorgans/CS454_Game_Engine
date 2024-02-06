@@ -24,6 +24,9 @@ void TitleScreenInputs() {
     if(al_key_down(&keyboardState, ALLEGRO_KEY_ESCAPE))
         inputs["exit"] = true;
 
+
+
+
 }
 
 void MainGameInputs(){
@@ -64,5 +67,7 @@ void InitializeInputs(){
     inputs.insert(std::pair<std::string ,bool>("center",false));
     inputs.insert(std::pair<std::string ,bool>("F",false));
     inputs.insert(std::pair<std::string ,bool>("FullScreen",false));
+    inputs.insert(std::pair<std::string ,bool>("GameOver",false));
+
     inputs.insert(std::pair<std::string ,bool>("P",false));
 }

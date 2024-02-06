@@ -9,15 +9,15 @@ TileLayer *background = nullptr, *terrain = nullptr;
  **************************************/
 
 void ZeldaII_Rendering() {
-    if (inputs.at("F")) {
-        inputs["FullScreen"] = !inputs["FullScreen"];
-        al_set_display_flag(window, ALLEGRO_FULLSCREEN_WINDOW, inputs["FullScreen"]);
+    if (inputs["GameOver"]) {
+        game_over_rendering();
     }
-
-    if (!inputs.at("start"))
-        tittle_screen_rendering();
-    else
-        parapa_palace_level_rendering();
+    else {
+        if (!inputs.at("start"))
+            tittle_screen_rendering();
+        else
+            parapa_palace_level_rendering();
+    }
 }
 
 void tittle_screen_rendering() {
@@ -97,6 +97,51 @@ void parapa_palace_level_rendering() {
     al_flip_display();
     al_unlock_bitmap(al_get_backbuffer(window));
 }
+
+void game_over_rendering() {
+    al_set_target_backbuffer(window);
+    al_clear_to_color(KEY_COLOR);
+    int displayWidth = al_get_display_width(window);
+    int displayHeight = al_get_display_height(window);
+
+    for (auto i: SpriteManager::GetSingleton().GetDisplayList()) {
+        if (i->GetTypeId() == "GameOver" && i->IsVisible()) {
+
+            Rect frameBox = AnimationFilmHolder::GetHolder().Load(GameOver)->GetFrameBox(i->GetFrame());
+
+            //temp bitmap
+            ALLEGRO_BITMAP *tempBitmap = al_create_bitmap(frameBox.w, frameBox.h);
+
+            al_set_target_bitmap(tempBitmap);
+            al_clear_to_color(al_map_rgba(0, 0, 0, 0));
+
+            AnimationFilmHolder::GetHolder().Load(GameOver)->DisplayFrame(tempBitmap, {0, 0}, i->GetFrame());
+            al_set_target_backbuffer(window);
+
+            al_draw_scaled_bitmap(tempBitmap,
+                                  0, 0, frameBox.w, frameBox.h, // source bitmap region
+                                  0, 0, displayWidth, displayHeight, // target bitmap region
+                                  0);
+
+            al_destroy_bitmap(tempBitmap);
+        }
+        else {
+            i->SetVisibility(false);
+        }
+    }
+    ALLEGRO_TRANSFORM transform;
+    al_identity_transform(&transform);
+    al_scale_transform(&transform, 1, 1);
+    al_use_transform(&transform);
+
+    al_set_target_backbuffer(window);
+
+    al_flip_display();
+    al_unlock_bitmap(al_get_backbuffer(window));
+
+    al_flip_display();
+}
+
 
 
 
